@@ -1,0 +1,123 @@
+.trainer-pokemon-move-meta {
+  display: none;
+  background: $ui-bg;
+  z-index: -1;
+  border-bottom: 1px solid $ui-grey;
+  color: $ui-white;
+  &.open {
+    display: block;
+  }
+
+  &__stat-changes,
+  &__effects {
+    display: flex;
+    background: $ui-black;
+    padding: 30px 0 25px 0;
+    position: relative;
+  }
+
+  &__effects {
+    &:before {
+      content: "Effects";
+      font-size: 0.6em;
+      position: absolute;
+      top: 10px;
+      left: 0;
+      right: 0;
+      letter-spacing: 2px;
+      color: $ui-white;
+      font-family: 'regular';
+      text-align: center;
+    }
+  }
+
+  &__stat-change,
+  &__ailment,
+  &__description {
+    font-family: 'regular';
+    font-size: 0.7em;
+    letter-spacing: 1px;
+    margin: 0;
+    padding: 5px 22px;
+    display: inline-block;
+    background: $ui-white;
+    color: $ui-font-black;
+    margin: auto;
+  }
+
+  &__flavor {
+    font-family: 'light-italic';
+    background: $ui-bg--dark;
+    padding: 40px 42px;
+    line-height: 1.7;
+    margin: 0;
+    text-align: center;
+  }
+
+  &__target {
+    &:before {
+      content: "Target";
+      font-size: 0.7em;
+      position: absolute;
+      top: 10px;
+      left: 0;
+      right: 0;
+      letter-spacing: 2px;
+    }
+    font-family: 'regular';
+    padding: 30px 22px 20px;
+    font-size: 0.8em;
+    margin: 0;
+    text-align: center;
+    position: relative;
+  }
+
+  &__stat-changes {
+    &:before {
+      content: "Stats Affected";
+      font-size: 0.6em;
+      position: absolute;
+      top: 6px;
+      left: 0;
+      right: 0;
+      letter-spacing: 2px;
+      color: $ui-white;
+      font-family: 'regular';
+      text-align: center;
+    }
+  }
+
+  &__boosts {
+    display: flex;
+    padding: 20px 0;
+    background: $ui-bg--dark;
+  }
+
+  &__boost {
+    margin: auto;
+    position: relative;
+    color: $ui-white;
+    padding: 30px 15% 15px;
+    text-align: center;
+
+    &:nth-child(even) {
+      border-left: 1px solid rgba($ui-white, 0.5);
+      border-right: 1px solid rgba($ui-white, 0.5);
+    }
+  }
+
+  &__boost-header {
+    font-family: 'light';
+    position: absolute;
+    top: 17px;
+    font-size: 0.6em;
+    left: 0;
+    right: 0;
+    margin: 0;
+  }
+
+  &__boost-value {
+    font-family: 'medium';
+    font-size: 1.5em;
+  }
+}

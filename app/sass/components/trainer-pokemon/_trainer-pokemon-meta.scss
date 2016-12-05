@@ -1,0 +1,122 @@
+.trainer-pokemon-meta {
+  width: 100vw;
+  background: $ui-white;
+  padding: 40px;
+  display: flex;
+  box-shadow: 0px 0px 7px rgba($ui-black, 0.3);
+  position: relative;
+  z-index: 1;
+
+  &__meta-wrapper {
+    margin: auto;
+    width: 80%;
+    margin-left: 0;
+  }
+
+  &__trainer-wrapper {
+    margin: auto;
+    width: 20%;
+    text-align: right;
+  }
+
+  &__pokemon-sprite {
+    width: 100px;
+    height: 100px;
+    float: left;
+    display: inline-block;
+    background-size: cover;
+    image-rendering: pixelated;
+    background-repeat: no-repeat;
+    background-size: cover;
+    position: relative;
+    top: -15px;
+    left: -20px;
+  }
+
+  &__pokemon-name {
+    text-transform: capitalize;
+    color: $ui-font-black;
+    font-family: 'regular';
+    margin: 0;
+  }
+
+  &__box {
+    position: absolute;
+    display: block;
+    top: 180px;
+    left: 40px;
+  }
+
+  &__gender {
+    position: absolute;
+    top: 38px;
+    left: 110px;
+  }
+
+  &__pokemon-species {
+    text-transform: capitalize;
+    color: $ui-font-black;
+    font-family: 'light';
+    margin: 0;
+    margin-right: 20px;
+    display: inline-block;
+  }
+
+  &__types {
+    display: inline-block;
+    position: relative;
+    top: -4px;
+
+    & > * {
+      margin-right: 5px;
+    }
+  }
+
+  &__trainer {
+
+  }
+
+  &__trainer-name {
+    text-transform: capitalize;
+    color: $ui-font-black;
+    font-family: 'regular';
+    margin: 0 0 10px 0;
+    line-height: 1;
+    &:before {
+      display: block;
+      content: 'Owned by:';
+      font-size: 10px;
+      margin-bottom: 0px;
+    }
+  }
+
+  &__ot-name {
+    text-transform: capitalize;
+    color: $ui-font-black;
+    font-family: 'regular';
+    margin: 0 0 10px 0;
+    line-height: 1;
+    &:before {
+      display: block;
+      content: 'Caught by:';
+      font-size: 10px;
+      margin-bottom: 0px;
+    }
+  }
+
+  &__date-met {
+    text-transform: capitalize;
+    color: $ui-font-black;
+    font-family: 'light';
+    margin: 0;
+    line-height: 1;
+    &:before {
+      display: block;
+      content: 'Date met:';
+      font-size: 10px;
+      font-family: 'regular';
+      color: $ui-font-black;
+      margin-bottom: 2px;
+    }
+  }
+}

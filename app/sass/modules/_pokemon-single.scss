@@ -1,0 +1,37 @@
+.pokemon-single {
+
+  &__header {
+    top: 0%;
+    width: 30%;
+    min-width: 210px;
+    padding: 20px 24px;
+    background-color: $ui-bg;
+    border-bottom-right-radius: 160px;
+    box-shadow: 1px 1px 10px rgba(0, 0, 0, 0.5);
+    margin-bottom: 5px;
+  }
+
+  &__trainer-name {
+    color: $ui-white;
+    font-family: 'roboto-bold';
+    font-size: calc(14px + 1vw);
+    text-transform: capitalize;
+    margin: 0 0 5px;
+    width: 70%;
+  }
+
+  &__species-name {
+    color: $ui-white;
+    font-family: 'roboto-thin';
+    font-size: calc(10px + 1vw);
+    text-transform: capitalize;
+    width: 70%;
+    margin: 0;
+  }
+
+  &__sprite {
+    width: 20%;
+    margin: 0 auto;
+    display: block;
+  }
+}

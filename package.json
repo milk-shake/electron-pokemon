@@ -1,0 +1,33 @@
+{
+  "name": "image-size-calculator",
+  "version": "0.0.1",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "build": "webpack --progress --profile --colors --display-error-details --display-cached",
+    "watch": "concurrently \"webpack --watch --progress --profile --colors --display-error-details --display-cached\" \"./node_modules/.bin/node-sass -w --output-style compressed app/sass/index.scss build/min.css\"",
+    "electron": "electron app"
+  },
+  "author": "Auth0",
+  "license": "MIT",
+  "devDependencies": {
+    "babel-core": "^6.18.2",
+    "babel-loader": "^6.2.8",
+    "babel-preset-es2015": "^6.18.0",
+    "babel-preset-latest": "^6.16.0",
+    "babel-preset-react": "^6.16.0",
+    "concurrently": "^3.1.0",
+    "es6-shim": "*",
+    "node-sass": "^3.13.0",
+    "webpack": "*"
+  },
+  "dependencies": {
+    "electron": "^1.4.10",
+    "react": "^15.4.1",
+    "react-dom": "^15.4.1",
+    "react-redux": "^4.4.6",
+    "redux": "^3.6.0",
+    "sql.js": "^0.4.0",
+    "zone.js": "^0.7.2"
+  }
+}

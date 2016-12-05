@@ -1,0 +1,78 @@
+@charset 'UTF-8';
+
+$ui-black: #444444;
+$ui-font-black: #555;
+$ui-white: #fff;
+$ui-white--dark: #444444;
+$ui-bdr: #6CE8BF;
+$ui-bg: #2A8D74;
+$ui-bg--dark: darken($ui-bg, 10%);
+$ui-grey: #eee;
+
+$types: (
+  'normal': #A8A878,
+  'unknown': #68A090,
+  'bug': #A8B820,
+  'dragon': #7038F8,
+  'electric': #F8D030,
+  'fairy': #EE99AC,
+  'fighting': #C03028,
+  'fire': #F08030,
+  'flying': #A890F0,
+  'ghost': #705898,
+  'grass': #78C850,
+  'ground': #E0C068,
+  'ice': #98D8D8,
+  'poison': #A040A0,
+  'psychic': #F85888,
+  'rock': #B8A038,
+  'steel': #B8B8D0,
+  'water': #6890F0
+);
+
+body {
+  background-color: $ui-black;
+  font-size: 16px;
+  margin: 0;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+img {
+  image-rendering: pixelated;
+}
+
+a:not([draggable=true]), img:not([draggable=true]) {
+    -webkit-user-drag: none;
+    user-drag: none; /* Technically not supported in Electron yet */
+}
+a[href^="http://"],
+a[href^="https://"],
+a[href^="ftp://"] {
+    -webkit-user-drag: auto;
+    user-drag: auto; /* Technically not supported in Electron yet */
+}
+
+:not(input):not(textarea),
+:not(input):not(textarea)::after,
+:not(input):not(textarea)::before {
+    -webkit-user-select: none;
+    user-select: none;
+    cursor: default;
+}
+input, button, textarea, :focus {
+    outline: none; // You should add some other style for :focus to help UX/a11y
+}
+
+@import "./icons/ionicons";
+@import "./modules/fonts";
+@import "./modules/pokemon-single";
+@import "./modules/pokemon-types";
+@import "./components/trainer-pokemon/trainer-pokemon-meta";
+@import "./components/trainer-pokemon/trainer-pokemon-stats";
+@import "./components/trainer-pokemon/trainer-pokemon-moves";
+@import "./components/trainer-pokemon/trainer-pokemon-traits";
+@import "./components/trainer-pokemon/trainer-pokemon-move-meta";
+@import "./components/trainer-pokemon/trainer-pokemon-box";

@@ -1,0 +1,66 @@
+.pokemon-types {
+
+  color: $ui-white;
+  border-radius: 5px;
+  font-size: calc(6px + 0.5vw);
+  padding: 5px 8px;
+  font-family: 'light';
+  border: 1px solid $ui-black;
+  text-transform: uppercase;
+
+  @each $type, $color in $types {
+    &--#{$type} {
+      background-color: $color;
+    }
+  }
+}
+
+.damage-class {
+  color: $ui-white;
+  border-radius: 5px;
+  font-size: calc(6px + 0.5vw);
+  padding: 5px 8px;
+  font-family: 'light';
+  border: 1px solid $ui-black;
+  text-transform: uppercase;
+
+  &--physical {
+    background-color: brown;
+  }
+
+  &--special {
+    background-color: midnightblue;
+  }
+
+  &--status {
+    background-color: silver;
+  }
+}
+
+.gender {
+  &:before {
+    font-size: 28px;
+
+  }
+  &--male {
+    &:before {
+      content: '♂';
+      color: cornflowerblue;
+    }
+  }
+
+  &--female {
+    &:before {
+      content: '♀';
+      color: lightpink;
+    }
+
+  }
+
+  &--genderless {
+    &:before {
+      content: '⚲';
+      color: slategray;
+    }
+  }
+}

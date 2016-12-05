@@ -1,0 +1,59 @@
+.trainer-pokemon-stats {
+  background: $ui-white;
+  width: 30vw;
+  min-width: 210px;
+  float: left;
+  border-left: 3px solid $ui-grey;
+
+  &__wrapper {
+    width: 60vw;
+  }
+
+  &__health {
+    width: 30%;
+    padding: 20px 0 0 0!important;
+    border-bottom: none!important;
+    min-width: 300px;
+  }
+
+  &__health-bar {
+    width: 100%;
+    background-color: greenyellow;
+    height: 15px;
+    display: block;
+    border-radius: 13px;
+    border: 2px solid $ui-black;
+    margin-top: 20px;
+    margin-bottom: 10px;
+    &:before {
+      content: "HP";
+      color: $ui-white;
+      display: inline-block;
+      background: $ui-black;
+      padding: 2px 6px;
+      font-size: 9px;
+      position: relative;
+      border-radius: 4px;
+      font-family: medium;
+      border-top-right-radius: 0;
+      border-bottom-right-radius: 0;
+      line-height: 1;
+    }
+  }
+
+  &__stat {
+    padding: 20px 20px;
+    border-bottom: 1px solid $ui-grey;
+  }
+
+  &__stat-name {
+    color: $ui-font-black;
+    font-family: 'regular';
+  }
+
+  &__stat-value {
+    float: right;
+    color: $ui-font-black;
+    font-family: 'medium';
+  }
+}
