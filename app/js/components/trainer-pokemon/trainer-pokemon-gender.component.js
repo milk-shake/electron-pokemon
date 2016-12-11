@@ -1,6 +1,12 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
+import { connect } from "react-redux";
 
+@connect((store) => {
+  return {
+    gender: store.trainerPokemonReducer.gender
+  }
+})
 export default class GenderComponent extends React.Component {
   constructor(props) {
     super(props);

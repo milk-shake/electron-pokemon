@@ -1,6 +1,7 @@
 import AbilityController from "../controllers/abilityController";
 import MoveController from "../controllers/moveController"
 import TypeController from "../controllers/typeController";
+import SpeciesController from "../controllers/speciesController";
 
 const assetPath = "./img/sprites/pokemon/";
 
@@ -9,22 +10,18 @@ export default class Pokemon {
 
   constructor(options) {
 
-    let _name = null;
     let _id = null;
     let _height = null;
     let _weight = null;
     let _baseExperience = null;
     let _abilities = null;
-    let _types = null;
     let _availableMoves = null;
     let _sprite = null;
+    let _evolution = null;
 
-    Object.defineProperty(this, 'name', {
-      enumarable: true,
-      get() {
-        return _name;
-      }
-    });
+
+    //internal
+    let _speciesId = null;
 
     Object.defineProperty(this, 'id', {
       enumarable: true,
@@ -61,17 +58,6 @@ export default class Pokemon {
           _abilities = AbilityController.getForPokemonId(this.id);
         }
         return _abilities;
-      }
-    });
-
-    Object.defineProperty(this, 'types', {
-      enumarable: true,
-      get() {
-        if(!_types) {
-          _types = TypeController.getForPokemonId(this.id);
-        }
-
-        return _types;
       }
     });
 
@@ -113,11 +99,18 @@ export default class Pokemon {
 
     });
 
-    _name = options.identifier || options.name;
+    Object.defineProperty(this, 'speciesId', {
+      enumarable: true,
+      get() {
+        return _speciesId
+      }
+    });
+
     _id = parseInt(options.id);
     _height = parseInt(options.height);
     _weight = parseInt(options.weight);
     _baseExperience = parseInt(options.base_experience) || 0;
+    _speciesId = parseInt(options.species_id) || null;
 
   }
 }

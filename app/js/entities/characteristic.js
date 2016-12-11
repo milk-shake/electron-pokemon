@@ -28,7 +28,7 @@ export default class Characteristic {
 
     _id = parseInt(options.id);
     _message = options.message;
-    _statId = parseInt(options.stat_id);
+    _statId = parseInt(options.statId);
 
     Object.freeze(this);
   }

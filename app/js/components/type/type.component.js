@@ -6,7 +6,14 @@ export default class TypeComponent extends React.Component {
     super(props);
   }
 
-  render() {
+  renderType() {
+    if(this.props.type) {
       return <span className={"pokemon-types pokemon-types--" + this.props.type.name.toLowerCase()}>{this.props.type.name}</span>
+    }
+    return null;
+  }
+
+  render() {
+    return this.renderType()
   }
 }

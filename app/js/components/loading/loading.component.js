@@ -7,8 +7,8 @@ export default class LoadingComponent extends React.Component {
   }
 
   render() {
-    return <div class="loading">
-      <span class="ion ion-load-b"></span>
+    return <div className="loading">
+      <span className="ion ion-load-b"></span>
     </div>
   }
 }

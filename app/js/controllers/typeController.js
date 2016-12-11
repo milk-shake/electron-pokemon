@@ -5,33 +5,43 @@ export default class TypeController {
   constructor() {}
 
   static getById(id, as_object = true) {
-    let type = null;
-    let results = exec(`
-      SELECT t1.id, t1.damage_class_id as damageClassId, t2.name
-      FROM types as t1
-      INNER JOIN type_names as t2 on t2.type_id = t1.id AND t2.local_language_id = 9
-      WHERE t1.id = ` + id);
+    return new Promise(function(resolve, reject) {
+      let type = null;
+      exec(`
+        SELECT t1.id, t1.damage_class_id as damageClassId, t2.name
+        FROM types as t1
+        INNER JOIN type_names as t2 on t2.type_id = t1.id AND t2.local_language_id = 9
+        WHERE t1.id = ` + id
+      )
+      .then(function(results) {
+        if(results.length) {
+          type = (as_object) ? new Type(results[0]) : results[0];
+        }
 
-    if(results.length) {
-      type = (as_object) ? new Type(results[0]) : results[0];
-    }
-
-    return type;
-
+        resolve(type);
+      });
+    });
   }
 
-  static getForPokemonId(pokemonId) {
-    let types = [];
-    let pokemonTypes = exec(`
-      SELECT * FROM pokemon_types WHERE pokemon_id = `
-    + pokemonId);
+  static getForSpeciesId(pokemonId) {
+    return new Promise(function(resolve, reject) {
+      let types = [];
+      exec(`
+        SELECT t1.id, t1.damage_class_id as damageClassId, t2.name
+        FROM types as t1
+        INNER JOIN type_names as t2 on t2.type_id = t1.id AND t2.local_language_id = 9
+        WHERE t1.id IN (SELECT t3.type_id FROM pokemon_types as t3 WHERE t3.pokemon_id = ` + pokemonId + `)`
 
-    pokemonTypes.forEach(function(pokemonType) {
-      let type = TypeController.getById(pokemonType.type_id, false);
-      types.push(new Type(type));
+      )
+      .then(function(results) {
+        results.forEach(function(pokemonType) {
+          types.push(new Type(pokemonType));
+        });
+
+        resolve(types);
+      });
     });
 
-    return types;
   }
 
 }

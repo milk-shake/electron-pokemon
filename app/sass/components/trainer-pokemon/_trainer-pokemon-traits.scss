@@ -151,32 +151,3 @@
 
 
 }
-
-.modal {
-  display: none;
-  padding: 20px 22px 5px;
-  background: $ui-black;
-  color: $ui-white;
-  position: relative;
-
-  &.show {
-    display: block;
-  }
-
-  &__buttons {
-    display: flex;
-  }
-
-  &__button {
-    cursor: pointer;
-
-    * {
-      cursor: pointer;
-    }
-  }
-
-  &__heading {
-    font-size: 0.8em;
-    font-family: 'regular';
-  }
-}

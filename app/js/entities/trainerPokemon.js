@@ -10,42 +10,40 @@ import GenderController from "../controllers/genderController";
 
 
 export default class TrainerPokemon extends Pokemon {
-  constructor(options) {
-    super(PokemonController.getById(options.pokemonId));
 
-    //API
+  static getInstance(options) {
+    return new Promise(function(resolve, reject) {
+      PokemonController.getById(options.pokemonId, false)
+      .then(function(genericPokemon) {
+        resolve(new TrainerPokemon(options, genericPokemon));
+      });
+    });
+
+  }
+
+  constructor(options, genericPokemon) {
+    super(genericPokemon);
+
+    let _hp = null;
+    let _trainerPokemonId = null;
+    let _level = null;
+    let _oT = null;
+    let _dateMet = null;
+    let _levelMet = null;
+    let _genderId = null;
+    let _boxId = null;
+    let _natureId = null;
+
+    let _move1Id = null;
+    let _move2Id = null;
+    let _move3Id = null;
+    let _move4Id = null;
     let _attack = null;
     let _defence = null;
     let _spAttack = null;
     let _spDefence = null;
     let _speed = null;
     let _evasion = null;
-    let _hp = null;
-    let _trainerPokemonId = null;
-    let _level = null;
-    let _nature = null;
-    let _oT = null;
-    let _ability = null;
-    let _dateMet = null;
-    let _levelMet = null;
-    let _characteristic = null;
-    let _knownMoves = null;
-    let _gender = null;
-    let _box = null;
-
-    //Internal
-    let _genderId = null;
-    let _move1Id = null;
-    let _move2Id = null;
-    let _move3Id = null;
-    let _move4Id = null;
-    let _attackValue = null;
-    let _defenceValue = null;
-    let _spAttackValue = null;
-    let _spDefenceValue = null;
-    let _speedValue = null;
-    let _hpValue = null;
-    let _evasionValue = null;
     let _abilityId = null;
     let _characteristicId = null;
     let _potential = null;
@@ -53,7 +51,7 @@ export default class TrainerPokemon extends Pokemon {
     let _isShiny = null;
     let _nickName = null;
     let _trainerName = null;
-    let _boxId = null;
+
 
 
     let _statRating = null;
@@ -63,8 +61,6 @@ export default class TrainerPokemon extends Pokemon {
     let _spDefenceRatingId = null;
     let _hpRatingId = null;
     let _speedRatingId = null;
-
-    let _natureId = null;
     let _potentialId = null;
 
     _trainerPokemonId = parseInt(options.trainerPokemonId) || null;
@@ -74,13 +70,13 @@ export default class TrainerPokemon extends Pokemon {
     _move3Id = parseInt(options.move3Id) || null;
     _move4Id = parseInt(options.move4Id) || null;
     _level = parseInt(options.level) || null;
-    _attackValue = parseInt(options.attack) || null;
-    _defenceValue = parseInt(options.defence) || null;
-    _spAttackValue = parseInt(options.spAttack) || null;
-    _spDefenceValue = parseInt(options.spDefence) || null;
-    _speedValue = parseInt(options.speed) || null;
-    _hpValue = parseInt(options.hp) || null;
-    _evasionValue = parseInt(options.evasion) || null;
+    _attack = parseInt(options.attack) || null;
+    _defence = parseInt(options.defence) || null;
+    _spAttack = parseInt(options.spAttack) || null;
+    _spDefence= parseInt(options.spDefence) || null;
+    _speed = parseInt(options.speed) || null;
+    _hp = parseInt(options.hp) || null;
+    _evasion = parseInt(options.evasion) || null;
     _natureId = parseInt(options.natureId) || null;
     _oT = options.oT || null;
     _abilityId = parseInt(options.abilityId) || null;
@@ -100,25 +96,31 @@ export default class TrainerPokemon extends Pokemon {
     _trainerName = options.trainerName || "No trainer";
     _boxId = options.boxId;
 
-
-    Object.defineProperty(this, 'knownMoves', {
-      enumarable: true,
+    Object.defineProperty(this, 'move1Id', {
+      enumerable: true,
       get() {
-        if(!_knownMoves) {
-          _knownMoves = TrainerPokemonMoveController.getForPokemonId(_trainerPokemonId);
-
-        }
-        return _knownMoves;
+        return _move1Id;
       }
     });
 
-    Object.defineProperty(this, 'gender', {
+    Object.defineProperty(this, 'move2Id', {
       enumerable: true,
       get() {
-        if(!_gender) {
-          _gender = GenderController.getById(_genderId);
-        }
-        return _gender;
+        return _move2Id;
+      }
+    });
+
+    Object.defineProperty(this, 'move3Id', {
+      enumerable: true,
+      get() {
+        return _move3Id;
+      }
+    });
+
+    Object.defineProperty(this, 'move4Id', {
+      enumerable: true,
+      get() {
+        return _move4Id;
       }
     });
 
@@ -132,12 +134,6 @@ export default class TrainerPokemon extends Pokemon {
     Object.defineProperty(this, 'attack', {
       enumarable: true,
       get() {
-        if(!_attack) {
-          _attack = new TrainerPokemonStat({
-            statId: 2,
-            value: _attackValue
-          });
-        }
         return _attack;
       }
     });
@@ -145,12 +141,6 @@ export default class TrainerPokemon extends Pokemon {
     Object.defineProperty(this, 'defence', {
       enumarable: true,
       get() {
-        if(!_defence) {
-          _defence = new TrainerPokemonStat({
-            statId: 3,
-            value: _defenceValue
-          });
-        }
         return _defence;
       }
     });
@@ -158,12 +148,6 @@ export default class TrainerPokemon extends Pokemon {
     Object.defineProperty(this, 'spAttack', {
       enumarable: true,
       get() {
-        if(!_spAttack) {
-          _spAttack = new TrainerPokemonStat({
-            statId: 4,
-            value: _spAttackValue
-          });
-        }
         return _spAttack;
       }
     });
@@ -171,12 +155,6 @@ export default class TrainerPokemon extends Pokemon {
     Object.defineProperty(this, 'spDefence', {
       enumarable: true,
       get() {
-        if(!_spDefence) {
-          _spDefence = new TrainerPokemonStat({
-            statId: 4,
-            value: _spDefenceValue
-          });
-        }
         return _spDefence;
       }
     });
@@ -184,12 +162,6 @@ export default class TrainerPokemon extends Pokemon {
     Object.defineProperty(this, 'speed', {
       enumarable: true,
       get() {
-        if(!_speed) {
-          _speed = new TrainerPokemonStat({
-            statId: 6,
-            value: _speedValue
-          });
-        }
         return _speed;
       }
     });
@@ -197,12 +169,6 @@ export default class TrainerPokemon extends Pokemon {
     Object.defineProperty(this, 'hp', {
       enumarable: true,
       get() {
-        if(!_hp) {
-          _hp = new TrainerPokemonStat({
-            statId: 1,
-            value: _hpValue
-          });
-        }
         return _hp;
       }
     });
@@ -210,24 +176,14 @@ export default class TrainerPokemon extends Pokemon {
     Object.defineProperty(this, 'evasion', {
       enumarable: true,
       get() {
-        if(!_evasion) {
-          _evasion = new TrainerPokemonStat({
-            statId: 8,
-            value: _evasionValue
-          });
-        }
         return _evasion;
       }
     });
 
-    Object.defineProperty(this, 'nature', {
+    Object.defineProperty(this, 'natureId', {
       enumarable: true,
       get() {
-        if(!_nature) {
-          _nature = NatureController.getById(_natureId);
-        }
-
-        return _nature;
+        return _natureId;
       }
     });
 
@@ -238,14 +194,10 @@ export default class TrainerPokemon extends Pokemon {
       }
     });
 
-    Object.defineProperty(this, 'ability', {
+    Object.defineProperty(this, 'abilityId', {
       enumerable: true,
       get() {
-        if(!_ability) {
-          _ability = AbilityController.getById(_abilityId);
-        }
-
-        return _ability;
+        return _abilityId;
       }
     });
 
@@ -263,14 +215,10 @@ export default class TrainerPokemon extends Pokemon {
       }
     });
 
-    Object.defineProperty(this, 'characteristic', {
+    Object.defineProperty(this, 'characteristicId', {
       enumurable: true,
       get() {
-        if(!_characteristic) {
-          _characteristic = CharacteristicController.getById(_characteristicId);
-        }
-
-        return _characteristic;
+        return _characteristicId;
       }
     });
 
@@ -329,13 +277,17 @@ export default class TrainerPokemon extends Pokemon {
       }
     });
 
-    Object.defineProperty(this, 'box', {
+    Object.defineProperty(this, 'trainerPokemonId', {
       enumarable: true,
       get() {
-        if(!_box) {
-          _box = BoxController.getById(_boxId);
-        }
-        return _box;
+        return _trainerPokemonId
+      }
+    });
+
+    Object.defineProperty(this, 'genderId', {
+      enumarable: true,
+      get() {
+        return _genderId
       }
     });
 

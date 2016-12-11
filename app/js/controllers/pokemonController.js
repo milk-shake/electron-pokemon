@@ -4,15 +4,17 @@ import Pokemon from "../entities/pokemon";
 export default class PokemonController {
   constructor() {}
 
-  static getById(id) {
+  static getById(id, asObject = true) {
+    return new Promise(function(resolve, reject) {
+      let pokemon = null;
+      let results = getById(id, "SELECT * FROM pokemon");
 
-    let pokemon = null;
-    let results = getById(id, "SELECT * FROM pokemon");
+      if(results) {
+        pokemon = (asObject) ? new Pokemon(results) : results;
+      }
 
-    if(results) {
-      pokemon = new Pokemon(results);
-    }
+      resolve(pokemon);
+    });
 
-    return pokemon;
   }
 }

@@ -5,23 +5,23 @@ export default class GenderController {
   constructor() {}
 
   static getById(id, as_object = true) {
-    let gender = null;
-    let results = getById(id,
-      `
-      SELECT
-      t1.id,
-      t1.identifier as name
-      FROM genders as t1
-    `);
+    return new Promise(function(resolve, reject) {
+      let gender = null;
+      let results = getById(id,
+        `
+        SELECT
+        t1.id,
+        t1.identifier as name
+        FROM genders as t1
+      `)
+      .then(function(results) {
+        if(results) {
+          gender = (as_object) ? new Gender(results) : results;
+        }
 
-    if(results) {
-      gender = (as_object) ? new Gender(results) : results;
-    }
-
-    console.log(results);
-
-    return gender;
-
+        resolve(gender);
+      });
+    });
   }
 
 }

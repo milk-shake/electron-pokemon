@@ -1,0 +1,53 @@
+.trainer-pokemon-evolution {
+  background: $ui-white;
+  display: block;
+  position: fixed;
+  border-radius: 240px;
+  width: 300px;
+  height: 300px;
+  z-index: -1;
+  bottom: -160px;
+
+  &--next {
+    right: -160px;
+  }
+
+  &--prev {
+    left: -160px;
+  }
+
+  &__name {
+    margin: 0;
+    font-family: 'regular';
+    font-size: 1em;
+    position: relative;
+    top: 113px;
+    color: $ui-font-black;
+
+    &--prev {
+      text-align: left;
+      left: 180px;
+      right: auto;
+    }
+
+    &--next {
+      text-align: right;
+      right: 180px;
+      left: auto;
+    }
+  }
+
+  &__sprite {
+    position: relative;
+    top: 20px;
+
+    &--next {
+      left: 60px;
+    }
+
+    &--prev {
+      left: 180px;
+    }
+  }
+
+}

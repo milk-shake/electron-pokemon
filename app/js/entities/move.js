@@ -18,9 +18,6 @@ export default class Move {
     let _statChangeId = null;
     //Not made
 
-
-
-
     //API
     let _name = null;
     let _power = null;
@@ -29,10 +26,6 @@ export default class Move {
     let _priority = null;
     let _effect = null;
     let _effectChance = null;
-    let _contestType = null;
-    let _contestEffect = null;
-    let _superContestEffect = null;
-    let _statChange = null;
     let _ailment = null;
     let _ailmentChance = null;
     let _minHits = null;
@@ -45,7 +38,6 @@ export default class Move {
     let _flinchChance = null;
     let _statChance = null;
     let _battleStyle = null;
-    let _damageClass = null;
     let _moveCategory = null;
     let _moveTarget = null;
     let _moveDescription = null;
@@ -61,14 +53,10 @@ export default class Move {
       }
     });
 
-    Object.defineProperty(this, 'type', {
+    Object.defineProperty(this, 'typeId', {
       enumarable: true,
       get() {
-        if(!_type) {
-          _type = TypeController.getById(_typeId);
-        }
-
-        return _type;
+        return _typeId;
       }
     });
 
@@ -114,44 +102,31 @@ export default class Move {
       }
     });
 
-    Object.defineProperty(this, 'contestType', {
+    Object.defineProperty(this, 'contestTypeId', {
       enumarable: true,
       get() {
-        if(!_contestType) {
-          _contestType = ContestTypeController.getById(_contestTypeId);
-        }
-        return _contestType;
+        return _contestTypeId;
       }
     });
 
     Object.defineProperty(this, 'contestEffect', {
       enumarable: true,
       get() {
-        if(!_contestEffect) {
-          _contestEffect = ContestEffectController.getById(_contestEffectId);
-        }
-        return _contestEffect;
+        return _contestEffectId;
       }
     });
 
     Object.defineProperty(this, 'superContestEffect', {
       enumarable: true,
       get() {
-        if(!_superContestEffect) {
-          _superContestEffect = SuperContestEffectController.getById(_superContestEffectId);
-        }
-        return _superContestEffect;
+        return _superContestEffectId;
       }
     });
 
     Object.defineProperty(this, 'statChange', {
       enumarable: true,
       get() {
-        if(!_statChange) {
-          _statChange = (_statChangeId) ? StatController.getById(_statChangeId) : null;
-        }
-
-        return _statChange;
+        return _statChangeId;
       }
     });
 
@@ -231,14 +206,10 @@ export default class Move {
       }
     });
 
-    Object.defineProperty(this, 'damageClass', {
+    Object.defineProperty(this, 'damageClassId', {
       enumarable: true,
       get() {
-        if(!_damageClass) {
-          _damageClass = DamageClassController.getById(_damageClassId);
-        }
-
-        return _damageClass;
+        return _damageClassId;
       }
     });
 

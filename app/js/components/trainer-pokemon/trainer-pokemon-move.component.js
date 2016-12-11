@@ -55,14 +55,19 @@ export default class MoveComponent extends React.Component {
       <div className={this.toggle()} onClick={(e) => this.handleClick(e)}>
         <h1 className="trainer-pokemon-moves__name">{this.props.move.name}</h1>
         <div className="trainer-pokemon-moves__type">
-          <TypeComponent
-            type={this.props.move.type}
-          />
+          {this.props.move.type ?
+            <TypeComponent
+              type={this.props.move.type}
+            />
+            :
+            null
+          }
+
         </div>
         <div className="trainer-pokemon-moves__damage-class">
-          <DamageClassComponent
+          {/* <DamageClassComponent
             type={this.props.move.damageClass}
-          />
+          /> */}
         </div>
         <div className="trainer-pokemon-moves__stats">
           <span className="trainer-pokemon-moves__stat">

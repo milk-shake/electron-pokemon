@@ -1,51 +1,64 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
+import { connect } from 'react-redux';
 
+import LevelTraitComponent from "./trainer-pokemon-level-trait.component";
+import NatureTraitComponent from "./trainer-pokemon-nature-trait.component";
+import CharacteristicTraitComponent from "./trainer-pokemon-characteristic-trait.component";
+import AbilityTraitComponent from "./trainer-pokemon-ability-trait.component";
+
+import {getNatureForPokemonById, getCharacteristicForPokemonById, getAbilityForPokemonById} from "../../actions/trainerPokemonActions";
+
+
+@connect((store) => {
+  return {
+    pokemon: store.trainerPokemonReducer.pokemon[0],
+    nature: store.trainerPokemonReducer.nature,
+    ability: store.trainerPokemonReducer.ability
+  }
+})
 export default class TraitsComponent extends React.Component {
   constructor(props) {
     super(props);
+  }
 
-    this.state = {
-      modal: false
+  componentWillMount() {
+    this.props.dispatch(getNatureForPokemonById(this.props.pokemon.natureId));
+    this.props.dispatch(getCharacteristicForPokemonById(this.props.pokemon.characteristicId));
+    this.props.dispatch(getAbilityForPokemonById(this.props.pokemon.abilityId));
+  }
+
+  renderLevel() {
+    if(this.props.pokemon) {
+      return <LevelTraitComponent />
     }
   }
 
-  handleClick(e) {
-    this.setState({
-      modal: !this.state.modal
-    });
+  renderNature() {
+    if(this.props.pokemon) {
+      return <NatureTraitComponent />
+    }
+  }
+  
+  renderCharacteristic() {
+    if(this.props.pokemon) {
+      return <CharacteristicTraitComponent />
+    }
+  }
 
-    e.target.parentNode.querySelector('.modal').classList.toggle('show');
+  renderAbility() {
+    if(this.props.pokemon) {
+      return <AbilityTraitComponent />
+    }
   }
 
   render() {
       return <div className="trainer-pokemon-traits__wrapper">
         <div className="trainer-pokemon-traits">
-          <div className="trainer-pokemon-traits__level" onClick={(e) => this.handleClick(e)}>
-            <span className="trainer-pokemon-traits__level-name">Level </span><span className="trainer-pokemon-traits__level-value">{this.props.level}</span>
-            </div>
-            <div className="modal">
-              <div className="modal__buttons">
-                <span className="modal__button trainer-pokemon-traits__level-modal-button trainer-pokemon-traits__level-modal-button--increase">
-                  <span className="trainer-pokemon-traits__level-modal-button-icon ion ion-arrow-up-b"></span>
-                  <span className="trainer-pokemon-traits__level-modal-button-text">+1</span>
-                </span>
-                <span className="modal__button trainer-pokemon-traits__level-modal-button trainer-pokemon-traits__level-modal-button--decrease">
-                  <span className="trainer-pokemon-traits__level-modal-button-icon ion ion-arrow-down-b"></span>
-                  <span className="trainer-pokemon-traits__level-modal-button-text">-1</span>
-                </span>
-              </div>
-          </div>
-
-          <div className="trainer-pokemon-traits__nature" onClick={(e) => this.handleClick(e)}>
-            <span className="trainer-pokemon-traits__nature-name">Nature </span><span className="trainer-pokemon-traits__nature-value">{this.props.nature.name}</span>
-          </div>
-          <div className="trainer-pokemon-traits__characteristic" onClick={(e) => this.handleClick(e)}>
-            <span className="trainer-pokemon-traits__characteristic-name">Characteristic </span><span className="trainer-pokemon-traits__characteristic-value">{this.props.characteristic.message}</span>
-          </div>
-          <div className="trainer-pokemon-traits__ability" onClick={(e) => this.handleClick(e)}>
-            <span className="trainer-pokemon-traits__ability-name">Ability </span><span className="trainer-pokemon-traits__ability-value">{this.props.ability.name}</span>
-          </div>
+          {this.renderLevel()}
+          {this.renderNature()}
+          {this.renderCharacteristic()}
+          {this.renderAbility()}
         </div>
       </div>
   }

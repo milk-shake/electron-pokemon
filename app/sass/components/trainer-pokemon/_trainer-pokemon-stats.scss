@@ -44,16 +44,43 @@
   &__stat {
     padding: 20px 20px;
     border-bottom: 1px solid $ui-grey;
+    position: relative;
   }
 
   &__stat-name {
     color: $ui-font-black;
     font-family: 'regular';
+    z-index: 1;
+    position: relative;
   }
 
   &__stat-value {
     float: right;
     color: $ui-font-black;
     font-family: 'medium';
+    z-index: 1;
+    position: relative;
+  }
+
+  &__stat-nature {
+    float: right;
+    margin: 0 10px 0 0;
+    &--increased {
+      color: orangered;
+    }
+
+    &--decreased {
+      color: cornflowerblue;
+    }
+  }
+
+  &__stat-characteristic {
+    color: orangered;
+    font-size: 1em;
+    position: absolute;
+    top: 20px;
+    left: 6px;
+    z-index: 0;
+    opacity: 0.6;
   }
 }
