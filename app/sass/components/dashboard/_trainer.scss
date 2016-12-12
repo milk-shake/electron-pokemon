@@ -1,0 +1,108 @@
+.trainer-details {
+  background: $ui-white;
+  padding: 10px 20px;
+  text-align: center;
+  font-family: 'regular';
+  font-size: 0.6em;
+  width: 100%;
+  min-width: 200px;
+  display: block;
+  margin: 0 auto;
+  display: flex;
+  z-index: 100;
+  position: relative;
+  margin-bottom: 1px;
+
+  &__avatar {
+    width: 50px;
+    height: 50px;
+    background: #eee;
+    border-radius: 500px;
+    float: left;
+  }
+
+
+  &__details-wrapper {
+    margin: auto;
+  }
+
+  &__name {
+    color: $ui-font-black;
+    position: relative;
+    top: 13px;
+    margin: 0 0 0 10px;
+    display: inline-block;
+  }
+
+  &__actions {
+    margin:auto;
+  }
+
+  &__action {
+    color: $ui-font-black;
+    padding: 5px 9px;
+    border-radius: 5px;
+    font-size: 1.5em;
+    cursor: pointer;
+    position: relative;
+    line-height: 3;
+
+    .ion {
+      cursor: pointer;
+    }
+
+
+    &:hover {
+      background: $ui-grey;
+
+      .trainer-details__action-tip {
+        opacity: 1;
+        transition: opacity 300ms linear;
+      }
+    }
+  }
+
+  &__action-tip {
+    top: 35px;
+    white-space: nowrap;
+    background: $ui-font-black;
+    padding: 10px;
+    border-radius: 5px;
+    color: $ui-white;
+    left: 0;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 300ms linear;
+    position: absolute;
+    line-height: 1;
+    font-family: 'light';
+    font-size: 0.8em;
+
+    &:after, &:before {
+    	bottom: 100%;
+    	left: 50%;
+    	border: solid transparent;
+    	content: " ";
+    	height: 0;
+    	width: 0;
+    	position: absolute;
+    	pointer-events: none;
+    }
+
+    &:after {
+    	border-color: rgba(136, 183, 213, 0);
+      border-width: 5px;
+      margin-left: -10px;
+    }
+
+    &:before {
+    	border-color: rgba(194, 225, 245, 0);
+    	border-bottom-color: $ui-font-black;
+    	border-width: 5px;
+      position: relative;
+      left: 0px;
+      top: -27px;
+    }
+
+  }
+}

@@ -1,0 +1,78 @@
+.party-pokemon {
+
+  &__header {
+    background: #fff;
+    margin: 0;
+    padding: 10px;
+    font-family: 'medium';
+    font-weight: 100;
+    color: $ui-font-black;
+    border-top-right-radius: 90px;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+    z-index: 1;
+    position: relative;
+    font-size: 1em;
+  }
+
+  &__list {
+    float: left;
+    min-width: 300px;
+  }
+
+  &__item {
+    width: 300px;
+    background: #fff;
+    padding: 10px;
+    border-bottom: 1px solid darken($ui-white, 5%);
+    position: relative;
+
+    &:last-of-type {
+      border-bottom: none;
+    }
+  }
+
+  &__sprite {
+    background: lightslategray;
+    border-radius: 100px;
+    width: 40px;
+    margin: 0 20px 0 0;
+    padding: 0;
+    position: absolute;
+    top: 14px;
+  }
+
+  &__name {
+    font-family: 'regular';
+    color: $ui-font-black;
+    font-size: 1em;
+    line-height: 2;
+    margin: 0 0 0 80px;
+  }
+
+  &__message {
+    font-family: 'light';
+    color: $ui-font-black;
+    font-size: 0.8em;
+    margin: 0;
+  }
+
+  &__genus {
+    margin: 0;
+    font-size: 0.8em;
+    font-family: 'light';
+    color: $ui-font-black;
+    margin: 0 0 0 80px;
+    text-transform: capitalize;
+  }
+
+  &__footer {
+    padding: 10px;
+    background: #fff;
+    display: block;
+    border-bottom-right-radius: 90px;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+    position: relative;
+    z-index: 1;
+  }
+
+}

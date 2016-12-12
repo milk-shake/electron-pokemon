@@ -1,0 +1,56 @@
+.box-list {
+  position: absolute;
+  bottom: 0;
+  display: flex;
+  width: 100%;
+  overflow-y: scroll;
+
+  .box {
+    border-right: 1px solid $ui-grey;
+
+    &__header {
+      margin: 0;
+      background: #fff;
+      text-align: left;
+      padding: 10px 20px;
+      font-family: 'regular';
+      font-weight: 100;
+      font-size: 0.8em;
+      z-index: 1;
+      position: relative;
+      color: $ui-font-black;
+      margin: auto;
+      border-bottom: 1px solid $ui-grey;
+    }
+
+    &__contents {
+      width: 200px;
+      height: 150px;
+      background: #fff;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-direction: row;
+      flex-wrap: wrap;
+      padding: 20px
+    }
+
+    &__item {
+      margin: auto;
+
+      img {
+        width: 25px;
+        transition: all 0.2s linear;
+        cursor: pointer;
+
+        &:hover {
+          transform: scale(1.5);
+          transition: all 0.3s linear;
+        }
+      }
+    }
+
+  }
+
+
+}

@@ -68,13 +68,5 @@ input, button, textarea, :focus {
 
 @import "./icons/ionicons";
 @import "./modules/fonts";
-@import "./modules/loader";
-@import "./modules/pokemon-single";
 @import "./modules/pokemon-types";
-@import "./components/trainer-pokemon/trainer-pokemon-meta";
-@import "./components/trainer-pokemon/trainer-pokemon-stats";
-@import "./components/trainer-pokemon/trainer-pokemon-moves";
-@import "./components/trainer-pokemon/trainer-pokemon-traits";
-@import "./components/trainer-pokemon/trainer-pokemon-move-meta";
-@import "./components/trainer-pokemon/trainer-pokemon-box";
-@import "./components/trainer-pokemon/trainer-pokemon-evolution";
+@import "./components/dashboard/dashboard";
