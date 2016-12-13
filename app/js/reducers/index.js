@@ -1,11 +1,13 @@
 import { routerReducer } from 'react-router-redux';
 import { combineReducers } from "redux";
-import trainerReducer from "./trainerReducer";
-import trainerPokemonReducer from "./trainerPokemonReducer";
+import TrainerReducer from "./trainer.reducer";
+import TrainerPokemonReducer from "./trainerPokemon.reducer";
+import SpotLightReducer from "./pokemonSpotlight.reducer";
 
 
 export default combineReducers({
-  trainerReducer,
-  trainerPokemonReducer,
+  TrainerReducer,
+  TrainerPokemonReducer,
+  SpotLightReducer,
   routing: routerReducer
 });

@@ -1,5 +1,7 @@
 import Model from "../lib/model";
 
+import MoveName from "./moveName.model";
+
 export default class Move extends Model {
 
   constructor(options = {
@@ -8,6 +10,10 @@ export default class Move extends Model {
   }) {
 
     super(options);
+  }
+
+  names() {
+    return this.has(Move, 'move_id', 'id');
   }
 }
 

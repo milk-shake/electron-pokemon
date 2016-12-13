@@ -1,9 +1,41 @@
 const SQL = require('sql.js');
 const fs = require('fs');
-const dbname = "migration";
-const db = new SQL.Database();
+
+const dbname = 'pokemon';
+const filebuffer = fs.readFileSync(dbname + '.sqlite');
+const db = new SQL.Database(filebuffer);
 
 export class Schema {
+
+  static insert(tableName, values) {
+
+    let columnNames = [];
+
+
+    columnNames = Object.keys(values[0]);
+
+    let clause = ` INSERT INTO ${tableName} `;
+    clause += `(` + columnNames.join(', ') + `)`;
+    clause += ` VALUES (:${columnNames.join(', :')})`;
+
+    values.forEach(function(value) {
+      let binds = {};
+
+      for(var val in value) {
+        binds[":" + val] = value[val];
+      }
+
+      let stmt = db.prepare(clause);
+      stmt.getAsObject(binds);
+
+      stmt.free();
+    });
+
+    let data = db.export();
+    let buffer = new Buffer(data);
+    fs.writeFileSync(dbname + '.sqlite', buffer);
+
+  }
 
   static create(tableName, callback) {
     let table = new Table(tableName);

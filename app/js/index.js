@@ -27,6 +27,10 @@ import MoveList from "./components/moveList.component";
 import Move from "./components/move.component";
 
 
+// import {runSeeders} from "./seeders";
+//
+// runSeeders();
+
 const history = syncHistoryWithStore(hashHistory, store)
 
 

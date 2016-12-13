@@ -5,7 +5,7 @@ import { Link } from 'react-router';
 
 @connect((store) => {
   return {
-    trainer: store.trainerReducer.trainer
+    trainer: store.TrainerReducer.trainer
   }
 })
 export default class Trainer extends React.Component {

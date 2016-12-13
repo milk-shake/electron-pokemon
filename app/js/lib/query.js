@@ -214,8 +214,6 @@ export default class Query {
         binds[Object.keys(bind)[0]] = bind[Object.keys(bind)[0]];
       });
 
-      console.log(clause);
-
       stmt.bind(binds);
 
       let relationPromises = [];

@@ -25,9 +25,20 @@ export function getPartyPokemonForTrainerId(id) {
     .with('species', {with: ['species']})
     .get()
     .then(function(results) {
-      console.log(results);
       dispatch({type: "PARTYPOKEMON_FULFILLED", payload: results});
     });
   }
 
+}
+
+export function getBoxPokemonForBoxId(trainerId, boxId) {
+  return function(dispatch) {
+    TrainerPokemon.where('trainer_id', '=', trainerId)
+    .andWhere('box_id', '=', boxId)
+    .with('species', {with: ['species']})
+    .get()
+    .then(function(results) {
+      dispatch({type: "BOXPOKEMON_FULFILLED", payload: {boxId: boxId, pokemon: results}});
+    })
+  }
 }

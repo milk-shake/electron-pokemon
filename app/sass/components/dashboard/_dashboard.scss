@@ -2,4 +2,9 @@
     @import "./trainer";
     @import "./party-pokemon";
     @import "./box-list";
+    @import "./pokemon-spotlight";
+
+    &__widgets {
+      display: flex;
+    }
 }

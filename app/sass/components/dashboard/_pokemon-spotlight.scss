@@ -1,0 +1,235 @@
+.pokemon-spotlight {
+  float: left;
+  color: $ui-font-black;
+  margin: 0 0 0 10px;
+  overflow-y: scroll;
+  overflow-x: visible;
+  height: 467px;
+  border-top-left-radius: 50px;
+  border-bottom-left-radius: 50px;
+      padding: 0 0 0 30px;
+  -webkit-clip-path: inset(0px 0px 0px 0px);
+  width: 100%;
+
+  &__list {
+    display: flex;
+  }
+
+  &__list-item {
+    float: left;
+    margin-right: 9px;
+  }
+
+  &__item {
+    min-width: 330px;
+    position: relative;
+    height: 408px;
+    overflow: scroll;
+    background: $ui-white;
+
+  }
+
+  &__item-header {
+    margin: 0;
+    padding: 10px;
+    font-family: 'medium';
+    font-weight: 100;
+    color: #555;
+    border-top-right-radius: 90px;
+    box-shadow: 0 0 20px rgba(0,0,0,0.1);
+    z-index: 1;
+    position: relative;
+    font-size: 1em;
+    background: #fff;
+    display: block;
+    border-top-left-radius: 90px;
+    text-align: center;
+  }
+
+  &__item-header-close {
+    float: right;
+    position: relative;
+    right: 20px;
+    font-size: 0.6em;
+    background: lightcoral;
+    padding: 5px 6px;
+    border-radius: 30px;
+    line-height: 0;
+    color: $ui-white;
+    cursor: pointer;
+
+    &:before {
+      cursor: pointer;
+    }
+
+    &:hover {
+      background: darken(lightcoral, 5%);
+    }
+  }
+
+  &__item-footer {
+    padding: 10px;
+    background: #fff;
+    display: block;
+    border-bottom-right-radius: 90px;
+    border-bottom-left-radius: 90px;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+    position: relative;
+    z-index: 1;
+  }
+
+  &__section-header {
+    font-family: 'regular';
+    font-weight: 100;
+    font-size: 0.6em;
+    letter-spacing: 2px;
+    padding: 15px 20px;
+    border-top: 1px solid $ui-grey;
+    background: $ui-font-black;
+    color: $ui-white;
+    margin: 0;
+  }
+
+
+  &__name {
+    font-family: 'medium';
+    font-weight: 100;
+    font-size: 1.3em;
+    margin: 0 0 5px;
+  }
+
+  &__species {
+    padding: 0 20px;
+    font-family: 'regular';
+    font-size: 1em;
+    margin: 0;
+  }
+
+  &__sprite {
+    margin: 60px auto;
+    display: block;
+    width: 160px;
+    background: lightslategray;
+    border-radius: 150px;
+  }
+
+  &__held-item {
+    position: absolute;
+    top: 180px;
+    right: 60px;
+    background: #fff;
+    padding: 10px 15px 5px;
+    border-radius: 5px;
+    border: 1px solid $ui-grey;
+    text-align: center;
+  }
+
+  &__held-item-header {
+    display: block;
+    width: auto;
+    font-size: 0.6em;
+    font-family: 'regular';
+    text-align: center;
+    letter-spacing: 2px;
+  }
+
+  &__health {
+    padding: 20px 20px 0 20px;
+    position: relative;
+    margin-bottom: 60px;
+  }
+
+  &__health-bar {
+    width: 100%;
+    background-color: greenyellow;
+    height: 15px;
+    display: block;
+    border-radius: 13px;
+    border: 2px solid $ui-black;
+    margin-top: 20px;
+    margin-bottom: 10px;
+    &:before {
+      content: "HP";
+      color: $ui-white;
+      display: inline-block;
+      background: $ui-black;
+      padding: 2px 6px;
+      font-size: 9px;
+      position: relative;
+      border-radius: 4px;
+      font-family: medium;
+      border-top-right-radius: 0;
+      border-bottom-right-radius: 0;
+      line-height: 1;
+    }
+  }
+
+  &__health-value {
+    position: absolute;
+    right: 20px;
+    font-family: 'medium';
+  }
+
+  &__level {
+    border-top: 1px solid $ui-grey;
+    margin: 20px 0px;
+    display: flex;
+    padding-top: 20px;
+  }
+
+  &__level-name {
+    padding: 0 20px;
+    font-family: 'medium';
+    font-weight: 100;
+    margin: auto;
+    flex-grow: 2;
+  }
+
+  &__level-value {
+    font-family: 'regular';
+    background: cornflowerblue;
+    padding: 20px;
+    border-radius: 70px;
+    color: #fff;
+    display: block;
+    margin: auto 13px auto auto;
+  }
+
+  &__stats {
+
+  }
+
+  &__stat {
+    display: flex;
+    border-top: 1px solid $ui-grey;
+  }
+
+  &__stat-name {
+    margin: auto;
+    flex-grow: 2;
+    font-family: 'medium';
+    padding: 20px;
+  }
+
+  &__stat-value {
+    padding: 0 20px;
+    margin: auto;
+    font-family: 'regular';
+  }
+
+  &__moves {
+
+  }
+
+  &__move {
+    padding: 20px;
+    border-top: 1px solid $ui-grey;
+    font-family: 'regular';
+    font-size: 1em;
+  }
+
+  &__move-name {
+    font-family: 'medium';
+  }
+
+}

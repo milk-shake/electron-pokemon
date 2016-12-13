@@ -31,7 +31,7 @@ export default class TrainerPokemon extends Model {
     return this.has(TrainerPokemonSpecies, 'trainer_pokemon_id', 'id');
   }
 
-  moves() {
+  trainerPokemonMoves() {
     return this.has(TrainerPokemonMove, 'trainer_pokemon_id', 'id');
   }
 

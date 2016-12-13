@@ -4,9 +4,17 @@
   display: flex;
   width: 100%;
   overflow-y: scroll;
+  z-index: 100;
 
   .box {
     border-right: 1px solid $ui-grey;
+
+    &:last-child {
+      border-right: 0;
+      .box__header {
+        border-top-right-radius: 90px;
+      }
+    }
 
     &__header {
       margin: 0;
@@ -24,8 +32,8 @@
     }
 
     &__contents {
-      width: 200px;
-      height: 150px;
+      width: 300px;
+      height: 250px;
       background: #fff;
       display: flex;
       align-items: center;
@@ -39,7 +47,7 @@
       margin: auto;
 
       img {
-        width: 25px;
+        width: 40px;
         transition: all 0.2s linear;
         cursor: pointer;
 

@@ -10,7 +10,7 @@ function createWindow () {
   // Create the browser window.
   const { screen } = require('electron');
   const {width, height} = screen.getPrimaryDisplay().workAreaSize
-  win = new BrowserWindow({width, height})
+  win = new BrowserWindow({width: width, height: height, minWidth: 800, minHeight: 640, show: false})
 
   // and load the index.html of the app.
   win.loadURL(url.format({
@@ -18,6 +18,10 @@ function createWindow () {
     protocol: 'file:',
     slashes: true
   }))
+
+  win.once('ready-to-show', () => {
+    win.show()
+  })
 
   // Open the DevTools.
   win.webContents.openDevTools()
