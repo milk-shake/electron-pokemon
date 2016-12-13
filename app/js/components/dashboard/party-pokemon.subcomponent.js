@@ -37,6 +37,15 @@ export default class PartyPokemon extends React.Component {
               <PartyPokemonSprite id={poke.attributes.trainerpokemonspecies[0].attributes.species_id} />
               <h1 className="party-pokemon__name">{poke.attributes.nick_name}</h1>
               <h2 className="party-pokemon__genus">{poke.attributes.trainerpokemonspecies[0].attributes.species[0].attributes.identifier}</h2>
+              <div className="party-pokemon__types">
+                {poke.attributes.trainerpokemonspecies[0].attributes.species[0].attributes.speciestype.map(function(type, index) {
+                  return <span key={index} className={`party-pokemon__type pokemon-types pokemon-types--${type.attributes.type[0].attributes.identifier}`}>
+                    {type.attributes.type[0].attributes.identifier}
+                  </span>
+                })}
+              </div>
+
+
             </div>
         }, this) : <div className="party-pokemon__item"><h1 className="party-pokemon__message">You have no pokemon in your party!</h1></div>}
       </div>

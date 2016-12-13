@@ -1,4 +1,5 @@
 import TrainerPokemon from "../models/trainerPokemon.model";
+import SpeciesType from "../models/speciesType.model";
 
 export function getPokemonForTrainerId(id) {
 
@@ -25,7 +26,30 @@ export function getPartyPokemonForTrainerId(id) {
     .with('species', {with: ['species']})
     .get()
     .then(function(results) {
-      dispatch({type: "PARTYPOKEMON_FULFILLED", payload: results});
+
+      let promises = [];
+
+      results.forEach(function(result) {
+        let speciesId = result.attributes.trainerpokemonspecies[0].attributes.species_id;
+          promises.push(SpeciesType.where('pokemon_id', '=', speciesId).with('types').logSql().get());
+      });
+
+      Promise.all(promises)
+      .then(function(types) {
+        types.forEach(function(type) {
+          results.forEach(function(result) {
+              type.forEach(function(t) {
+                if(t.attributes.pokemon_id == result.attributes.trainerpokemonspecies[0].attributes.species_id) {
+                  result.attributes.trainerpokemonspecies[0].attributes.species[0].attributes.speciestype = result.attributes.trainerpokemonspecies[0].attributes.species[0].attributes.speciestype || [];
+                  result.attributes.trainerpokemonspecies[0].attributes.species[0].attributes.speciestype.push(t);
+                }
+              });
+          });
+        });
+
+        dispatch({type: "PARTYPOKEMON_FULFILLED", payload: results});
+
+      });
     });
   }
 

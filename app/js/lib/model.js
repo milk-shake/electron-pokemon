@@ -174,13 +174,6 @@ export default class Model {
     return this;
   }
 
-  // withChildren(model = null, callback) {
-  //   var self = this;
-  //   if(!model) { console.error("Model.with: no model name")};
-  //   let currentModel = this[model]();
-  //   callback(currentModel);
-  // }
-
   save() {
     if(this.attributes.id) { throw new Error("Model.save: id found, use update instead")};
     return this.query.insert(this.attributes);

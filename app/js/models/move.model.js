@@ -1,6 +1,7 @@
 import Model from "../lib/model";
 
 import MoveName from "./moveName.model";
+import Type from "./type.model";
 
 export default class Move extends Model {
 
@@ -14,6 +15,10 @@ export default class Move extends Model {
 
   names() {
     return this.has(Move, 'move_id', 'id');
+  }
+
+  types() {
+    return this.has(Type, 'id', 'type_id');
   }
 }
 

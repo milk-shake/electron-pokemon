@@ -1,8 +1,6 @@
 .party-pokemon {
   min-width: 300px;
-  margin: auto;
-  margin-left: 0;
-  margin-right: 0;
+  margin: 0;
 
   &__header {
     background: #fff;
@@ -43,10 +41,8 @@
 
     &:hover {
       background: darken($ui-white, 5%);
-      transform: scale(1.1);
       transition: all 300ms linear;
       z-index: 100;
-      left: 20px;
     }
 
     &:last-of-type {
@@ -86,6 +82,17 @@
     color: $ui-font-black;
     margin: 0 0 0 80px;
     text-transform: capitalize;
+  }
+
+  &__types {
+    position: absolute;
+    top: 40px;
+    right: 20px
+  }
+
+  &__type {
+    display: inline-block;
+    margin-left: 2px;
   }
 
   &__footer {

@@ -1,5 +1,5 @@
 import Model from "../lib/model";
-import Type from "./type.model";
+import SpeciesType from "./speciesType.model";
 
 export default class Species extends Model {
 
@@ -8,6 +8,10 @@ export default class Species extends Model {
     hidden: [],
   }) {
     super(options);
+  }
+
+  types() {
+    return this.has(SpeciesType, 'pokemon_id', 'id');
   }
 
 

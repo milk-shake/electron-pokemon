@@ -105,8 +105,18 @@
     margin: 0;
   }
 
+  &__types {
+    margin-top: 30px;
+    text-align: center;
+  }
+
+  &__type {
+    display: inline-block;
+    margin-left: 2px;
+  }
+
   &__sprite {
-    margin: 60px auto;
+    margin: 40px auto;
     display: block;
     width: 160px;
     background: lightslategray;
@@ -204,6 +214,26 @@
     border-top: 1px solid $ui-grey;
   }
 
+  &__stat-modifier {
+    margin: auto;
+
+    &--decreased {
+      color: cornflowerblue;
+    }
+
+    &--increased {
+      color: darkorange;
+    }
+
+    &--neutral {
+    }
+  }
+
+  &__stat-highest {
+    margin: auto;
+    color: lightcoral;
+  }
+
   &__stat-name {
     margin: auto;
     flex-grow: 2;
@@ -215,6 +245,31 @@
     padding: 0 20px;
     margin: auto;
     font-family: 'regular';
+    min-width: 70px;
+  }
+
+  &__natures {
+
+  }
+
+  &__nature {
+    font-family: 'regular';
+    padding: 20px;
+    font-size: 1em;
+  }
+
+  &__nature-name {
+
+  }
+
+  &__characteristics {
+
+  }
+
+  &__characteristic {
+    font-family: 'regular';
+    padding: 20px;
+    font-size: 1em;
   }
 
   &__moves {
@@ -230,6 +285,12 @@
 
   &__move-name {
     font-family: 'medium';
+  }
+
+  &__move-type {
+    float: right;
+    position: relative;
+    top: -2px;
   }
 
 }
