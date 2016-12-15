@@ -42,12 +42,10 @@ export default class ItemNature extends React.Component {
     }
 
     return results.map(function(nature, index) {
-      console.log(nature);
       return <div key={index} className="edit__modal-search-result">{nature.nature_names[0].name}</div>
     });
 
   }
-
 
   hideEditModal() {
     this.setState({

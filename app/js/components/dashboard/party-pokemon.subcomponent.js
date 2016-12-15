@@ -34,9 +34,6 @@ export default class PartyPokemon extends React.Component {
             </div>
         }, this) : <div className="party-pokemon__item"><h1 className="party-pokemon__message">You have no pokemon in your party!</h1></div>}
       </div>
-      {/* <span className="party-pokemon__footer"></span> */}
-
-
     </div>
   }
 }

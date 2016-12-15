@@ -11,8 +11,6 @@ export default class Characteristic extends React.Component {
       edit: false,
       modal: false,
     }
-
-    console.log(this.props);
   }
 
   toggleEditPane() {

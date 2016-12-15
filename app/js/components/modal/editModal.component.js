@@ -6,6 +6,12 @@ export default class EditModal extends React.Component {
     super(props);
   }
 
+  componentDidUpdate() {
+    if(this.props.activated) {
+      ReactDOM.findDOMNode(this.refs.search).focus()
+    }
+  }
+
   render() {
     return (
       <div className={'edit__modal-wrapper' + ((this.props.activated) ? ' on' : '')}>
@@ -15,7 +21,7 @@ export default class EditModal extends React.Component {
           <div className="edit__modal-content">
             <label className="input--search__label">
               <span className="input--search__icon ion-search"></span>
-              <input type="text" className="input--search" placeholder={this.props.searchPlaceholder} onChange={(e) => this.props.onSearchChange(e)}/>
+              <input ref="search" type="text" className="input--search" placeholder={this.props.searchPlaceholder} onChange={(e) => this.props.onSearchChange(e)}/>
             </label>
             <span className="pane__header">{this.props.resultsTitle}</span>
             <div className="edit__modal-search-results">
