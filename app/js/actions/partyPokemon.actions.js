@@ -5,23 +5,23 @@ export function getPartyPokemon() {
       const trainer = getState().TrainerReducer.trainer;
       TrainerPokemon.where('trainer_id', '=', trainer.id)
       .andWhere('box_id', '=', 18)
-      .with('species', function(q) {
-        q.with('species', function(q) {
-          q.with('types', function(q) {
-            q.with('types', function(q) {
-              q.with('names', function(q) {
-                q.andWhere('local_language_id', '=', trainer.local_language_id);
+      .with('species', (tpSpecies) => {
+        tpSpecies.with('species', (species) => {
+          species.with('types', (speciesType) => {
+            speciesType.with('types', (type) => {
+              type.with('names', (name) => {
+                  name.andWhere('local_language_id', '=', trainer.local_language_id);
               });
-            })
+            });
           });
-          q.with('names', function(q) {
-            q.andWhere('local_language_id', "=", trainer.local_language_id);
+          species.with('names', (names) => {
+            names.andWhere('local_language_id', "=", trainer.local_language_id);
           });
         });
       })
       .asAttributes()
       .get()
-      .then(function(results) {
+      .then((results) => {
           dispatch({type: "PARTYPOKEMON_FULFILLED", payload: results});
       });
   }

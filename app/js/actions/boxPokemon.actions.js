@@ -6,12 +6,12 @@ export function getBoxPokemonForBoxId(boxId) {
       const trainer = getState().TrainerReducer.trainer;
       TrainerPokemon.where('trainer_id', '=', trainer.id)
       .andWhere('box_id', '=', boxId)
-      .with('species', function(q) {
-        q.with('species');
+      .with('species', (tpSpecies) => {
+        tpSpecies.with('species');
       })
       .asAttributes()
       .get()
-      .then(function(results) {
+      .then((results) => {
         dispatch({type: "BOXPOKEMON_FULFILLED", payload: {boxId: boxId, pokemon: results}});
       });
     }

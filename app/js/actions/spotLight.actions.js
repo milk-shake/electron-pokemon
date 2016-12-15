@@ -8,42 +8,42 @@ export function addToSpotlight(pokemon) {
   return function(dispatch, getState) {
     const trainer = getState().TrainerReducer.trainer;
     TrainerPokemon.where('id', '=', pokemon.id)
-    .with('trainerPokemonMoves', function(tpmove) {
-      tpmove.with('moves', function(move) {
-        move.with('names', function(name) {
+    .with('trainerPokemonMoves', (tpMove) => {
+      tpMove.with('moves', (move) => {
+        move.with('names', (name) => {
           name.andWhere('local_language_id', '=', trainer.local_language_id);
         })
-        .with('types', function(type) {
-          type.with('names', function(name) {
+        .with('types', (type) => {
+          type.with('names', (name) => {
             name.andWhere('local_language_id', '=', trainer.local_language_id);
           });
         });
       });
     })
-    .with('species', function(tpspecies) {
-      tpspecies.with('species', function(species) {
-        species.with('names', function(name) {
+    .with('species', (tpSpecies) => {
+      tpSpecies.with('species', (species) => {
+        species.with('names', (name) => {
           name.andWhere('local_language_id', '=', trainer.local_language_id);
         })
-        .with('types', function(speciesType) {
-          speciesType.with('types', function(type) {
-            type.with('names', function(name) {
+        .with('types', (speciesType) => {
+          speciesType.with('types', (type) => {
+            type.with('names', (name) => {
               name.andWhere('local_language_id', '=', trainer.local_language_id);
             })
           });
         });
       });
     })
-    .with('natures', function(tpnature) {
-      tpnature.with('natures', function(nature) {
-        nature.with('names', function(name) {
+    .with('natures', (tpNature) => {
+      tpNature.with('natures', (nature) => {
+        nature.with('names', (name) => {
           name.andWhere('local_language_id', '=', trainer.local_language_id);
         });
       });
     })
-    .with('characteristics', function(tpchar) {
-      tpchar.with('characteristics', function(char) {
-        char.with('text', function(text) {
+    .with('characteristics', (tpChar) => {
+      tpChar.with('characteristics', (char) => {
+        char.with('text', (text) => {
           let langId = 9;
           //characteristic text is only 9 and 5 (french and english)
           switch(trainer.local_language_id) {
@@ -61,7 +61,7 @@ export function addToSpotlight(pokemon) {
     })
     .asAttributes()
     .get()
-    .then(function(results) {
+    .then((results) => {
       dispatch({type: "POKEMONSPOTLIGHT_ADDED", payload: results[0]});
     });
   }
