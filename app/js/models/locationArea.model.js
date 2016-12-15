@@ -18,4 +18,4 @@ export default class LocationArea extends Model {
 
 }
 
-LocationAream.prototype.table = 'location_areas';
+LocationArea.prototype.table = 'location_areas';

@@ -1,6 +1,6 @@
 import Model from "../lib/model";
 
-export default class MoveFlavourText extends Model {
+export default class MoveFlavorText extends Model {
 
   constructor(options = {
     fillable: [],

@@ -2,7 +2,7 @@ import Model from "../lib/model";
 
 import MoveName from "./moveName.model";
 import MoveEffect from "./moveEffect.model";
-import MoveFlavourText from "./moveFlavourText.model";
+import MoveFlavorText from "./moveFlavorText.model";
 import MoveTarget from "./moveTarget.model";
 import Type from "./type.model";
 import Machine from "./machine.model";
