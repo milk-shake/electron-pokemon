@@ -31,5 +31,5 @@ module.exports = {
   plugins: [
     new CommonsChunkPlugin({ name: 'common',   filename: 'common.js' })
   ],
-  target:'node-webkit'
+  target:'electron-renderer'
 };

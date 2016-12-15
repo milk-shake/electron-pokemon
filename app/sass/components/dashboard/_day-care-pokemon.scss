@@ -1,0 +1,86 @@
+.day-care-pokemon {
+  height: 30vh;
+  margin-top: 1px;
+
+  &__header {
+    background: #fff;
+    margin: 0;
+    padding: 10px;
+    font-family: 'medium';
+    font-weight: 100;
+    color: $ui-font-black;
+    // border-top-right-radius: 90px;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+    z-index: 1;
+    position: relative;
+    font-size: 1em;
+    height: 5vh;
+  }
+
+  &__footer {
+    background: #fff;
+    display: block;
+    // border-bottom-right-radius: 90px;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+    position: relative;
+    z-index: 1;
+    height: 2vh;
+  }
+
+  &__contents {
+    background: #fff;
+    display: flex;
+    padding: 0 20px;
+    height: 23.5vh;
+    position: relative;
+  }
+
+  &__item {
+    margin: auto;
+    z-index: 2;
+    position: relative;
+    transition: all 300ms ease-in-out;
+
+    cursor: pointer;
+
+    * {
+      cursor: pointer;
+    }
+
+    &:hover {
+      transform: scale(1.3);
+      transition: all 300ms ease-in-out;
+    }
+  }
+
+  &__heart {
+    position: absolute;
+    left: 0;
+    right: 0;
+    font-size: 12em;
+    z-index: 1;
+    margin: 0 auto;
+    text-align: center;
+    // color: hotpink;
+    color: lightcoral;
+    opacity: 0.2;
+    top: 45px;
+
+    &--broken {
+      color: lightgrey;
+    }
+  }
+
+  &__empty-message {
+    font-family: 'regular';
+    text-align: center;
+    color: $ui-font-black;
+    display: block;
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 86px;
+    font-weight: 100;
+  }
+
+}

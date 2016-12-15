@@ -6,6 +6,7 @@ import { Router, Route, Link, browserHistory, hashHistory, IndexRoute } from 're
 import { syncHistoryWithStore } from 'react-router-redux'
 
 import store from "./store";
+import ContextMenu from "./context/menu.click";
 
 import App from "./components/app.component";
 import Ability from "./components/ability.component";
@@ -30,7 +31,7 @@ import Move from "./components/move.component";
 // import {runSeeders} from "./seeders";
 //
 // runSeeders();
-
+//TODO move trainer pokemon stuff into its own database for easier migration/updating
 const history = syncHistoryWithStore(hashHistory, store)
 
 

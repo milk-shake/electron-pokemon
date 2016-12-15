@@ -2,37 +2,21 @@
   min-width: 300px;
   margin: 0;
 
-  &__header {
-    background: #fff;
-    margin: 0;
-    padding: 10px;
-    font-family: 'medium';
-    font-weight: 100;
-    color: $ui-font-black;
-    border-top-right-radius: 90px;
-    box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
-    z-index: 1;
-    position: relative;
-    font-size: 1em;
-  }
-
   &__list {
-    max-height: 407px;
     overflow-y: scroll;
-    height: 48vh;
-    background: $ui-white;
+    height: 55vh;
+    background: $ui-section-bg;
   }
 
   &__item {
     width: 300px;
-    background: #fff;
-    padding: 10px;
-    border-bottom: 1px solid darken($ui-white, 5%);
+    background: $ui-section-inactive;
+    padding: 25px 10px;
+    border-bottom: 1px solid $ui-section-bg;
     position: relative;
     transition: all 300ms linear;
     position: relative;
     left: 0;
-
     cursor: pointer;
 
     * {
@@ -40,7 +24,7 @@
     }
 
     &:hover {
-      background: darken($ui-white, 5%);
+      background: $ui-white;
       transition: all 300ms linear;
       z-index: 100;
     }
@@ -53,11 +37,11 @@
   &__sprite {
     background: lightslategray;
     border-radius: 100px;
-    width: 40px;
-    margin: 0 20px 0 0;
+    width: 50px;
+    margin: 0 20px 0 10px;
     padding: 0;
     position: absolute;
-    top: 14px;
+    top: 28px;
   }
 
   &__name {
@@ -93,16 +77,6 @@
   &__type {
     display: inline-block;
     margin-left: 2px;
-  }
-
-  &__footer {
-    padding: 10px;
-    background: #fff;
-    display: block;
-    border-bottom-right-radius: 90px;
-    box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
-    position: relative;
-    z-index: 1;
   }
 
 }

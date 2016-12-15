@@ -1,5 +1,5 @@
 import Model from "../lib/model";
-import AbilityFlavor from "./abilityFlavor.model";
+import AbilityFlavorText from "./abilityFlavorText.model";
 import AbilityName from "./abilityName.model";
 import AbilityProse from "./abilityProse.model";
 
@@ -14,7 +14,7 @@ export default class Ability extends Model {
   }
 
   flavors() {
-    return this.has(AbilityFlavor, 'ability_id', 'id');
+    return this.has(AbilityFlavorText, 'ability_id', 'id');
   }
 
   names() {

@@ -1,5 +1,6 @@
 import Model from "../lib/model";
 import CharacteristicText from "./characteristicText.model";
+import Stat from "./stat.model";
 
 export default class Characteristic extends Model {
 
@@ -13,6 +14,10 @@ export default class Characteristic extends Model {
 
   text() {
     return this.has(CharacteristicText, 'characteristic_id', 'id');
+  }
+
+  stat() {
+    return this.has(Stat, 'id', 'stat_id');
   }
 
 }

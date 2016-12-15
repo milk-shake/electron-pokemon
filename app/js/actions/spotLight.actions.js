@@ -59,6 +59,19 @@ export function addToSpotlight(pokemon) {
         })
       })
     })
+    .with('abilities', (tpAbility) => {
+      tpAbility.with('abilities', (ability) => {
+        ability.with('flavors', (flavor) => {
+          flavor.andWhere('language_id', '=', trainer.local_language_id);
+        })
+        .with('names', (name) => {
+          name.andWhere('local_language_id', '=', trainer.local_language_id);
+        })
+        .with('prose', (prose) => {
+          prose.andWhere('local_language_id', '=', trainer.local_language_id);
+        });
+      });
+    })
     .asAttributes()
     .get()
     .then((results) => {

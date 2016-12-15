@@ -22,6 +22,12 @@ export default class PokemonSpotlight extends React.Component {
                   key={pokemon.id}
                   pokemon={pokemon}
                   handleRemoveFromSpotLight={this.props.handleRemoveFromSpotLight}
+                  getAllNatures={this.props.getAllNatures}
+                  natures={this.props.natures}
+                  getAllAbilities={this.props.getAllAbilities}
+                  abilities={this.props.abilities}
+                  getAllCharacteristics={this.props.getAllCharacteristics}
+                  characteristics={this.props.characteristics}
                 />
               )
 
@@ -30,7 +36,9 @@ export default class PokemonSpotlight extends React.Component {
         </div>
       </div>
     }
-    return null;
+    else {
+      return <div className="pokemon-spotlight"></div>
+    }
   }
 
   render() {

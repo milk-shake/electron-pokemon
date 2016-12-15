@@ -23,7 +23,6 @@ export default class ItemStat extends React.Component {
 
   renderHighestStat() {
     if(this.props.characteristic.length) {
-      console.log(this.props.characteristic[0].characteristics[0].stat_id);
       if(this.props.characteristic[0].characteristics[0].stat_id == this.props.statId) {
         return <span className="pokemon-spotlight__stat-highest ion ion-flame"></span>
       }

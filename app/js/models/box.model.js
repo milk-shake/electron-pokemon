@@ -1,6 +1,6 @@
 import Model from "../lib/model";
 
-export default class AbilityFlavor extends Model {
+export default class Box extends Model {
 
   constructor(options = {
     fillable: [],
@@ -12,4 +12,4 @@ export default class AbilityFlavor extends Model {
 
 }
 
-AbilityFlavor.prototype.table = 'ability_flavor_text';
+Box.prototype.table = 'boxes';

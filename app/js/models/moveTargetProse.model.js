@@ -1,0 +1,15 @@
+import Model from "../lib/model";
+
+export default class MoveTargetProse extends Model {
+
+  constructor(options = {
+    fillable: [],
+    hidden: [],
+  }) {
+
+    super(options);
+  }
+
+}
+
+MoveTargetProse.prototype.table = 'move_target_prose';

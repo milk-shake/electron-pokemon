@@ -15,7 +15,7 @@ export default class PartyPokemon extends React.Component {
 
   render() {
     return <div className="party-pokemon">
-      <h1 className="party-pokemon__header">Party</h1>
+      <h1 className="pane__header">Party</h1>
       <div className="party-pokemon__list">
         {this.props.pokemon ? this.props.pokemon.map(function(poke) {
             return <div onClick={() => this.props.handleAddToSpotLight(poke)} key={poke.nick_name} className="party-pokemon__item">
@@ -34,7 +34,7 @@ export default class PartyPokemon extends React.Component {
             </div>
         }, this) : <div className="party-pokemon__item"><h1 className="party-pokemon__message">You have no pokemon in your party!</h1></div>}
       </div>
-      <span className="party-pokemon__footer"></span>
+      {/* <span className="party-pokemon__footer"></span> */}
 
 
     </div>

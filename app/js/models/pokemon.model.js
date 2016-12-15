@@ -4,6 +4,7 @@ import PokemonAbility from "./pokemonAbility.model";
 import PokedexNumber from "./pokedexNumber.model";
 import PokemonEggGroup from "./pokemonEggGroup.model";
 import PokemonType from "./pokemonType.model";
+import Encounter from "./encounter.model";
 
 export default class Pokemon extends Model {
 
@@ -34,6 +35,10 @@ export default class Pokemon extends Model {
 
   types() {
     return this.has(PokemonType, 'pokemon_id', 'species_id');
+  }
+
+  encounter() {
+    return this.has(Encounter, 'pokemon_id', 'id')
   }
 
 }

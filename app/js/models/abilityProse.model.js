@@ -1,5 +1,8 @@
 import Model from "../lib/model";
 
+import Ability from "./ability.model";
+import Language from "./language.model";
+
 export default class AbilityProse extends Model {
 
   constructor(options = {
@@ -8,6 +11,14 @@ export default class AbilityProse extends Model {
   }) {
 
     super(options);
+  }
+
+  ability() {
+    return this.has(Ability, 'id', 'ability_id');
+  }
+
+  language() {
+    return this.has(Language, 'id', 'local_language_id');
   }
 
 }

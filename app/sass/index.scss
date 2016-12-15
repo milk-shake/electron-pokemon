@@ -4,6 +4,8 @@ $ui-black: #444444;
 $ui-font-black: #555;
 $ui-white: #fff;
 $ui-white--dark: #444444;
+$ui-section-bg: darken($ui-white, 30%);
+$ui-section-inactive: darken($ui-white, 10%);
 $ui-bdr: #6CE8BF;
 $ui-bg: #2A8D74;
 $ui-bg--dark: darken($ui-bg, 10%);
@@ -35,6 +37,7 @@ body {
   background-color: $ui-black;
   font-size: 16px;
   margin: 0;
+  overflow: hidden;
 }
 
 * {
@@ -70,4 +73,6 @@ input, button, textarea, :focus {
 @import "./icons/ionicons";
 @import "./modules/fonts";
 @import "./modules/pokemon-types";
+@import "./modules/pane-defaults";
+@import "./modules/input";
 @import "./components/dashboard/dashboard";

@@ -1,0 +1,161 @@
+.pane {
+
+  &__button {
+    float: right;
+    position: relative;
+    font-size: 0.6em;
+    padding: 5px 6px;
+    border-radius: 30px;
+    line-height: 0;
+    color: $ui-white;
+    cursor: pointer;
+
+    &:before {
+      cursor: pointer;
+    }
+
+    &--close {
+      background: lightcoral;
+
+      &:hover {
+        background: darken(lightcoral, 5%);
+      }
+    }
+  }
+
+  &__header {
+    background: #fff;
+    margin: 0;
+    padding: 10px;
+    font-family: 'medium';
+    font-weight: 100;
+    color: $ui-font-black;
+    // border-top-right-radius: 90px;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+    z-index: 1;
+    position: relative;
+    font-size: 1em;
+    height: 40px;
+    width: 100%;
+    display: block;
+  }
+
+  &__footer {
+    background: #fff;
+    display: block;
+    box-shadow: 0 0 20px rgba(0,0,0,0.1);
+    position: relative;
+    z-index: 1;
+    height: 20px;
+  }
+
+  &__edit {
+    padding: 17px;
+    font-size: 1em;
+    background: $ui-black;
+    color: $ui-white;
+    box-shadow: inset 0px 0 20px rgba(0,0,0, 0.3);
+    position: absolute;
+    top: -100px;
+    transition: all 300ms ease-in-out;
+    width: 100%;
+    z-index: 1;
+
+    &.on {
+      transition: all 300ms ease-in-out;
+      top: 41px;
+      cursor: pointer;
+    }
+  }
+
+  &__edit-button {
+    cursor: pointer;
+    padding: 5px;
+    margin-left: 5px;
+    &:before {
+      cursor: pointer;
+    }
+
+    &:first-of-type {
+      margin-left: 0;
+    }
+    &:last-of-type {
+    }
+
+    &:hover {
+      color: cornflowerblue;
+    }
+
+  }
+
+}
+
+.edit {
+
+  &__modal-wrapper {
+    position: fixed;
+    width: 100vw;
+    height: 100vh;
+    z-index: 1000;
+    left:0;
+    top: 0;
+    display: none;
+
+    &.on {
+      display: block;
+      .edit__modal-bg {
+        display: block;
+      }
+      .edit__modal {
+        display: block;
+      }
+    }
+  }
+
+  &__modal-bg {
+    background: rgba($ui-font-black,0.96);
+    width: 100vw;
+    height: 100vh;
+  }
+  &__modal {
+    background: $ui-white;
+    z-index: 1000;
+    width: 30%;
+    height: 50%;
+    top: 20vh;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    margin: 0 auto;
+    display: none;
+    position: fixed;
+    border: 2px solid $ui-black;
+
+    &-search-results {
+      overflow: scroll;
+      height: 310px;
+      background: $ui-section-bg;
+    }
+
+    &-search-result {
+      padding: 20px;
+      border-top: 1px solid $ui-grey;
+      font-family: 'medium';
+      font-weight: 100;
+      cursor: pointer;
+      background-color: $ui-section-inactive;
+      margin-bottom: 1px;
+
+      * {
+        cursor: pointer;
+      }
+
+      &:hover {
+        background-color: $ui-white;
+      }
+    }
+  }
+
+
+
+}

@@ -1,0 +1,31 @@
+.input--search {
+  outline: none;
+  padding: 10px 50px 10px 60px;
+  width: 100%;
+  font-size: 0.8em;
+  font-family: 'light-italic';
+  border-radius: 50px;
+  border: 1px solid $ui-grey;
+
+  &:focus {
+      background: $ui-white;
+  }
+
+  &__label {
+    width: 100%;
+    display: block;
+    text-align: center;
+    padding: 20px;
+    position: relative;
+  }
+
+  &__icon {
+    position: absolute;
+    font-size: 1.2em;
+    top: 29px;
+    left: 34px;
+    color: #ccc;
+    border-right: 1px solid grey;
+    padding-right: 15px;
+  }
+}

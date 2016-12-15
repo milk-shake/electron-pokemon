@@ -1,82 +1,32 @@
 .pokemon-spotlight {
   float: left;
   color: $ui-font-black;
-  margin: 0 0 0 10px;
+  margin: auto;
+  margin-right: 1px;
+  margin-left: 0;
   overflow-y: scroll;
   overflow-x: visible;
-  height: 467px;
-  border-top-left-radius: 50px;
-  border-bottom-left-radius: 50px;
-      padding: 0 0 0 30px;
-  -webkit-clip-path: inset(0px 0px 0px 0px);
+  // -webkit-clip-path: inset(0px 0px 0px 0px);
   width: 100%;
-
+  height: 90vh;
   &__list {
     display: flex;
   }
 
   &__list-item {
     float: left;
-    margin-right: 9px;
+    margin-right: 1px;
   }
 
   &__item {
-    min-width: 330px;
+    min-width: 260px;
     position: relative;
-    height: 408px;
     overflow: scroll;
     background: $ui-white;
+    height: 82vh;
 
   }
 
-  &__item-header {
-    margin: 0;
-    padding: 10px;
-    font-family: 'medium';
-    font-weight: 100;
-    color: #555;
-    border-top-right-radius: 90px;
-    box-shadow: 0 0 20px rgba(0,0,0,0.1);
-    z-index: 1;
-    position: relative;
-    font-size: 1em;
-    background: #fff;
-    display: block;
-    border-top-left-radius: 90px;
-    text-align: center;
-  }
-
-  &__item-header-close {
-    float: right;
-    position: relative;
-    right: 20px;
-    font-size: 0.6em;
-    background: lightcoral;
-    padding: 5px 6px;
-    border-radius: 30px;
-    line-height: 0;
-    color: $ui-white;
-    cursor: pointer;
-
-    &:before {
-      cursor: pointer;
-    }
-
-    &:hover {
-      background: darken(lightcoral, 5%);
-    }
-  }
-
-  &__item-footer {
-    padding: 10px;
-    background: #fff;
-    display: block;
-    border-bottom-right-radius: 90px;
-    border-bottom-left-radius: 90px;
-    box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
-    position: relative;
-    z-index: 1;
-  }
 
   &__section-header {
     font-family: 'regular';
@@ -84,10 +34,11 @@
     font-size: 0.6em;
     letter-spacing: 2px;
     padding: 15px 20px;
-    border-top: 1px solid $ui-grey;
     background: $ui-font-black;
     color: $ui-white;
     margin: 0;
+    z-index: 10;
+    position: relative;
   }
 
 
@@ -125,7 +76,7 @@
   &__sprite {
     margin: 40px auto;
     display: block;
-    width: 160px;
+    width: 130px;
     background: lightslategray;
     border-radius: 150px;
   }
@@ -256,27 +207,71 @@
   }
 
   &__natures {
-
+    position: relative;
+    overflow: hidden;
   }
 
   &__nature {
     font-family: 'regular';
     padding: 20px;
     font-size: 1em;
+
+    cursor: pointer;
+    * {
+      cursor: pointer;
+    }
+
+    &:hover {
+      background: $ui-section-inactive;
+    }
   }
 
   &__nature-name {
 
   }
 
-  &__characteristics {
+  &__abilities {
+    position: relative;
+    overflow: hidden;
+  }
 
+  &__ability {
+    font-family: 'regular';
+    padding: 20px;
+    font-size: 1em;
+
+    cursor: pointer;
+    * {
+      cursor: pointer;
+    }
+
+    &:hover {
+      background: $ui-section-inactive;
+    }
+  }
+
+  &__ability-name {
+
+  }
+
+  &__characteristics {
+    position: relative;
+    overflow: hidden;
   }
 
   &__characteristic {
     font-family: 'regular';
     padding: 20px;
     font-size: 1em;
+
+    cursor: pointer;
+    * {
+      cursor: pointer;
+    }
+
+    &:hover {
+      background: $ui-section-inactive;
+    }
   }
 
   &__moves {
