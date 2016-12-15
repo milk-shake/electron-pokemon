@@ -3,10 +3,11 @@ import ReactDOM from 'react-dom';
 import { connect } from 'react-redux';
 import { Link } from 'react-router';
 
+import * as TrainerActions from "../actions/trainer.actions";
 
 @connect((store) => {
   return {
-
+    trainer: store.TrainerReducer.trainer
   }
 })
 export default class App extends React.Component {
@@ -14,9 +15,25 @@ export default class App extends React.Component {
     super(props);
   }
 
+  componentDidMount() {
+    this.props.dispatch(TrainerActions.getTrainerById(1));
+  }
+
+  renderChildren() {
+    if(this.props.trainer) {
+      let children = React.Children.map(this.props.children, function (child) {
+          return React.cloneElement(child, {
+            trainer: this.props.trainer
+          })
+      }, this);
+
+      return <div>{children}</div>;
+    }
+
+    return null;
+  }
+
   render() {
-    return <div>
-      {this.props.children}
-    </div>
+    return this.renderChildren()
   }
 }

@@ -1,27 +1,13 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import { connect } from "react-redux";
 
-let assetPath = "./img/sprites/pokemon/";
+
+import PartyPokemonSprite from "./party-pokemon/party-pokemon-sprite.subcomponent";
 
 import * as spotLightActions from "../../actions/spotLight.actions";
 
 
-class PartyPokemonSprite extends React.Component {
-  constructor(props) {
-    super(props);
-  }
 
-  render() {
-    return <img className="party-pokemon__sprite" src={assetPath + this.props.id + ".png"} />
-  }
-}
-
-@connect((store) => {
-  return {
-    pokemon: store.TrainerPokemonReducer.party
-  }
-})
 export default class PartyPokemon extends React.Component {
   constructor(props) {
     super(props);
@@ -29,18 +15,17 @@ export default class PartyPokemon extends React.Component {
 
   render() {
     return <div className="party-pokemon">
-
       <h1 className="party-pokemon__header">Party</h1>
       <div className="party-pokemon__list">
-        {this.props.pokemon.length ? this.props.pokemon.map(function(poke) {
-            return <div onClick={() => this.props.dispatch(spotLightActions.addToSpotlight(poke))} key={poke.attributes.nick_name} className="party-pokemon__item">
-              <PartyPokemonSprite id={poke.attributes.trainerpokemonspecies[0].attributes.species_id} />
-              <h1 className="party-pokemon__name">{poke.attributes.nick_name}</h1>
-              <h2 className="party-pokemon__genus">{poke.attributes.trainerpokemonspecies[0].attributes.species[0].attributes.identifier}</h2>
+        {this.props.pokemon ? this.props.pokemon.map(function(poke) {
+            return <div onClick={() => this.props.handleAddToSpotLight(poke)} key={poke.nick_name} className="party-pokemon__item">
+              <PartyPokemonSprite id={poke.trainer_pokemon_species[0].species_id} />
+              <h1 className="party-pokemon__name">{poke.nick_name}</h1>
+              <h2 className="party-pokemon__genus">{poke.trainer_pokemon_species[0].pokemon_species[0].pokemon_species_names[0].name}</h2>
               <div className="party-pokemon__types">
-                {poke.attributes.trainerpokemonspecies[0].attributes.species[0].attributes.speciestype.map(function(type, index) {
-                  return <span key={index} className={`party-pokemon__type pokemon-types pokemon-types--${type.attributes.type[0].attributes.identifier}`}>
-                    {type.attributes.type[0].attributes.identifier}
+                {poke.trainer_pokemon_species[0].pokemon_species[0].pokemon_types.map(function(type, index) {
+                  return <span key={index} className={`party-pokemon__type pokemon-types pokemon-types--${type.types[0].identifier}`}>
+                    {type.types[0].type_names[0].name}
                   </span>
                 })}
               </div>

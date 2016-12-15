@@ -1,9 +1,5 @@
 export default function TrainerReducer(state = {
-  trainer: {
-    name: null,
-    id: null,
-    genderId: null
-  }
+  trainer: null
 }, action)
 {
   switch(action.type) {

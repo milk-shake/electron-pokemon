@@ -5,81 +5,64 @@ import SpeciesType from "../models/speciesType.model";
 import CharacteristicText from "../models/characteristicText.model";
 
 export function addToSpotlight(pokemon) {
-  return function(dispatch) {
-    TrainerPokemon.where('id', '=', pokemon.attributes.id)
-    .with('trainerPokemonMoves', {with: ['moves']})
-    .with('species', {with: ['species']})
-    .with('natures', {with: ['natures']})
-    .with('characteristics', {with: ['characteristics']})
+  return function(dispatch, getState) {
+    const trainer = getState().TrainerReducer.trainer;
+    TrainerPokemon.where('id', '=', pokemon.id)
+    .with('trainerPokemonMoves', function(tpmove) {
+      tpmove.with('moves', function(move) {
+        move.with('names', function(name) {
+          name.andWhere('local_language_id', '=', trainer.local_language_id);
+        })
+        .with('types', function(type) {
+          type.with('names', function(name) {
+            name.andWhere('local_language_id', '=', trainer.local_language_id);
+          });
+        });
+      });
+    })
+    .with('species', function(tpspecies) {
+      tpspecies.with('species', function(species) {
+        species.with('names', function(name) {
+          name.andWhere('local_language_id', '=', trainer.local_language_id);
+        })
+        .with('types', function(speciesType) {
+          speciesType.with('types', function(type) {
+            type.with('names', function(name) {
+              name.andWhere('local_language_id', '=', trainer.local_language_id);
+            })
+          });
+        });
+      });
+    })
+    .with('natures', function(tpnature) {
+      tpnature.with('natures', function(nature) {
+        nature.with('names', function(name) {
+          name.andWhere('local_language_id', '=', trainer.local_language_id);
+        });
+      });
+    })
+    .with('characteristics', function(tpchar) {
+      tpchar.with('characteristics', function(char) {
+        char.with('text', function(text) {
+          let langId = 9;
+          //characteristic text is only 9 and 5 (french and english)
+          switch(trainer.local_language_id) {
+            case 5: {
+              langId = 5;
+              break;
+            }
+            default: {
+              langId = 9;
+            }
+          }
+          text.andWhere('local_language_id', '=', langId);
+        })
+      })
+    })
+    .asAttributes()
     .get()
     .then(function(results) {
-      if(results.length) {
-
-        let promises = [];
-        promises.push(SpeciesType.where('pokemon_id', '=', results[0].attributes.trainerpokemonspecies[0].attributes.species_id).with('types').get());
-
-        if(results[0].attributes.trainerpokemonmove) {
-          results[0].attributes.trainerpokemonmove.forEach(function(tpMove) {
-            promises.push(MoveName.where('move_id', '=', tpMove.attributes.move_id).andWhere('local_language_id', '=', 9).get());
-            promises.push(Type.where('id', '=', tpMove.attributes.move[0].attributes.type_id).with('names').get());
-          });
-        }
-
-        if(results[0].attributes.trainerpokemoncharacteristic) {
-          results[0].attributes.trainerpokemoncharacteristic.forEach(function(tpChar) {
-            console.log(tpChar);
-            promises.push(CharacteristicText
-              .where('characteristic_id', '=', tpChar.attributes.characteristic_id)
-              .andWhere('local_language_id', '=', 9)
-              .get()
-            )
-          })
-        }
-
-        Promise.all(promises).then(function(promiseResults) {
-
-
-          promiseResults.forEach(function(promiseResult) {
-
-            promiseResult.forEach(function(presult) {
-              if(presult instanceof SpeciesType) {
-                  if(presult.attributes.pokemon_id == results[0].attributes.trainerpokemonspecies[0].attributes.species_id) {
-                    results[0].attributes.trainerpokemonspecies[0].attributes.species[0].attributes.speciestype = results[0].attributes.trainerpokemonspecies[0].attributes.species[0].attributes.speciestype || [];
-                    results[0].attributes.trainerpokemonspecies[0].attributes.species[0].attributes.speciestype.push(presult);
-                  }
-              }
-
-              if(presult instanceof CharacteristicText) {
-                if(presult.attributes.characterstic_id == results[0].attributes.trainerpokemoncharacteristic[0].attributes.characterstic_id) {
-                  results[0].attributes.trainerpokemoncharacteristic[0].attributes.characteristic[0].attributes.characteristictext = results[0].attributes.trainerpokemoncharacteristic[0].attributes.characteristic[0].attributes.characteristictext || [];
-                  results[0].attributes.trainerpokemoncharacteristic[0].attributes.characteristic[0].attributes.characteristictext.push(presult);
-                }
-              }
-
-              if(results[0].attributes.trainerpokemonmove) {
-                results[0].attributes.trainerpokemonmove.forEach(function(tpMove) {
-                  if(presult instanceof Type) {
-                    if(tpMove.attributes.move[0].attributes.type_id === presult.attributes.id) {
-                      tpMove.attributes.move[0].attributes.movetype = [];
-                      tpMove.attributes.move[0].attributes.movetype.push(presult);
-                    }
-                  }
-                  if(presult instanceof MoveName) {
-                    if(tpMove.attributes.move[0].attributes.id === presult.attributes.move_id) {
-                      tpMove.attributes.move[0].attributes.movename = [];
-                      tpMove.attributes.move[0].attributes.movename.push(presult);
-                    }
-                  }
-                });
-              }
-            });
-          });
-
-          dispatch({type: "POKEMONSPOTLIGHT_ADDED", payload: results[0]});
-
-
-        });
-      }
+      dispatch({type: "POKEMONSPOTLIGHT_ADDED", payload: results[0]});
     });
   }
 }

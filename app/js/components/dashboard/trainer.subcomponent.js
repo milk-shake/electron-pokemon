@@ -1,13 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import { connect } from "react-redux";
 import { Link } from 'react-router';
 
-@connect((store) => {
-  return {
-    trainer: store.TrainerReducer.trainer
-  }
-})
 export default class Trainer extends React.Component {
   constructor(props) {
     super(props);

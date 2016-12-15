@@ -1,11 +1,11 @@
-import TrainerController from "../controllers/trainer.controller";
+import Trainer from "../models/trainer.model";
 
 export function getTrainerById(id) {
 
   return function(dispatch) {
-    TrainerController.getById(id)
-    .then(function(trainer) {
-      dispatch({type: "TRAINER_FULFILLED", payload: trainer});
+    Trainer.find(id).asAttributes().get()
+    .then(function(result) {
+      dispatch({type: "TRAINER_FULFILLED", payload: result[0]});
     });
   }
 

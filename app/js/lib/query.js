@@ -5,274 +5,137 @@ const dbName = 'pokemon';
 const filebuffer = fs.readFileSync(dbName + '.sqlite');
 const db = new SQL.Database(filebuffer);
 
+
 export default class Query {
-
   constructor() {
-    let _table = null;
-    let _wheres = [];
-    let _joins = [];
-    let _binds = [];
-    let _subWiths = [];
-    let _outputToLog = false;
-    let _relations = [];
-
-    Object.defineProperty(this, 'table', {
-      enumerable: false,
-      get() {
-        return _table;
-      },
-      set(value) {
-        _table = value;
-      }
-    });
-
-    Object.defineProperty(this, 'wheres', {
-      enumerable: false,
-      get() {
-        return _wheres;
-      }
-    });
-
-    Object.defineProperty(this, 'joins', {
-      enumerable: false,
-      get() {
-        return _joins;
-      }
-    });
-
-    Object.defineProperty(this, 'binds', {
-      enumerable: false,
-      get() {
-        return _binds;
-      }
-    });
-
-    Object.defineProperty(this, 'outputToLog', {
-      enumerable: true,
-      get() {
-        return _outputToLog;
-      },
-      set(value = false) {
-        _outputToLog = !!value;
-      }
-    });
-
-    Object.defineProperty(this, 'relations', {
-      enumerable: true,
-      get() {
-        return _relations;
-      }
-    });
-
-    Object.defineProperty(this, 'subWiths', {
-      enumerable: true,
-      get() {
-        return _subWiths;
-      }
-    })
 
   }
 
-  setTable(table = null) {
-    this.table = table;
-  }
-
-  addSubWith(subWith = {
-    model: null,
-    with: null
-  }) {
-    let currentSubwiths = this.subWiths;
-    currentSubwiths.push(subWith);
-  }
-
-  addWhere(where = null) {
-    let currentWheres = this.wheres;
-    this.wheres.push(where);
-  }
-
-  addJoin(join = null) {
-    let currentJoins = this.joins;
-    this.joins.push(join);
-  }
-
-  addRelation(relation = {
-    model: null,
-    join: null,
-    on: null
-  }) {
-    let currentRelations = this.relations;
-    this.relations.push(relation);
-  }
-
-  addBind(bind = null) {
-    let currentBinds = this.binds;
-    this.binds.push(bind);
-  }
-
-  where(clause = {
-    column: null,
-    predicate: null,
-    value: null,
-    operator: null
-  }) {
-    if(!clause.column)     { throw new Error('Query.select: No column')};
-    if(!clause.predicate)  { throw new Error('Query.select: No predicate')};
-    if(!clause.value)      { throw new Error('Query.select: No value')};
-
-
-    let createdClause = "";
+  static buildWhere(table, clause, index = 0, binds = null) {
+    let query = '';
 
     if(clause.operator) {
-      createdClause += `${clause.operator} ${this.table}.${clause.column} ${clause.predicate} :${clause.column + this.binds.length}`;
+      query += ` ${clause.operator}`;
     }
     else {
-      createdClause += `WHERE ${this.table}.${clause.column} ${clause.predicate} :${clause.column + this.binds.length}`;
+      query += ` WHERE`;
     }
 
-    this.addWhere(createdClause);
+    let bind = `:${table}_${clause.column}_${index}`;
+    binds[":" + table + "_" + clause.column + "_" + index] = clause.value;
 
-    let bind = {};
-    bind[":"+ clause.column + this.binds.length] = clause.value;
+    query += ` ${table}.${clause.column} ${clause.predicate} ${bind}`;
 
-    this.addBind(bind);
-
+    return query;
   }
 
-  join(clause = {
-    table: null,
-    join: null,
-    on: null
-  }) {
-    if(!clause.table)     { throw new Error('Query.join: No table')};
-    if(!clause.join)  { throw new Error('Query.join: No join')};
-    if(!clause.on)      { throw new Error('Query.join: No on')};
+  static buildWhereBetween(table, clause, index = 0, binds = null) {
+    let query = '';
 
-    let createdClause = "";
+    console.log(clause.operator);
 
-    createdClause += `LEFT JOIN ${clause.table} ON ${clause.table}.${clause.on} = ${this.table}.${clause.join}`;
+    if(clause.operator) {
+      query += ` ${clause.operator}`;
+    }
+    else {
+      query += ` WHERE`;
+    }
 
-    this.joins.push(createdClause);
+    let bindStart = `:${table}_${clause.column}_start_${index}`;
+    let bindEnd = `:${table}_${clause.column}_end_${index}`;
 
+    binds[":" + table + "_" + clause.column + "_start_" + index] = clause.start;
+    binds[":" + table + "_" + clause.column + "_end_" + index] = clause.end;
 
+    query += ` ${table}.${clause.column} BETWEEN ${bindStart} AND ${bindEnd}`;
+
+    return query;
   }
 
-  insert(attributes) {
-    let self = this;
-    return new Promise(function(resolve, reject) {
-      let clause = `INSERT INTO ${self.table}`;
-      let columnNames = [];
-      let columnValues = [];
-      let binds = {};
-
-      for(var att in attributes) {
-        columnNames.push(att);
-        columnValues.push(attributes[att]);
-        binds[":" + att] = attributes[att];
-      }
-
-      clause += `(` + columnNames.join(', ') + `)`;
-      clause += ` VALUES (:${columnNames.join(', :')})`;
-
-
-      let stmt = db.prepare(clause);
-      stmt.getAsObject(binds);
-
-      stmt.free();
-
-      let data = db.export();
-      let buffer = new Buffer(data);
-      fs.writeFileSync(dbName + '.sqlite', buffer);
-
-
-
-      resolve();
-
-
+  static buildSelect(table = null, columns = [], hidden = [], ) {
+    return columns.filter(function(column) {
+      return !hidden.includes(column);
+    })
+    .map(function(column) {
+      return `${table}.'${column}' AS "${table}.${column}"`;
     });
   }
 
-  select() {
-    let self = this;
+  static select(options = {
+    table: null,
+    columns: [],
+    wheres: [],
+    joins: [],
+    hidden: [],
+    limit: null,
+    offset: null
+  }) {
     return new Promise(function(resolve, reject) {
+      if(!options.table) { throw new Error('Query.where: no table name')};
+
+
+      //BUILD SELECT
+
+      let rootSelect = Query.buildSelect(options.table, options.columns, options.hidden);
+
+      let query = `SELECT`;
+      query += ` ${rootSelect} `;
+      query += ` FROM ${options.table}`;
+
+      //WHERE BUILD
+      let binds = {};
+      options.wheres.forEach(function(clause, index) {
+        switch(clause.type) {
+          case "WHERE": {
+            query += Query.buildWhere(options.table, clause, index, binds);
+            break;
+          }
+          case "BETWEEN": {
+            query += Query.buildWhereBetween(options.table, clause, index, binds);
+            break;
+          }
+          default: {
+            break;
+          }
+        }
+
+      });
+
+      if(options.limit) {
+        query += ` LIMIT ${options.limit}`;
+      }
+
+      if(options.offset) {
+        query += ` OFFSET ${options.offset}`;
+      }
+
+      // console.log(query);
+      // console.log(binds);
+
+      //DATABASE EXECUTION
+      let stmt = db.prepare(query);
+      stmt.bind(binds);
 
       let results = [];
 
-      let clause = `SELECT * from ${self.table}`;
-
-      self.joins.forEach(function(join) {
-        clause += " " + join;
-      });
-
-      self.wheres.forEach(function(where) {
-        clause += " " + where;
-      });
-
-      let stmt = db.prepare(clause);
-
-      let binds = {};
-      self.binds.forEach(function(bind) {
-        binds[Object.keys(bind)[0]] = bind[Object.keys(bind)[0]];
-      });
-
-      stmt.bind(binds);
-
-      let relationPromises = [];
-
       while(stmt.step()) {
         var row = stmt.getAsObject();
-        if(self.relations.length) {
-          self.relations.forEach(function(relation) {
-            let query = relation.model.where(relation.join, "=", row[relation.on]);
-            if(self.subWiths.length) {
-              self.subWiths.forEach(function(subwith) {
-                if(relation.model == subwith.model) {
-                  query.with(subwith.with);
-                }
-              });
-            }
-            relationPromises.push(query.get());
-          });
-        }
         results.push(row);
       }
 
-      if(relationPromises.length) {
-        Promise.all(relationPromises).then(function(promiseResults) {
-          let index = 0;
-          let count = 0;
-          promiseResults.forEach(function(result) {
-            if(count === self.relations.length) {
-              count = 0;
-              index = index + 1;
-            }
-            result.forEach(function(subresult) {
-              results[index][subresult.constructor.name.toLowerCase()] = results[index][subresult.constructor.name.toLowerCase()] || [];
-              results[index][subresult.constructor.name.toLowerCase()].push(subresult);
-            });
+      resolve(results);
 
-            count++;
-
-          });
-          stmt.free();
-          if(self.outputToLog) {
-            console.log("Query.select", clause, binds);
-          }
-          resolve(results);
-        });
-      }
-      else {
-        stmt.free();
-        if(self.outputToLog) {
-          console.log("Query.select", clause, binds);
-        }
-        resolve(results);
-      }
     });
   }
 
-  logOutput() {
-    this.outputToLog = true;
+  static raw(sql = null) {
+    return new Promise(function(resolve, reject) {
+      let results = db.exec(sql);
+      resolve(results);
+    });
   }
 
-
+  static rawSync(sql = null) {
+    return db.exec(sql);
+  }
 }

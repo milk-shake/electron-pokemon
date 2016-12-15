@@ -14,7 +14,7 @@ export default class Move extends Model {
   }
 
   names() {
-    return this.has(Move, 'move_id', 'id');
+    return this.has(MoveName, 'move_id', 'id');
   }
 
   types() {

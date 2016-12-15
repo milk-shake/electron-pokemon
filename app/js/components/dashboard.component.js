@@ -2,18 +2,20 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import { connect } from "react-redux";
 
-import * as TrainerActions from "../actions/trainer.actions";
-import * as TrainerPokemonActions from "../actions/trainerPokemon.actions";
+import * as PartyPokemonActions from "../actions/partyPokemon.actions";
+import * as BoxPokemonActions from "../actions/boxPokemon.actions";
+import * as spotLightActions from "../actions/spotLight.actions";
 
 import Trainer from "./dashboard/trainer.subcomponent";
 import PartyPokemon from "./dashboard/party-pokemon.subcomponent";
 import Boxes from "./dashboard/boxes.subcomponent";
 import PokemonSpotlight from "./dashboard/pokemon-spotlight.subcomponent";
 
+
 @connect((store) => {
   return {
-    trainer: store.TrainerReducer.trainer,
-    trainerPokemon: store.TrainerPokemonReducer.party,
+    partyPokemon: store.PartyPokemonReducer.pokemon,
+    boxPokemon: store.BoxPokemonReducer,
     pokemonSpotlight: store.SpotLightReducer.pokemon
   }
 })
@@ -22,21 +24,38 @@ export default class Dashboard extends React.Component {
     super(props);
   }
 
+  handleAddToSpotLight(pokemon) {
+    this.props.dispatch(spotLightActions.addToSpotlight(pokemon));
+  }
+
+  handleRemoveFromSpotLight(pokemon) {
+    this.props.dispatch(spotLightActions.removeFromSpotlight(pokemon));
+  }
+
   componentDidMount() {
-    this.props.dispatch(TrainerActions.getTrainerById(1));
-    this.props.dispatch(TrainerPokemonActions.getPartyPokemonForTrainerId(1));
-    this.props.dispatch(TrainerPokemonActions.getBoxPokemonForBoxId(1, 1));
+    this.props.dispatch(PartyPokemonActions.getPartyPokemon());
+    this.props.dispatch(BoxPokemonActions.getBoxPokemonForBoxId(1));
   }
 
   render() {
-
     return <div className="dashboard">
-      <Trainer />
+      <Trainer
+        trainer={this.props.trainer}
+      />
       <div className="dashboard__widgets">
-        <PartyPokemon />
-        <PokemonSpotlight />
+        <PartyPokemon
+          pokemon={this.props.partyPokemon}
+          handleAddToSpotLight={this.handleAddToSpotLight.bind(this)}
+        />
+        <PokemonSpotlight
+          pokemon={this.props.pokemonSpotlight}
+          handleRemoveFromSpotLight={this.handleRemoveFromSpotLight.bind(this)}
+        />
       </div>
-      <Boxes />
+      <Boxes
+        boxes={this.props.boxPokemon}
+        handleAddToSpotLight={this.handleAddToSpotLight.bind(this)}
+      />
     </div>
   }
 }
