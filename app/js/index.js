@@ -32,6 +32,8 @@ import Move from "./components/move.component";
 //
 // runSeeders();
 //TODO move trainer pokemon stuff into its own database for easier migration/updating
+//TODO start using componentDidUpdate for stuff.
+
 const history = syncHistoryWithStore(hashHistory, store)
 
 
