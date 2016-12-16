@@ -28,6 +28,10 @@ import MoveList from "./components/moveList.component";
 import Move from "./components/move.component";
 
 
+import {runMigrations} from "./migrations";
+
+runMigrations();
+
 // import {runSeeders} from "./seeders";
 //
 // runSeeders();
@@ -37,38 +41,38 @@ import Move from "./components/move.component";
 const history = syncHistoryWithStore(hashHistory, store)
 
 
-ReactDOM.render(
-  <Provider store={store}>
-    <Router history={history}>
-    <Route path="/" component={App}>
-      <IndexRoute component={Dashboard} />
-      <Route path="/trainerpokemonlist" component={TrainerPokemonList}>
-        <Route path="/trainerPokemon/add" component={TrainerPokemon}/>
-        <Route path="/trainerPokemon/:id" component={TrainerPokemon}/>
-      </Route>
-      <Route path="/pokemonlist" component={PokemonList}>
-        <Route path="pokemon/:id" component={Pokemon}/>
-      </Route>
-      <Route path="/itemlist" component={ItemList}>
-        <Route path="item/:id" component={Item}/>
-      </Route>
-      <Route path="/boxlist" component={BoxList}>
-        <Route path="box/:id" component={Box}/>
-      </Route>
-      <Route path="/movelist" component={MoveList}>
-        <Route path="move/:id" component={Move}/>
-      </Route>
-      <Route path="/abilitylist" component={AbilityList}>
-        <Route path="ability/:id" component={Ability}/>
-      </Route>
-      <Route path="/characteristiclist" component={CharacteristicList}>
-        <Route path="characteristic/:id" component={Characteristic}/>
-      </Route>
-      <Route path="/naturelist" component={NatureList}>
-        <Route path="nature/:id" component={Nature}/>
-      </Route>
-    </Route>
-  </Router>
-  </Provider>,
-  document.getElementById('app')
-);
+// ReactDOM.render(
+//   <Provider store={store}>
+//     <Router history={history}>
+//     <Route path="/" component={App}>
+//       <IndexRoute component={Dashboard} />
+//       <Route path="/trainerpokemonlist" component={TrainerPokemonList}>
+//         <Route path="/trainerPokemon/add" component={TrainerPokemon}/>
+//         <Route path="/trainerPokemon/:id" component={TrainerPokemon}/>
+//       </Route>
+//       <Route path="/pokemonlist" component={PokemonList}>
+//         <Route path="pokemon/:id" component={Pokemon}/>
+//       </Route>
+//       <Route path="/itemlist" component={ItemList}>
+//         <Route path="item/:id" component={Item}/>
+//       </Route>
+//       <Route path="/boxlist" component={BoxList}>
+//         <Route path="box/:id" component={Box}/>
+//       </Route>
+//       <Route path="/movelist" component={MoveList}>
+//         <Route path="move/:id" component={Move}/>
+//       </Route>
+//       <Route path="/abilitylist" component={AbilityList}>
+//         <Route path="ability/:id" component={Ability}/>
+//       </Route>
+//       <Route path="/characteristiclist" component={CharacteristicList}>
+//         <Route path="characteristic/:id" component={Characteristic}/>
+//       </Route>
+//       <Route path="/naturelist" component={NatureList}>
+//         <Route path="nature/:id" component={Nature}/>
+//       </Route>
+//     </Route>
+//   </Router>
+//   </Provider>,
+//   document.getElementById('app')
+// );
