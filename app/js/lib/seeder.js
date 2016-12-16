@@ -2,8 +2,10 @@ import { Schema } from "./schema";
 
 export default class Seeder {
 
-  constructor() {
-    this.schema = Schema;
+  constructor(options = {
+    database: null
+  }) {
+    this.schema = new Schema(options);
   }
 
 }

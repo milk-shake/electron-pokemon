@@ -68,11 +68,11 @@ export default class ItemAbility extends React.Component {
   }
 
   renderAbility() {
-    if(this.props.ability && this.props.ability.length) {
+    if(this.props.ability) {
       return (
         <div>
           <div className="pokemon-spotlight__ability" onClick={this.toggleEditPane.bind(this)}>
-            <span className="pokemon-spotlight__ability-name">{this.props.ability[0].abilities[0].ability_names[0].name}</span>
+            <span className="pokemon-spotlight__ability-name">{this.props.ability.ability_names[0].name}</span>
           </div>
           <div className={'pane__edit' + ((this.state.edit) ? ' on' : '')} onClick={this.toggleEditPane.bind(this)}>
             <span className="pane__edit-button ion ion-edit" onClick={this.showEditModal.bind(this)}></span>

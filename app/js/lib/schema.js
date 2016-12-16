@@ -1,9 +1,4 @@
-const SQL = require('sql.js');
-const fs = require('fs');
-
-// const dbName = 'trainer_pokemon';
-// const filebuffer = fs.readFileSync(dbName + '.sqlite');
-// const db = new SQL.Database(filebuffer);
+import Database from "../databases";
 
 export class Schema {
 
@@ -31,17 +26,6 @@ export class Schema {
     });
 
     _databaseName = (options.database) ? options.database : _date;
-
-    try {
-      _fileBuffer = fs.readFileSync(_databaseName + '.sqlite');
-      _sql = new SQL.Database(_fileBuffer);
-    }
-    catch(e) {
-      if(e.code === 'ENOENT') {
-        console.warn('Schema: Database file not found, creating in memory database that will be written to file name: ' + this.databaseName);
-      }
-      _sql = new SQL.Database();
-    }
   }
 
   insert(tableName, values) {
@@ -62,13 +46,13 @@ export class Schema {
         binds[":" + val] = value[val];
       }
 
-      let stmt = this.sql.prepare(clause);
+      let stmt = Database[this.databaseName].database.prepare(clause);
       stmt.getAsObject(binds);
 
       stmt.free();
     }, this);
 
-    let data = this.sql.export();
+    let data = Database[this.databaseName].database.export();
     let buffer = new Buffer(data);
     fs.writeFileSync(this.databaseName + '.sqlite', buffer);
 
@@ -91,7 +75,7 @@ export class Schema {
 
     this.sql.exec(statement);
 
-    let data = this.sql.export();
+    let data = Database[this.databaseName].database.export();
     let buffer = new Buffer(data);
     fs.writeFileSync(this.databaseName + ".sqlite", buffer);
 
@@ -114,7 +98,7 @@ export class Schema {
 
     this.sql.exec(statement);
 
-    let data = this.sql.export();
+    let data = Database[this.databaseName].database.export();
 
     let buffer = new Buffer(data);
     fs.writeFileSync(this.databaseName + ".sqlite", buffer);
@@ -122,7 +106,7 @@ export class Schema {
 
   drop(tableName) {
     this.sql.exec(`DROP TABLE ${tableName}`);
-    let data = this.sql.export();
+    let data = Database[this.databaseName].database.export();
 
     let buffer = new Buffer(data);
     fs.writeFileSync(this.databaseName + ".sqlite", buffer);
@@ -130,7 +114,7 @@ export class Schema {
 
   dropIfExists(tableName) {
     this.sql.exec(`DROP TABLE IF EXISTS ${tableName}`);
-    let data = this.sql.export();
+    let data = Database[this.databaseName].database.export();
 
     let buffer = new Buffer(data);
     fs.writeFileSync(this.databaseName + ".sqlite", buffer);

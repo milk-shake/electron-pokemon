@@ -6,9 +6,7 @@ export function getBoxPokemonForBoxId(boxId) {
       const trainer = getState().TrainerReducer.trainer;
       TrainerPokemon.where('trainer_id', '=', trainer.id)
       .andWhere('box_id', '=', boxId)
-      .with('species', (tpSpecies) => {
-        tpSpecies.with('species');
-      })
+      .with('species')
       .asAttributes()
       .get()
       .then((results) => {

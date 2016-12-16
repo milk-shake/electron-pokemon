@@ -67,11 +67,11 @@ export default class ItemNature extends React.Component {
   }
 
   renderNature() {
-    if(this.props.nature && this.props.nature.length) {
+    if(this.props.nature) {
       return (
         <div>
           <div className="pokemon-spotlight__nature" onClick={this.toggleEditPane.bind(this)}>
-            <span className="pokemon-spotlight__nature-name">{this.props.nature[0].natures[0].nature_names[0].name}</span>
+            <span className="pokemon-spotlight__nature-name">{this.props.nature.nature_names[0].name}</span>
           </div>
           <div className={'pane__edit' + ((this.state.edit) ? ' on' : '')} onClick={this.toggleEditPane.bind(this)}>
             <span className="pane__edit-button ion ion-edit" onClick={this.showEditModal.bind(this)}></span>

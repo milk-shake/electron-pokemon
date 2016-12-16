@@ -5,6 +5,7 @@ export default class MoveName extends Model {
   constructor(options = {
     fillable: [],
     hidden: [],
+    database: 'pokemon'
   }) {
 
     super(options);

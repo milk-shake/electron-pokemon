@@ -9,6 +9,7 @@ export default class AbilityFlavorText extends Model {
   constructor(options = {
     fillable: [],
     hidden: [],
+    database: 'pokemon'
   }) {
 
     super(options);

@@ -11,65 +11,57 @@ export function addToSpotlight(pokemon) {
     .with('trainerPokemonMoves', (tpMove) => {
       tpMove.with('moves', (move) => {
         move.with('names', (name) => {
-          name.andWhere('local_language_id', '=', trainer.local_language_id);
+          name.andWhere('local_language_id', '=', trainer.language_id);
         })
         .with('types', (type) => {
           type.with('names', (name) => {
-            name.andWhere('local_language_id', '=', trainer.local_language_id);
+            name.andWhere('local_language_id', '=', trainer.language_id);
           });
         });
       });
     })
-    .with('species', (tpSpecies) => {
-      tpSpecies.with('species', (species) => {
-        species.with('names', (name) => {
-          name.andWhere('local_language_id', '=', trainer.local_language_id);
-        })
-        .with('types', (speciesType) => {
-          speciesType.with('types', (type) => {
-            type.with('names', (name) => {
-              name.andWhere('local_language_id', '=', trainer.local_language_id);
-            })
+    .with('species', (species) => {
+      species.with('types', (speciesType) => {
+        speciesType.with('types', (type) => {
+          type.with('names', (name) => {
+              name.andWhere('local_language_id', '=', trainer.language_id);
           });
         });
       });
-    })
-    .with('natures', (tpNature) => {
-      tpNature.with('natures', (nature) => {
-        nature.with('names', (name) => {
-          name.andWhere('local_language_id', '=', trainer.local_language_id);
-        });
+      species.with('names', (names) => {
+        names.andWhere('local_language_id', "=", trainer.language_id);
       });
     })
-    .with('characteristics', (tpChar) => {
-      tpChar.with('characteristics', (char) => {
-        char.with('text', (text) => {
-          let langId = 9;
-          //characteristic text is only 9 and 5 (french and english)
-          switch(trainer.local_language_id) {
-            case 5: {
-              langId = 5;
-              break;
-            }
-            default: {
-              langId = 9;
-            }
+    .with('natures', (nature) => {
+      nature.with('names', (name) => {
+        name.andWhere('local_language_id', '=', trainer.language_id);
+      });
+    })
+    .with('characteristics', (char) => {
+      char.with('text', (text) => {
+        let langId = 9;
+        //characteristic text is only 9 and 5 (french and english)
+        switch(trainer.local_language_id) {
+          case 5: {
+            langId = 5;
+            break;
           }
-          text.andWhere('local_language_id', '=', langId);
-        })
+          default: {
+            langId = 9;
+          }
+        }
+        text.andWhere('local_language_id', '=', langId);
       })
     })
-    .with('abilities', (tpAbility) => {
-      tpAbility.with('abilities', (ability) => {
-        ability.with('flavors', (flavor) => {
-          flavor.andWhere('language_id', '=', trainer.local_language_id);
-        })
-        .with('names', (name) => {
-          name.andWhere('local_language_id', '=', trainer.local_language_id);
-        })
-        .with('prose', (prose) => {
-          prose.andWhere('local_language_id', '=', trainer.local_language_id);
-        });
+    .with('abilities', (ability) => {
+      ability.with('flavors', (flavor) => {
+        flavor.andWhere('language_id', '=', trainer.language_id);
+      })
+      .with('names', (name) => {
+        name.andWhere('local_language_id', '=', trainer.language_id);
+      })
+      .with('prose', (prose) => {
+        prose.andWhere('local_language_id', '=', trainer.language_id);
       });
     })
     .asAttributes()

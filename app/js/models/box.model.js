@@ -5,6 +5,7 @@ export default class Box extends Model {
   constructor(options = {
     fillable: [],
     hidden: [],
+    database: 'trainer_pokemon'
   }) {
 
     super(options);
@@ -12,4 +13,4 @@ export default class Box extends Model {
 
 }
 
-Box.prototype.table = 'boxes';
+Box.prototype.table = 'trainer_pokemon_boxes';

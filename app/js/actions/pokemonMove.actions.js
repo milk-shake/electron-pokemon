@@ -6,7 +6,7 @@ export function getAllMovesForPokemonId(id) {
     PokemonMove.where('pokemon_id', '=', id)
     .with('moves', (move) => {
       move.with('names', (name) => {
-        name.andWhere('language_id', '=', trainer.local_language_id);
+        name.andWhere('language_id', '=', trainer.language_id);
       })
       .with('types');
     })

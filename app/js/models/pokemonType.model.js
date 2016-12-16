@@ -6,6 +6,7 @@ export default class PokemonType extends Model {
   constructor(options = {
     fillable: [],
     hidden: [],
+    database: 'pokemon'
   }) {
 
     super(options);

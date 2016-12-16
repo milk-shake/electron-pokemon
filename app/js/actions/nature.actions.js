@@ -5,7 +5,7 @@ export function getAllNatures() {
     const trainer = getState().TrainerReducer.trainer;
     Nature.where('id', '>', 0)
     .with('names', (name) => {
-      name.andWhere('local_language_id', '=', trainer.local_language_id);
+      name.andWhere('local_language_id', '=', trainer.language_id);
     })
     .asAttributes()
     .get()

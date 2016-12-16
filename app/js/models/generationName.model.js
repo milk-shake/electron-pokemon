@@ -8,6 +8,7 @@ export default class GenerationName extends Model {
   constructor(options = {
     fillable: [],
     hidden: [],
+    database: 'pokemon'
   }) {
 
     super(options);

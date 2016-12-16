@@ -68,11 +68,11 @@ export default class Characteristic extends React.Component {
   }
 
   renderCharacteristic() {
-    if(this.props.characteristic && this.props.characteristic.length) {
+    if(this.props.characteristic) {
       return (
         <div>
           <div className="pokemon-spotlight__characteristic" onClick={this.toggleEditPane.bind(this)}>
-            <span className="pokemon-spotlight__characteristic-name">{this.props.characteristic[0].characteristics[0].characteristic_text[0].message}</span>
+            <span className="pokemon-spotlight__characteristic-name">{this.props.characteristic.characteristic_text[0].message}</span>
           </div>
           <div className={'pane__edit' + ((this.state.edit) ? ' on' : '')} onClick={this.toggleEditPane.bind(this)}>
             <span className="pane__edit-button ion ion-edit" onClick={this.showEditModal.bind(this)}></span>

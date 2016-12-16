@@ -1,10 +1,4 @@
-const SQL = require('sql.js');
-const fs = require('fs');
-
-const dbName = 'pokemon';
-const filebuffer = fs.readFileSync(dbName + '.sqlite');
-const db = new SQL.Database(filebuffer);
-
+import Databases from "../databases";
 
 export default class Query {
   constructor() {
@@ -32,8 +26,6 @@ export default class Query {
   static buildWhereBetween(table, clause, index = 0, binds = null) {
     let query = '';
 
-    console.log(clause.operator);
-
     if(clause.operator) {
       query += ` ${clause.operator}`;
     }
@@ -53,15 +45,22 @@ export default class Query {
   }
 
   static buildSelect(table = null, columns = [], hidden = [], ) {
-    return columns.filter(function(column) {
-      return !hidden.includes(column);
-    })
-    .map(function(column) {
-      return `${table}.'${column}' AS "${table}.${column}"`;
-    });
+    if(typeof columns !== "string") {
+      return columns.filter(function(column) {
+        return !hidden.includes(column);
+      })
+      .map(function(column) {
+        return `${table}.'${column}' AS "${table}.${column}"`;
+      });
+    }
+    else {
+      return columns;
+    }
+
   }
 
   static select(options = {
+    database: null,
     table: null,
     columns: [],
     wheres: [],
@@ -110,11 +109,17 @@ export default class Query {
       }
 
       // console.log(query);
-      // console.log(binds);
 
       //DATABASE EXECUTION
-      let stmt = db.prepare(query);
-      stmt.bind(binds);
+      let stmt = Databases[options.database].database.prepare(query);
+      try {
+        stmt.bind(binds);
+      }
+      catch(e) {
+        // console.log(query);
+        console.log(e);
+      }
+
 
       let results = [];
 
@@ -128,14 +133,20 @@ export default class Query {
     });
   }
 
-  static raw(sql = null) {
+  static raw(db, sql = null) {
     return new Promise(function(resolve, reject) {
-      let results = db.exec(sql);
+      let results = Databases[db].database.exec(sql);
       resolve(results);
     });
   }
 
-  static rawSync(sql = null) {
-    return db.exec(sql);
+  static rawSync(db, sql = null) {
+    return Databases[db].database.exec(sql);
+  }
+
+  static getColumnNames(db, table) {
+    var stmt = Databases[db].database.prepare(`SELECT * FROM ${table}`);
+    stmt.step()
+    return stmt.getColumnNames();
   }
 }

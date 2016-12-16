@@ -6,6 +6,7 @@ export default class PokemonMoveMethod extends Model {
   constructor(options = {
     fillable: [],
     hidden: [],
+    database: 'pokemon'
   }) {
 
     super(options);

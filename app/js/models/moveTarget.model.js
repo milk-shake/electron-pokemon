@@ -7,6 +7,7 @@ export default class MoveTarget extends Model {
   constructor(options = {
     fillable: [],
     hidden: [],
+    database: 'pokemon'
   }) {
 
     super(options);

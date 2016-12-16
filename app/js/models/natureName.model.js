@@ -5,6 +5,7 @@ export default class NatureName extends Model {
   constructor(options = {
     fillable: [],
     hidden: [],
+    database: 'pokemon'
   }) {
 
     super(options);

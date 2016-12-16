@@ -5,7 +5,7 @@ export function getAllCharacteristics() {
     const trainer = getState().TrainerReducer.trainer;
     Characteristic.where('id', '>', 0)
     .with('text', (text) => {
-      text.andWhere('local_language_id', '=', trainer.local_language_id);
+      text.andWhere('local_language_id', '=', trainer.language_id);
     })
     .asAttributes()
     .get()

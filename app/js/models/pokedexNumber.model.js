@@ -5,6 +5,7 @@ export default class PokedexNumber extends Model {
   constructor(options = {
     fillable: [],
     hidden: [],
+    database: 'pokemon'
   }) {
     super(options);
   }

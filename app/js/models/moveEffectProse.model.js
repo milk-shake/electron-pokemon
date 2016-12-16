@@ -5,6 +5,7 @@ export default class MoveEffectProse extends Model {
   constructor(options = {
     fillable: [],
     hidden: [],
+    database: 'pokemon'
   }) {
 
     super(options);

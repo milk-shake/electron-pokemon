@@ -1,9 +1,16 @@
 import Query from "./query";
 
+const SQL = require('sql.js');
+const fs = require('fs');
+
 export default class Model {
   constructor(options = {
-    hidden: []
+    fillable: [],
+    hidden: [],
+    database: null
   }) {
+
+    if(!options.database) { throw new Error("Model: database not defined");}
 
     let _columns = [];
     let _hidden = [];
@@ -14,9 +21,17 @@ export default class Model {
     let _offsetValue = null;
     let _subQueries = [];
     let _attributes = {};
+    let _database = null;
 
     let _jsonOnly = false;
     let _attributesOnly = false;
+
+    Object.defineProperty(this, 'database', {
+      enumerable: true,
+      get() {
+        return _database;
+      }
+    });
 
     Object.defineProperty(this, 'wheres', {
       enumerable: true,
@@ -116,8 +131,11 @@ export default class Model {
       }
     });
 
-    _columns = Query.rawSync(`SELECT * FROM ${this.table} LIMIT 1`)[0].columns;
+    _database = options.database;
     _hidden = options.hidden;
+
+    _columns = Query.getColumnNames(this.database, this.table);
+    if(!_columns.length) { _columns = "*"};
   }
 
 
@@ -304,6 +322,7 @@ export default class Model {
     return new Promise(function(resolve, reject) {
 
       Query.select({
+        database: self.database,
         table: self.table,
         columns: self.columns,
         wheres: self.wheres,
@@ -346,7 +365,6 @@ export default class Model {
         });
 
         Promise.all(promises).then(function(foreignResults) {
-
             //we only need to act if there are actual results
             if(foreignResults.length) {
               let instanceOffset = 0;

@@ -7,6 +7,7 @@ export default class EggGroup extends Model {
   constructor(options = {
     fillable: [],
     hidden: [],
+    database: 'pokemon'
   }) {
 
     super(options);

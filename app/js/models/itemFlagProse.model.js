@@ -7,6 +7,7 @@ export default class ItemFlagProse extends Model {
   constructor(options = {
     fillable: [],
     hidden: [],
+    database: 'pokemon'
   }) {
 
     super(options);

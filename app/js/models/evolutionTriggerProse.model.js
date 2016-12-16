@@ -8,6 +8,7 @@ export default class EvolutionTriggerProse extends Model {
   constructor(options = {
     fillable: [],
     hidden: [],
+    database: 'pokemon'
   }) {
 
     super(options);

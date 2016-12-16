@@ -28,51 +28,50 @@ import MoveList from "./components/moveList.component";
 import Move from "./components/move.component";
 
 
-import {runMigrations} from "./migrations";
-
-runMigrations();
-
+// import {runMigrations} from "./migrations";
 // import {runSeeders} from "./seeders";
 //
+// runMigrations();
 // runSeeders();
-//TODO move trainer pokemon stuff into its own database for easier migration/updating
+
+
 //TODO start using componentDidUpdate for stuff.
-//TODO priority: 1: move trainer pokemon to seperate db, 2: finish model relationships, 3: carry on with creating pokemon edit functionality (i.e. moves)
+//TODO 1: any subcomponent that accesses a nested value should have that value as a prop instead, 2: finish model relationships, 3: carry on with creating pokemon edit functionality (i.e. moves) 
 const history = syncHistoryWithStore(hashHistory, store)
 
 
-// ReactDOM.render(
-//   <Provider store={store}>
-//     <Router history={history}>
-//     <Route path="/" component={App}>
-//       <IndexRoute component={Dashboard} />
-//       <Route path="/trainerpokemonlist" component={TrainerPokemonList}>
-//         <Route path="/trainerPokemon/add" component={TrainerPokemon}/>
-//         <Route path="/trainerPokemon/:id" component={TrainerPokemon}/>
-//       </Route>
-//       <Route path="/pokemonlist" component={PokemonList}>
-//         <Route path="pokemon/:id" component={Pokemon}/>
-//       </Route>
-//       <Route path="/itemlist" component={ItemList}>
-//         <Route path="item/:id" component={Item}/>
-//       </Route>
-//       <Route path="/boxlist" component={BoxList}>
-//         <Route path="box/:id" component={Box}/>
-//       </Route>
-//       <Route path="/movelist" component={MoveList}>
-//         <Route path="move/:id" component={Move}/>
-//       </Route>
-//       <Route path="/abilitylist" component={AbilityList}>
-//         <Route path="ability/:id" component={Ability}/>
-//       </Route>
-//       <Route path="/characteristiclist" component={CharacteristicList}>
-//         <Route path="characteristic/:id" component={Characteristic}/>
-//       </Route>
-//       <Route path="/naturelist" component={NatureList}>
-//         <Route path="nature/:id" component={Nature}/>
-//       </Route>
-//     </Route>
-//   </Router>
-//   </Provider>,
-//   document.getElementById('app')
-// );
+ReactDOM.render(
+  <Provider store={store}>
+    <Router history={history}>
+    <Route path="/" component={App}>
+      <IndexRoute component={Dashboard} />
+      <Route path="/trainerpokemonlist" component={TrainerPokemonList}>
+        <Route path="/trainerPokemon/add" component={TrainerPokemon}/>
+        <Route path="/trainerPokemon/:id" component={TrainerPokemon}/>
+      </Route>
+      <Route path="/pokemonlist" component={PokemonList}>
+        <Route path="pokemon/:id" component={Pokemon}/>
+      </Route>
+      <Route path="/itemlist" component={ItemList}>
+        <Route path="item/:id" component={Item}/>
+      </Route>
+      <Route path="/boxlist" component={BoxList}>
+        <Route path="box/:id" component={Box}/>
+      </Route>
+      <Route path="/movelist" component={MoveList}>
+        <Route path="move/:id" component={Move}/>
+      </Route>
+      <Route path="/abilitylist" component={AbilityList}>
+        <Route path="ability/:id" component={Ability}/>
+      </Route>
+      <Route path="/characteristiclist" component={CharacteristicList}>
+        <Route path="characteristic/:id" component={Characteristic}/>
+      </Route>
+      <Route path="/naturelist" component={NatureList}>
+        <Route path="nature/:id" component={Nature}/>
+      </Route>
+    </Route>
+  </Router>
+  </Provider>,
+  document.getElementById('app')
+);

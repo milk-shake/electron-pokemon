@@ -17,6 +17,7 @@ export default class Item extends React.Component {
   }
 
   render() {
+    console.log(this.props);
     return <div className="pokemon-spotlight__list-item">
       <span className="pane__header">{this.props.pokemon.nick_name}
         <span onClick={() => this.props.handleRemoveFromSpotLight(this.props.pokemon)} className="pane__button pane__button--close ion ion-close-round"></span>
@@ -30,7 +31,7 @@ export default class Item extends React.Component {
         <div className="pokemon-spotlight__abilities">
           <h1 className="pokemon-spotlight__section-header">Abilities</h1>
           <ItemAbility
-            ability={this.props.pokemon.trainer_pokemon_abilities}
+            ability={this.props.pokemon.abilities[0]}
             getAllAbilities={this.props.getAllAbilities}
             abilities={this.props.abilities}
             pokemon_id={this.props.pokemon.id}
@@ -40,7 +41,7 @@ export default class Item extends React.Component {
         <div className="pokemon-spotlight__natures">
           <h1 className="pokemon-spotlight__section-header">Nature</h1>
           <ItemNature
-            nature={this.props.pokemon.trainer_pokemon_natures}
+            nature={this.props.pokemon.natures[0]}
             getAllNatures={this.props.getAllNatures}
             natures={this.props.natures}
           />
@@ -49,7 +50,7 @@ export default class Item extends React.Component {
         <div className="pokemon-spotlight__characteristics">
           <h1 className="pokemon-spotlight__section-header">Characteristic</h1>
           <ItemCharacteristic
-            characteristic={this.props.pokemon.trainer_pokemon_characteristics}
+            characteristic={this.props.pokemon.characteristics[0]}
             getAllCharacteristics={this.props.getAllCharacteristics}
             characteristics={this.props.characteristics}
           />

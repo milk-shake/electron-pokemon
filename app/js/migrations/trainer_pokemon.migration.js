@@ -24,6 +24,7 @@ export default class TrainerPokemon extends Migration {
       table.integer('sp_defence');
       table.integer('speed');
       table.integer('hp');
+      table.integer('evasion');
       table.varchar('OT');
       table.varchar('date_met');
       table.varchar('level_met');

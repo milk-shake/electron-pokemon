@@ -9,6 +9,7 @@ export default class ItemCategory extends Model {
   constructor(options = {
     fillable: [],
     hidden: [],
+    database: 'pokemon'
   }) {
 
     super(options);
