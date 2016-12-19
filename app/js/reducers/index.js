@@ -9,6 +9,7 @@ import NatureReducer from "./nature.reducer";
 import AbilityReducer from "./ability.reducer";
 import CharacteristicReducer from "./characteristic.reducer";
 import MoveReducer from "./move.reducer";
+import ModalReducer from "./modal.reducer";
 
 
 export default combineReducers({
@@ -21,5 +22,6 @@ export default combineReducers({
   AbilityReducer,
   CharacteristicReducer,
   MoveReducer,
+  ModalReducer,
   routing: routerReducer
 });

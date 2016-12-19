@@ -5,63 +5,131 @@ import ItemInfo from "./item-info.subcomponent";
 import ItemHealth from "./item-health.subcomponent";
 import ItemLevel from "./item-level.subcomponent";
 import ItemStatList from "./item-stat-list.subcomponent";
-import ItemNature from "./item-nature.subcomponent";
-import ItemAbility from "./item-ability.subcomponent";
-import ItemCharacteristic from "./item-characteristic.subcomponent";
+
 //TODO make itemmovelist
 import ItemMove from "./item-move.subcomponent";
+
+import ItemTrait from "./item-trait.subcomponent";
 
 export default class Item extends React.Component {
   constructor(props) {
     super(props);
+
+  }
+
+  componentDidMount() {
+    this.props.getAllAbilities(this.props.pokemon.species_id);
+    this.props.getAllNatures();
+    this.props.getAllCharacteristics();
+  }
+  //TODO move this up two levels (into dashboard) and make into an action
+  onEditClick(o) {
+    let options = {
+      type: "FILTER",
+      props: {
+        title: o.title,
+        placeholder: `Filter on ${o.title}`
+      }
+    }
+    switch(o.type) {
+      case "ABILITIES": {
+        options.props.results = this.props.abilities.map(function(ability) {
+          let o = {
+            filterOn: ability.abilities[0].ability_names[0].name,
+            object: ability
+          }
+          return o;
+        });
+        options.props.onResultsClick = function(ability) {
+          this.props.updateTrait('abilities', this.props.pokemon, ability.abilities[0]);
+        }.bind(this);
+        break;
+      }
+      case "NATURES": {
+        options.props.results = this.props.natures.map(function(nature) {
+          let o = {
+            filterOn: nature.nature_names[0].name,
+            object: nature
+          }
+          return o;
+        });
+        options.props.onResultsClick = function(nature) {
+          this.props.updateTrait('natures', this.props.pokemon, nature);
+        }.bind(this);
+        break;
+      }
+      case "CHARACTERISTICS": {
+        options.props.results = this.props.characteristics.map(function(characteristic) {
+          let o = {
+            filterOn: characteristic.characteristic_text[0].message,
+            object: characteristic
+          }
+          return o;
+        });
+        options.props.onResultsClick = function(characteristic) {
+          this.props.updateTrait('characteristics', this.props.pokemon, characteristic);
+        }.bind(this);
+        break;
+      }
+    }
+    this.props.showModal(options);
   }
 
   render() {
-    console.log(this.props);
-    return <div className="pokemon-spotlight__list-item">
-      <span className="pane__header">{this.props.pokemon.nick_name}
-        <span onClick={() => this.props.handleRemoveFromSpotLight(this.props.pokemon)} className="pane__button pane__button--close ion ion-close-round"></span>
-      </span>
-      <div className="pokemon-spotlight__item">
-        <ItemInfo pokemon={this.props.pokemon} />
-        <ItemHealth pokemon={this.props.pokemon}/>
-        <ItemLevel pokemon={this.props.pokemon} />
-        <ItemStatList pokemon={this.props.pokemon} />
+    return (
+        <div className="pokemon-spotlight__list-item">
+          <span className="pane__header">{this.props.pokemon.nick_name}
+            <span onClick={() => this.props.handleRemoveFromSpotLight(this.props.pokemon)} className="pane__button pane__button--close ion ion-close-round"></span>
+          </span>
+          <div className="pokemon-spotlight__item">
 
-        <div className="pokemon-spotlight__abilities">
-          <h1 className="pokemon-spotlight__section-header">Abilities</h1>
-          <ItemAbility
-            ability={this.props.pokemon.abilities[0]}
-            getAllAbilities={this.props.getAllAbilities}
-            abilities={this.props.abilities}
-            pokemon_id={this.props.pokemon.id}
-          />
+            <ItemInfo
+              types={this.props.pokemon.pokemon_species[0].pokemon_types}
+              species_id={this.props.pokemon.species_id}
+              species_name={this.props.pokemon.pokemon_species[0].pokemon_species_names[0].name}
+              species_genus={this.props.pokemon.pokemon_species[0].pokemon_species_names[0].genus}
+              // helditem={this.props.pokemon.helditem}
+            />
+            <ItemHealth pokemon={this.props.pokemon}
+              hp={this.props.pokemon.hp}
+              natureStatIds={{decreased: this.props.pokemon.natures[0].decreased_stat_id, increased: this.props.pokemon.natures[0].increased_stat_id}}
+              characteristicStatId={this.props.pokemon.characteristics[0].stat_id}
+            />
+            <ItemLevel
+              level={this.props.pokemon.level}
+            />
+            <ItemStatList
+              attack={this.props.pokemon.attack}
+              defence={this.props.pokemon.defence}
+              sp_attack={this.props.pokemon.sp_attack}
+              sp_defence={this.props.pokemon.sp_defence}
+              evasion={this.props.pokemon.evasion}
+              speed={this.props.pokemon.speed}
+              natureStatIds={{decreased: this.props.pokemon.natures[0].decreased_stat_id, increased: this.props.pokemon.natures[0].increased_stat_id}}
+              characteristicStatId={this.props.pokemon.characteristics[0].stat_id}
+            />
+            <ItemTrait
+              name={this.props.pokemon.abilities[0].ability_names[0].name}
+              traitName="Abilities"
+              onEditClick={this.onEditClick.bind(this)}
+            />
+            <ItemTrait
+              name={this.props.pokemon.natures[0].nature_names[0].name}
+              traitName="Natures"
+              onEditClick={this.onEditClick.bind(this)}
+            />
+            <ItemTrait
+              name={this.props.pokemon.characteristics[0].characteristic_text[0].message}
+              traitName="Characteristics"
+              onEditClick={this.onEditClick.bind(this)}
+            />
+            <div className="pokemon-spotlight__moves">
+              <h1 className="pokemon-spotlight__section-header">Moves</h1>
+              <ItemMove moves={this.props.pokemon.trainer_pokemon_moves}/>
+            </div>
+          </div>
+          <span className="pane__footer"></span>
         </div>
-
-        <div className="pokemon-spotlight__natures">
-          <h1 className="pokemon-spotlight__section-header">Nature</h1>
-          <ItemNature
-            nature={this.props.pokemon.natures[0]}
-            getAllNatures={this.props.getAllNatures}
-            natures={this.props.natures}
-          />
-        </div>
-
-        <div className="pokemon-spotlight__characteristics">
-          <h1 className="pokemon-spotlight__section-header">Characteristic</h1>
-          <ItemCharacteristic
-            characteristic={this.props.pokemon.characteristics[0]}
-            getAllCharacteristics={this.props.getAllCharacteristics}
-            characteristics={this.props.characteristics}
-          />
-        </div>
-
-        <div className="pokemon-spotlight__moves">
-          <h1 className="pokemon-spotlight__section-header">Moves</h1>
-          <ItemMove moves={this.props.pokemon.trainer_pokemon_moves}/>
-        </div>
-      </div>
-      <span className="pane__footer"></span>
-    </div>
+    )
   }
 }

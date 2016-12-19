@@ -41,6 +41,30 @@
     position: relative;
   }
 
+  &__section-header-icons {
+    float: right;
+    font-size: 1.5em;
+    position: relative;
+    top: -2px;
+    cursor: pointer;
+
+    span {
+      margin: 0 5px;
+      cursor: pointer;
+      &:last-of-type {
+        margin-right: 0;
+      }
+
+      &:before {
+        cursor: pointer;
+      }
+
+      &:hover {
+        opacity: 0.8;
+      }
+    }
+  }
+
 
   &__name {
     font-family: 'medium';
@@ -174,6 +198,7 @@
 
   &__stat-modifier {
     margin: auto;
+    margin-left: 5px;
 
     &--decreased {
       color: cornflowerblue;
@@ -206,12 +231,12 @@
     min-width: 70px;
   }
 
-  &__natures {
+  &__traits {
     position: relative;
     overflow: hidden;
   }
 
-  &__nature {
+  &__trait {
     font-family: 'regular';
     padding: 20px;
     font-size: 1em;
@@ -226,52 +251,8 @@
     }
   }
 
-  &__nature-name {
+  &__name {
 
-  }
-
-  &__abilities {
-    position: relative;
-    overflow: hidden;
-  }
-
-  &__ability {
-    font-family: 'regular';
-    padding: 20px;
-    font-size: 1em;
-
-    cursor: pointer;
-    * {
-      cursor: pointer;
-    }
-
-    &:hover {
-      background: $ui-section-inactive;
-    }
-  }
-
-  &__ability-name {
-
-  }
-
-  &__characteristics {
-    position: relative;
-    overflow: hidden;
-  }
-
-  &__characteristic {
-    font-family: 'regular';
-    padding: 20px;
-    font-size: 1em;
-
-    cursor: pointer;
-    * {
-      cursor: pointer;
-    }
-
-    &:hover {
-      background: $ui-section-inactive;
-    }
   }
 
   &__moves {

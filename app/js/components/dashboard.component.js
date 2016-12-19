@@ -9,6 +9,7 @@ import * as dayCarePokemonActions from "../actions/dayCarePokemon.actions";
 import * as natureActions from "../actions/nature.actions";
 import * as PokemonAbilityActions from "../actions/pokemonAbility.actions";
 import * as CharacteristicActions from "../actions/characteristic.actions";
+import * as ModalActions from "../actions/modal.actions";
 
 import Trainer from "./dashboard/trainer.subcomponent";
 import PartyPokemon from "./dashboard/party-pokemon.subcomponent";
@@ -54,6 +55,14 @@ export default class Dashboard extends React.Component {
     this.props.dispatch(CharacteristicActions.getAllCharacteristics());
   }
 
+  updatePokemonTrait(name, pokemon, trait) {
+    this.props.dispatch(spotLightActions.updatePokemonTrait(name, pokemon, trait));
+  }
+
+  showModal(options) {
+    this.props.dispatch(ModalActions.showModal(options));
+  }
+
   componentDidMount() {
     this.props.dispatch(PartyPokemonActions.getPartyPokemon());
     this.props.dispatch(BoxPokemonActions.getBoxPokemonForBoxId(1));
@@ -85,6 +94,8 @@ export default class Dashboard extends React.Component {
           abilities={this.props.abilities}
           getAllCharacteristics={this.getAllCharacteristics.bind(this)}
           characteristics={this.props.characteristics}
+          updateTrait={this.updatePokemonTrait.bind(this)}
+          showModal={this.showModal.bind(this)}
         />
         <div className="dashboard__right-bar">
           <WorkBenchPokemon />

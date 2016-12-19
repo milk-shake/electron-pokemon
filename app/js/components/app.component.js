@@ -3,6 +3,8 @@ import ReactDOM from 'react-dom';
 import { connect } from 'react-redux';
 import { Link } from 'react-router';
 
+import Modal from "./modal/modal.component";
+
 import * as TrainerActions from "../actions/trainer.actions";
 
 @connect((store) => {
@@ -27,7 +29,12 @@ export default class App extends React.Component {
           })
       }, this);
 
-      return <div>{children}</div>;
+      return (
+        <div>
+          <Modal />
+          {children}
+        </div>
+      )
     }
 
     return null;

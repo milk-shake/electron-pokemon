@@ -1,0 +1,25 @@
+&--filter {
+  &__results {
+    overflow: scroll;
+    height: 310px;
+    background: $ui-section-bg;
+  }
+
+  &__result {
+    padding: 20px;
+    border-top: 1px solid $ui-grey;
+    font-family: 'medium';
+    font-weight: 100;
+    cursor: pointer;
+    background-color: $ui-section-inactive;
+    margin-bottom: 1px;
+
+    * {
+      cursor: pointer;
+    }
+
+    &:hover {
+      background-color: $ui-white;
+    }
+  }
+}

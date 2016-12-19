@@ -1,0 +1,45 @@
+.modal {
+  @import "./filter-modal.scss";
+  background: $ui-white;
+  z-index: 1000;
+  width: 30%;
+  height: 50%;
+  top: 20vh;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  margin: 0 auto;
+  display: none;
+  position: fixed;
+  border: 2px solid $ui-black;
+  font-family: 'regular';
+
+  &__wrapper {
+    position: fixed;
+    width: 100vw;
+    height: 100vh;
+    z-index: 1000;
+    left:0;
+    top: 0;
+    display: none;
+
+    &.on {
+      display: block;
+      .modal__bg {
+        display: block;
+      }
+      .modal {
+        display: block;
+      }
+    }
+  }
+
+  &__bg {
+    background: rgba($ui-font-black,0.96);
+    width: 100vw;
+    height: 100vh;
+  }
+
+  &__content {
+  }
+}

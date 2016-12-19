@@ -7,14 +7,14 @@ export default class ItemStat extends React.Component {
   }
 
   renderStatModifier() {
-    if(this.props.nature.length) {
-      if(this.props.nature.decreased_stat_id == this.props.nature.increased_stat_id) {
+    if(this.props.natureStatIds.decreased && this.props.natureStatIds.increased) {
+      if(this.props.natureStatIds.decreased == this.props.natureStatIds.increased) {
         return <span className="pokemon-spotlight__stat-modifier pokemon-spotlight__stat-modifier--neutral ion ion-minus-round"></span>
       }
-      else if(this.props.nature.decreased_stat_id == this.props.statId) {
+      else if(this.props.natureStatIds.decreased == this.props.statId) {
         return <span className="pokemon-spotlight__stat-modifier pokemon-spotlight__stat-modifier--decreased ion ion-arrow-down-b"></span>
       }
-      else if(this.props.nature && this.props.nature.increased_stat_id == this.props.statId) {
+      else if(this.props.natureStatIds.increased == this.props.statId) {
         return <span className="pokemon-spotlight__stat-modifier pokemon-spotlight__stat-modifier--increased ion ion-arrow-up-b"></span>
       }
     }
@@ -22,8 +22,8 @@ export default class ItemStat extends React.Component {
   }
 
   renderHighestStat() {
-    if(this.props.characteristic.length) {
-      if(this.props.characteristic.stat_id == this.props.statId) {
+    if(this.props.characteristicStatId) {
+      if(this.props.characteristicStatId == this.props.statId) {
         return <span className="pokemon-spotlight__stat-highest ion ion-flame"></span>
       }
     }

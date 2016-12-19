@@ -77,3 +77,9 @@ export function removeFromSpotlight(pokemon) {
     dispatch({type: "POKEMONSPOTLIGHT_REMOVED", payload: pokemon});
   }
 }
+
+export function updatePokemonTrait(name, pokemon, trait) {
+  return function(dispatch) {
+    dispatch({type: "POKEMONSPOTLIGHT_TRAIT_UPDATE", payload: {name: name, pokemon: pokemon, trait: trait}});
+  }
+}

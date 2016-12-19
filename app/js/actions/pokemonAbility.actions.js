@@ -18,7 +18,7 @@ export function getAllAbilitiesForPokemonId(id) {
     .asAttributes()
     .get()
     .then(function(results) {
-      dispatch({type: "POKEMONABILTIES_FULFILLED", payload: results});
+      dispatch({type: "POKEMONABILITIES_FULFILLED", payload: results});
     });
   }
 

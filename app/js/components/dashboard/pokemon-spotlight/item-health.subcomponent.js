@@ -7,22 +7,22 @@ export default  class ItemHealth extends React.Component {
   }
 
   renderHighestStat() {
-    if(this.props.pokemon.characteristics.length) {
-      if(this.props.pokemon.characteristics[0].stat_id == 1) {
+    if(this.props.characteristicStatId) {
+      if(this.props.characteristicStatId == 1) {
         return <span className="pokemon-spotlight__stat-highest ion ion-flame"></span>
       }
     }
   }
 
   renderStatModifier() {
-    if(this.props.pokemon.natures.length) {
-      if(this.props.pokemon.natures[0].decreased_stat_id == this.props.pokemon.natures[0].increased_stat_id) {
+    if(this.props.natureStatIds.decreased && this.props.natureStatIds.increased) {
+      if(this.props.natureStatIds.decreased == this.props.natureStatIds.increased) {
         return <span className="pokemon-spotlight__stat-modifier pokemon-spotlight__stat-modifier--neutral ion ion-minus-round"></span>
       }
-      else if(this.props.pokemon.natures[0].decreased_stat_id == 1) {
+      else if(this.props.natureStatIds.decreased == 1) {
         return <span className="pokemon-spotlight__stat-modifier pokemon-spotlight__stat-modifier--decreased ion ion-arrow-down-b"></span>
       }
-      else if(this.props.pokemon.natures[0].increased_stat_id == 1) {
+      else if(this.props.natureStatIds.increased == 1) {
         return <span className="pokemon-spotlight__stat-modifier pokemon-spotlight__stat-modifier--increased ion ion-arrow-up-b"></span>
       }
     }
@@ -34,7 +34,7 @@ export default  class ItemHealth extends React.Component {
       <span className="pokemon-spotlight__health-bar"></span>
       {this.renderHighestStat()}
       {this.renderStatModifier()}
-      <span className="pokemon-spotlight__health-value">{this.props.pokemon.hp}/{this.props.pokemon.hp}</span>
+      <span className="pokemon-spotlight__health-value">{this.props.hp}/{this.props.hp}</span>
     </div>
   }
 }

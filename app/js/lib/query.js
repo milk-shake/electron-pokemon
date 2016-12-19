@@ -108,8 +108,6 @@ export default class Query {
         query += ` OFFSET ${options.offset}`;
       }
 
-      // console.log(query);
-
       //DATABASE EXECUTION
       let stmt = Databases[options.database].database.prepare(query);
       try {
