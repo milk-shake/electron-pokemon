@@ -9,6 +9,12 @@
   // -webkit-clip-path: inset(0px 0px 0px 0px);
   width: 100%;
   height: 90vh;
+  transition: all 100ms ease-in-out;
+
+  * {
+    transition: all 100ms ease-in-out;
+  }
+
   &__list {
     display: flex;
   }
@@ -16,14 +22,18 @@
   &__list-item {
     float: left;
     margin-right: 1px;
+    width: 280px;
+    max-width: 280px;
+    min-width: 280px;
+
   }
 
   &__item {
-    min-width: 260px;
+    width: 100%;
     position: relative;
     overflow: scroll;
     background: $ui-white;
-    height: 82vh;
+    height: 83vh;
 
   }
 
@@ -42,10 +52,10 @@
   }
 
   &__section-header-icons {
-    float: right;
+    position: absolute;
+    top: 13px;
+    right: 10px;
     font-size: 1.5em;
-    position: relative;
-    top: -2px;
     cursor: pointer;
 
     span {
@@ -100,7 +110,8 @@
   &__sprite {
     margin: 40px auto;
     display: block;
-    width: 130px;
+    // width: 70%;
+    width: 85px;
     background: lightslategray;
     border-radius: 150px;
   }
@@ -180,11 +191,16 @@
   &__level-value {
     font-family: 'regular';
     background: cornflowerblue;
-    padding: 20px;
+    padding: 20px 0;
     border-radius: 70px;
     color: #fff;
     display: block;
     margin: auto 13px auto auto;
+    min-width: 60px;
+    min-height: 60px;
+    max-width: 60px;
+    max-height: 60px;
+    text-align: center;
   }
 
   &__stats {
@@ -222,6 +238,7 @@
     flex-grow: 2;
     font-family: 'medium';
     padding: 20px;
+    white-space: nowrap;
   }
 
   &__stat-value {
@@ -252,7 +269,7 @@
   }
 
   &__name {
-
+    white-space: nowrap;
   }
 
   &__moves {
@@ -276,4 +293,186 @@
     top: -2px;
   }
 
+}
+
+.pokemon-spotlight {
+    &__list-item.minimized {
+      width: 100px;
+      max-width: 100px;
+      min-width: 100px;
+      transition: all 100ms ease-in-out;
+
+      * {
+        transition: all 100ms ease-in-out;
+      }
+
+      .pane__header-text {
+        display: none;
+      }
+
+      .pokemon-spotlight__level-name {
+        width: 0;
+        overflow: hidden;
+        visibility: hidden;
+        padding: 0;
+      }
+
+      .pokemon-spotlight__level-value {
+        margin: 0 19px 0 0;
+      }
+
+      .pokemon-spotlight__sprite {
+        // margin-bottom: 166px;
+      }
+
+      .pokemon-spotlight__health {
+        padding: 20px 8px 0 8px;
+      }
+
+      .pokemon-spotlight__genus {
+        padding: 0 8px;
+      }
+
+      .pokemon-spotlight__species {
+        padding: 0 8px;
+      }
+
+      .pokemon-spotlight__section-header {
+        padding: 15px 8px;
+      }
+
+      .pokemon-spotlight__stat-name {
+        padding: 20px 8px;
+        width: 0px;
+        overflow: hidden;
+        display: inline-block;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+      }
+
+      .pokemon-spotlight__stat-value {
+        padding: 0 9px;
+        margin: auto;
+        font-family: 'regular';
+        min-width: 0px;
+        text-align: right;
+      }
+
+      .pokemon-spotlight__section-header-icons {
+        display: none;
+      }
+
+      .pokemon-spotlight__trait {
+        padding: 20px 8px;
+      }
+
+      .pokemon-spotlight__trait-name {
+        white-space: nowrap;
+        text-overflow: ellipsis;
+        width: 100%;
+        display: block;
+        overflow: hidden;
+      }
+
+      .pokemon-spotlight__move {
+        white-space: nowrap;
+        text-overflow: ellipsis;
+        width: 100%;
+        display: block;
+        overflow: hidden;
+      }
+
+
+    }
+
+
+
+
+    // &__item {
+    //   min-width: 100px;
+    //   width: 100px;
+    //   transition: all 300ms ease-in-out;
+    //   overflow-x: hidden;
+    // }
+
+    // .pane__header {
+    //   width: 100px;
+    //   transition: all 300ms ease-in-out;
+    //   overflow-x: hidden;
+    //   font-size: 0.5em;
+    //   display: flex;
+    // }
+    //
+    // .pane__header-text {
+    //   font-size: 0;
+    //   transition: all 300ms ease-in-out;
+    // }
+    //
+    // .pane__buttons {
+    //   display: flex;
+    //   float: none;
+    //   width: 100%;
+    // }
+    //
+    // .pane__button {
+    //   float: none;
+    //   margin: auto;
+    // }
+    //
+    // &__sprite {
+    //   transition: all 300ms ease-in-out;
+    //   width: 84px;
+    //   margin-top: 40px;
+    //   margin-bottom: 88px;
+    // }
+    //
+    // &__species {
+    //   transition: all 300ms ease-in-out;
+    //   padding-left: 8px;
+    // }
+    //
+    // &__genus {
+    //   transition: all 300ms ease-in-out;
+    //   padding-left: 8px;
+    // }
+    //
+    // &__health {
+    //   transition: all 300ms ease-in-out;
+    //   padding: 20px 8px;
+    // }
+    //
+    // &__level-name {
+    //   display: none;
+    // }
+    //
+    // &__level-value {
+    //   transition: all 300ms ease-in-out;
+    //   margin: auto 16px auto auto;
+    // }
+    //
+    // &__stat-name {
+    //   transition: all 300ms ease-in-out;
+    //   font-size: 0.8em;
+    //   padding: 20px 8px;
+    // }
+    //
+    // &__stat-value {
+    //   transition: all 300ms ease-in-out;
+    //   padding: 0 8px;
+    //   font-size: 0.8em;
+    // }
+    //
+    // &__section-header {
+    //   transition: all 300ms ease-in-out;
+    //   padding: 15px 8px;
+    // }
+    //
+    // &__section-header-icons {
+    //   display: none;
+    // }
+    //
+    // &__trait {
+    //   transition: all 300ms ease-in-out;
+    //   padding: 20px 8px;
+    // }
 }

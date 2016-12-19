@@ -25,7 +25,9 @@ export default class DayCarePokemon extends React.Component {
 
   render() {
     return <div className="day-care-pokemon">
-      <h1 className="pane__header">Day Care</h1>
+      <h1 className="pane__header">
+        <span className="pane__header-text">Day Care</span>
+      </h1>
       <div className="day-care-pokemon__contents">
         {
           this.props.pokemon.map(function(pokemon, index) {

@@ -13,9 +13,22 @@ export default class PartyPokemon extends React.Component {
     super(props);
   }
 
+  toggleMinimized(e, name) {
+    e.target.classList.toggle('pane__button--minimize');
+    e.target.classList.toggle('pane__button--maximize');
+    e.target.classList.toggle('ion-chevron-left');
+    e.target.classList.toggle('ion-chevron-right');
+    this.props.minimize(name);
+  }
+
   render() {
     return <div className="party-pokemon">
-      <h1 className="pane__header">Party</h1>
+      <h1 className="pane__header">
+        <span className="pane__header-text">Party</span>
+        <span className="pane__buttons">
+          <span className="pane__button pane__button--minimize ion ion-chevron-left" onClick={(e) => this.toggleMinimized(e, 'left-bar')}></span>
+        </span>
+      </h1>
       <div className="party-pokemon__list">
         {this.props.pokemon ? this.props.pokemon.map(function(poke) {
             return <div onClick={() => this.props.handleAddToSpotLight(poke)} key={poke.nick_name} className="party-pokemon__item">

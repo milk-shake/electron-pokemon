@@ -75,11 +75,24 @@ export default class Item extends React.Component {
     this.props.showModal(options);
   }
 
+  toggleMinimized(e, name) {
+    e.target.classList.toggle('pane__button--minimize');
+    e.target.classList.toggle('pane__button--maximize');
+    e.target.classList.toggle('ion-chevron-left');
+    e.target.classList.toggle('ion-chevron-right');
+    e.target.parentNode.parentNode.parentNode.classList.toggle('minimized');
+    // this.props.minimize(name);
+  }
+
   render() {
     return (
         <div className="pokemon-spotlight__list-item">
-          <span className="pane__header">{this.props.pokemon.nick_name}
-            <span onClick={() => this.props.handleRemoveFromSpotLight(this.props.pokemon)} className="pane__button pane__button--close ion ion-close-round"></span>
+          <span className="pane__header">
+            <span className="pane__header-text">{this.props.pokemon.nick_name}</span>
+            <span className="pane__buttons">
+              <span className="pane__button pane__button--minimize ion ion-chevron-left" onClick={(e) => this.toggleMinimized(e, 'spotlight')}></span>
+              <span onClick={() => this.props.handleRemoveFromSpotLight(this.props.pokemon)} className="pane__button pane__button--close ion ion-close-round"></span>
+            </span>
           </span>
           <div className="pokemon-spotlight__item">
 

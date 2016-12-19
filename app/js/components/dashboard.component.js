@@ -69,34 +69,42 @@ export default class Dashboard extends React.Component {
     this.props.dispatch(dayCarePokemonActions.getDayCarePokemon());
   }
 
+  minimize(name) {
+    ReactDOM.findDOMNode(this.refs[name]).classList.toggle('minimized');
+  }
+
   render() {
     return <div className="dashboard">
       <Trainer
         trainer={this.props.trainer}
       />
       <div className="dashboard__widgets">
-        <div className="dashboard__left-bar">
+        <div ref="left-bar" className="dashboard__left-bar">
           <PartyPokemon
             pokemon={this.props.partyPokemon}
             handleAddToSpotLight={this.handleAddToSpotLight.bind(this)}
+            minimize={this.minimize.bind(this)}
           />
           <DayCarePokemon
             pokemon={this.props.dayCarePokemon}
             handleAddToSpotLight={this.handleAddToSpotLight.bind(this)}
           />
         </div>
-        <PokemonSpotlight
-          pokemon={this.props.pokemonSpotlight}
-          handleRemoveFromSpotLight={this.handleRemoveFromSpotLight.bind(this)}
-          getAllNatures={this.getAllNatures.bind(this)}
-          natures={this.props.natures}
-          getAllAbilities={this.getAllAbilities.bind(this)}
-          abilities={this.props.abilities}
-          getAllCharacteristics={this.getAllCharacteristics.bind(this)}
-          characteristics={this.props.characteristics}
-          updateTrait={this.updatePokemonTrait.bind(this)}
-          showModal={this.showModal.bind(this)}
-        />
+        <div ref="spotlight" className="dashboard__spotlight">
+          <PokemonSpotlight
+            pokemon={this.props.pokemonSpotlight}
+            handleRemoveFromSpotLight={this.handleRemoveFromSpotLight.bind(this)}
+            getAllNatures={this.getAllNatures.bind(this)}
+            natures={this.props.natures}
+            getAllAbilities={this.getAllAbilities.bind(this)}
+            abilities={this.props.abilities}
+            getAllCharacteristics={this.getAllCharacteristics.bind(this)}
+            characteristics={this.props.characteristics}
+            updateTrait={this.updatePokemonTrait.bind(this)}
+            showModal={this.showModal.bind(this)}
+            minimize={this.minimize.bind(this)}
+          />
+        </div>
         <div className="dashboard__right-bar">
           <WorkBenchPokemon />
         </div>
