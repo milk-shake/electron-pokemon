@@ -25,13 +25,10 @@ export default class PokemonSpotlight extends React.Component {
                   showModal={this.props.showModal}
                   getAllNatures={this.props.getAllNatures}
                   natures={this.props.natures}
-                  updateNature={this.props.updateNature}
                   getAllAbilities={this.props.getAllAbilities}
                   abilities={this.props.abilities}
-                  updateAbility={this.props.updateAbility}
                   getAllCharacteristics={this.props.getAllCharacteristics}
                   characteristics={this.props.characteristics}
-                  updateCharacteristic={this.props.updateCharacteristic}
                   updateTrait={this.props.updateTrait}
                 />
               )
