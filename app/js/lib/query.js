@@ -1,8 +1,71 @@
 import Databases from "../databases";
-
+const fs = require('fs');
 export default class Query {
   constructor() {
 
+    let _wheres = [];
+    let _limitValue = null;
+    let _offsetValue = null;
+
+    Object.defineProperty(this, 'wheres', {
+      enumerable: true,
+      get() {
+        return _wheres;
+      }
+    });
+
+    Object.defineProperty(this, 'limitValue', {
+      enumerable: false,
+      get() {
+        return _limitValue;
+      },
+      set(value) {
+        _limitValue = parseInt(value);
+      }
+    });
+
+    Object.defineProperty(this, 'offsetValue', {
+      enumerable: false,
+      get() {
+        return _offsetValue;
+      },
+      set(value) {
+        _offsetValue = parseInt(value);
+      }
+    });
+  }
+
+  buildWhere(column = null, predicate = null, operator = null, value = null) {
+    let currentWheres = this.wheres;
+
+    let whereClause = {};
+
+    whereClause.column = column;
+    whereClause.predicate = predicate;
+    whereClause.value = value;
+    whereClause.type = "WHERE";
+
+    if(operator) {
+      whereClause.operator = operator;
+    }
+
+    currentWheres.push(whereClause);
+  }
+
+  buildWhereBetween(column = null, start = null, end = null, operator = null) {
+    let currentWheres = this.wheres;
+    let whereClause = {};
+
+    whereClause.column = column;
+    whereClause.start = start;
+    whereClause.end = end;
+    whereClause.type = "BETWEEN";
+
+    if(operator) {
+      whereClause.operator = operator;
+    }
+
+    currentWheres.push(whereClause);
   }
 
   static buildWhere(table, clause, index = 0, binds = null) {
@@ -59,31 +122,34 @@ export default class Query {
 
   }
 
-  static select(options = {
+  static buildUpdate(values = null, binds = null) {
+    let query = ` SET `;
+    for(var val in values) {
+      let bind = `:${val}`;
+      binds[bind] = values[val];
+      query += ` ${val} = ${bind},`
+    }
+
+    return query.slice(0, -1);
+  }
+
+  update(options = {
     database: null,
     table: null,
-    columns: [],
-    wheres: [],
-    joins: [],
-    hidden: [],
-    limit: null,
-    offset: null
+    values: null
   }) {
+    let self = this;
     return new Promise(function(resolve, reject) {
-      if(!options.table) { throw new Error('Query.where: no table name')};
+      if(!options.table) { throw new Error('Query.update: no table name')};
 
-
-      //BUILD SELECT
-
-      let rootSelect = Query.buildSelect(options.table, options.columns, options.hidden);
-
-      let query = `SELECT`;
-      query += ` ${rootSelect} `;
-      query += ` FROM ${options.table}`;
-
-      //WHERE BUILD
+      let query = `UPDATE`;
       let binds = {};
-      options.wheres.forEach(function(clause, index) {
+
+      query += ` ${options.table}`;
+      query += ` ${Query.buildUpdate(options.values, binds)}`;
+
+
+      self.wheres.forEach(function(clause, index) {
         switch(clause.type) {
           case "WHERE": {
             query += Query.buildWhere(options.table, clause, index, binds);
@@ -100,13 +166,66 @@ export default class Query {
 
       });
 
-      if(options.limit) {
+      let stmt = Databases[options.database].database.prepare(query, binds);
+      stmt.bind(binds);
+      let result = stmt.run();
+
+      let data = Databases[options.database].database.export();
+      let buffer = new Buffer(data);
+      fs.writeFileSync(options.database + '.sqlite', buffer);
+      resolve();
+    });
+  }
+
+  select(options = {
+    database: null,
+    table: null,
+    columns: [],
+    joins: [],
+    hidden: []
+  }) {
+    let self = this;
+    return new Promise(function(resolve, reject) {
+      if(!options.table) { throw new Error('Query.where: no table name')};
+
+
+      //BUILD SELECT
+
+      let rootSelect = Query.buildSelect(options.table, options.columns, options.hidden);
+
+      let query = `SELECT`;
+      query += ` ${rootSelect} `;
+      query += ` FROM ${options.table}`;
+
+      //WHERE BUILD
+      let binds = {};
+      self.wheres.forEach(function(clause, index) {
+        switch(clause.type) {
+          case "WHERE": {
+            query += Query.buildWhere(options.table, clause, index, binds);
+            break;
+          }
+          case "BETWEEN": {
+            query += Query.buildWhereBetween(options.table, clause, index, binds);
+            break;
+          }
+          default: {
+            break;
+          }
+        }
+
+      });
+
+      if(self.limit) {
         query += ` LIMIT ${options.limit}`;
       }
 
-      if(options.offset) {
+      if(self.offset) {
         query += ` OFFSET ${options.offset}`;
       }
+
+      console.log(query);
+      console.log(binds);
 
       //DATABASE EXECUTION
       let stmt = Databases[options.database].database.prepare(query);
@@ -142,7 +261,7 @@ export default class Query {
     return Databases[db].database.exec(sql);
   }
 
-  static getColumnNames(db, table) {
+  getColumnNames(db, table) {
     var stmt = Databases[db].database.prepare(`SELECT * FROM ${table}`);
     stmt.step()
     return stmt.getColumnNames();

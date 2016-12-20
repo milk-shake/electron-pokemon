@@ -80,6 +80,25 @@ export function removeFromSpotlight(pokemon) {
 
 export function updatePokemonTrait(name, pokemon, trait) {
   return function(dispatch) {
+    let modelColumnName = null;
+    switch(name) {
+      case "abilities": {
+        modelColumnName = "ability_id";
+        break;
+      }
+      case "characteristics": {
+        modelColumnName = "characteristic_id";
+        break;
+      }
+      case "natures": {
+        modelColumnName = "nature_id";
+        break;
+      }
+    }
+
+    let updateObj = {};
+    updateObj[modelColumnName] = trait.id;
+    TrainerPokemon.update(pokemon.id, updateObj);
     dispatch({type: "POKEMONSPOTLIGHT_TRAIT_UPDATE", payload: {name: name, pokemon: pokemon, trait: trait}});
   }
 }

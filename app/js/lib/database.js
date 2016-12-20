@@ -37,4 +37,10 @@ export default class Database  {
       }
     }
   }
+
+  save() {
+    let data = this.database.export();
+    let buffer = new Buffer(data);
+    fs.writeFileSync(this.databaseName + '.sqlite', buffer);
+  }
 }

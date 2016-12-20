@@ -1,14 +1,14 @@
 import Query from "./query";
-
-const SQL = require('sql.js');
-const fs = require('fs');
-
+//TODO all the buildwhere and shit should be on query
 export default class Model {
   constructor(options = {
     fillable: [],
     hidden: [],
     database: null
   }) {
+    if (this.name === Model) {
+      throw new Error("Model: Abstract class, please extend.");
+    }
 
     if(!options.database) { throw new Error("Model: database not defined");}
 
@@ -16,12 +16,11 @@ export default class Model {
     let _hidden = [];
     let _wheres = [];
     let _withs = [];
-    let _foreignKeys = [];
     let _limitValue = null;
     let _offsetValue = null;
-    let _subQueries = [];
     let _attributes = {};
     let _database = null;
+    let _query = new Query();
 
     let _jsonOnly = false;
     let _attributesOnly = false;
@@ -33,10 +32,10 @@ export default class Model {
       }
     });
 
-    Object.defineProperty(this, 'wheres', {
+    Object.defineProperty(this, 'query', {
       enumerable: true,
       get() {
-        return _wheres;
+        return _query;
       }
     });
 
@@ -61,13 +60,6 @@ export default class Model {
       }
     });
 
-    Object.defineProperty(this, 'foreignKeyValues', {
-      enumerable: false,
-      get() {
-        return _foreignKeyValues;
-      }
-    });
-
     Object.defineProperty(this, 'attributes', {
       enumerable: true,
       get() {
@@ -79,26 +71,6 @@ export default class Model {
       enumerable: true,
       get() {
         return _hidden;
-      }
-    });
-
-    Object.defineProperty(this, 'limitValue', {
-      enumerable: false,
-      get() {
-        return _limitValue;
-      },
-      set(value) {
-        _limitValue = parseInt(value);
-      }
-    });
-
-    Object.defineProperty(this, 'offsetValue', {
-      enumerable: false,
-      get() {
-        return _offsetValue;
-      },
-      set(value) {
-        _offsetValue = parseInt(value);
       }
     });
 
@@ -134,103 +106,79 @@ export default class Model {
     _database = options.database;
     _hidden = options.hidden;
 
-    _columns = Query.getColumnNames(this.database, this.table);
+    _columns = this.query.getColumnNames(this.database, this.table);
     if(!_columns.length) { _columns = "*"};
   }
 
-
-  buildWhere(column = null, predicate = null, operator = null, value = null) {
-    let currentWheres = this.wheres;
-
-    let whereClause = {};
-
-    whereClause.column = column;
-    whereClause.predicate = predicate;
-    whereClause.value = value;
-    whereClause.type = "WHERE";
-
-    if(operator) {
-      whereClause.operator = operator;
-    }
-
-    currentWheres.push(whereClause);
-  }
-
-  buildWhereBetween(column = null, start = null, end = null, operator = null) {
-    let currentWheres = this.wheres;
-    let whereClause = {};
-
-    whereClause.column = column;
-    whereClause.start = start;
-    whereClause.end = end;
-    whereClause.type = "BETWEEN";
-
-    if(operator) {
-      whereClause.operator = operator;
-    }
-
-    currentWheres.push(whereClause);
-  }
-
   limit(value) {
-    this.limitValue = value;
+    this.query.limitValue = value;
 
     return this;
   }
 
   offset(value) {
-    this.offsetValue = value;
+    this.query.offsetValue = value;
 
     return this;
   }
 
   asJson() {
     this.jsonOnly = true;
-
     return this;
-  }
-
-  toJson() {
-    return JSON.stringify(this.attributes);
   }
 
   asAttributes() {
     this.attributesOnly = true;
+    return this;
+  }
+
+  andWhere(column = null, predicate = null, value = undefined) {
+    if(!column) { throw new Error('Model.andWhere: column not defined')}
+    if(!predicate) { throw new Error('Model.andWhere: predicate is not defined')}
+    if(value === undefined) { throw new Error('Model.andWhere: value is not defined')}
+
+    this.query.buildWhere(column, predicate, 'AND', value);
 
     return this;
   }
 
-  toAttributes() {
-    return this.attributes;
-  }
+  orWhere(column = null, predicate = null, value = undefined) {
+    if(!column) { throw new Error('Model.orWhere: column not defined')}
+    if(!predicate) { throw new Error('Model.orWhere: predicate is not defined')}
+    if(value === undefined) { throw new Error('Model.orWhere: value is not defined')}
 
-  andWhere(column = null, predicate = null, value = null) {
-
-    this.buildWhere(column, predicate, 'AND', value);
-
-    return this;
-  }
-
-  orWhere(column = null, predicate = null, value = null) {
-
-    this.buildWhere(column, predicate, 'OR', value);
+    this.query.buildWhere(column, predicate, 'OR', value);
 
     return this;
   }
 
-  andWhereBetween(column = null, predicate = null, value = null) {
-    this.buildWhereBetween(column, predicate, value, 'AND');
+  andWhereBetween(column = null, start = undefined, end = undefined) {
+    if(!column) { throw new Error('Model.orWhereBetween: column not defined')}
+    if(start === undefined) { throw new Error('Model.orWhereBetween: minimum value not defined')}
+    if(end === undefined) { throw new Error('Model.orWhereBetween: maximum not defined')}
+
+    this.query.buildWhereBetween(column, start, end, 'AND');
 
     return this;
   }
 
-  orWhereBetween(column = null, predicate = null, value = null) {
-    this.buildWhereBetween(column, predicate, value, 'OR');
+  orWhereBetween(column = null, start = undefined, end = undefined) {
+    if(!column) { throw new Error('Model.orWhereBetween: column not defined')}
+    if(start === undefined) { throw new Error('Model.orWhereBetween: minimum value not defined')}
+    if(end === undefined) { throw new Error('Model.orWhereBetween: maximum not defined')}
+
+    this.query.buildWhereBetween(column, start, end, 'OR');
 
     return this;
   }
 
   has(model = null, onColumn = null, rootColumn = null) {
+    if(typeof model !== 'function') { throw new Error('Model.has: model is not a function/Class')}
+    if(!onColumn) { throw new Error('Model.has: foreign column not passed')}
+    if(typeof onColumn !== 'string') { throw new Error('Model.has: foreign column is not a string')}
+    if(!rootColumn) { throw new Error('Model.has: this model column to join on not passed')}
+    if(typeof rootColumn !== 'string') { throw new Error('Model.has: this model column to join on is not a string')}
+
     return {
       model: model,
       onColumn: onColumn,
@@ -239,6 +187,9 @@ export default class Model {
   }
 
   with(name = null, callback) {
+    if(!name) { throw new Error('Model.with: related model name is undefined');}
+    if(typeof this[name] !== 'function') { throw new Error('Model.with: has relationship not defined on the model');}
+
     this.withs.push({
       name: name,
       callback: callback
@@ -247,31 +198,65 @@ export default class Model {
     return this;
   }
 
-  static where(column = null, predicate = null, value = null) {
+  static where(column = null, predicate = null, value = undefined) {
+    if(!column) { throw new Error('Model.where: column not defined')}
+    if(!predicate) { throw new Error('Model.where: predicate not defined')}
+    if(value === undefined) { throw new Error('Model.where: value not defined')}
+
 
     let instance = new this();
-    instance.buildWhere(column, predicate, null, value);
+    instance.query.buildWhere(column, predicate, null, value);
 
     return instance;
 
   }
 
-  static whereBetween(column = null, start = null, end = null) {
+  static whereBetween(column = null, start = undefined, end = undefined) {
+    if(!column) { throw new Error('Model.where: column not defined')}
+    if(start === undefined) { throw new Error('Model.where: minimum value not defined')}
+    if(end === undefined) { throw new Error('Model.where: maximum not defined')}
+
     let instance = new this();
-    instance.buildWhereBetween(column, start, end, null);
+    instance.query.buildWhereBetween(column, start, end, null);
 
     return instance;
   }
 
   static find(id = null) {
+    if(!id) { throw new Error('Model.find: no id defined', this.name)};
     let instance = new this();
-    instance.buildWhere('id', '=', null, id);
+    instance.query.buildWhere('id', '=', null, id);
 
     return instance;
   }
 
   static getColumns() {
       return Query.rawSync(`SELECT * FROM ${this.prototype.table} LIMIT 1`)[0].columns;
+  }
+
+  static update(id, values) {
+    var self = this;
+    return new Promise(function(resolve, reject) {
+      //get a model from the database, update it's values and save it.
+      self.find(1).get()
+      .then(function(instance) {
+        if(instance.length) {
+          instance = instance[0];
+          instance.query.buildWhere('id', '=', null, instance.attributes.id);
+
+          for(var val in values) {
+            instance.addAttribute(val, values[val])
+          }
+
+          instance.query.update({
+            database: instance.database,
+            table: instance.table,
+            wheres: instance.wheres,
+            values: instance.attributes
+          });
+        }
+      });
+    });
   }
 
 
@@ -321,11 +306,10 @@ export default class Model {
     var self = this;
     return new Promise(function(resolve, reject) {
 
-      Query.select({
+      self.query.select({
         database: self.database,
         table: self.table,
         columns: self.columns,
-        wheres: self.wheres,
         hidden: self.hidden,
         limit: self.limitValue,
         offset: self.offsetValue
@@ -400,9 +384,12 @@ export default class Model {
     });
   }
 
+  save() {
+    //stubbed - save a model instance
+  }
+
   addAttribute(name = null, value = null) {
-    let attributes = this.attributes;
-    attributes[name] = value;
+    this.attributes[name] = value;
 
     return this;
   }

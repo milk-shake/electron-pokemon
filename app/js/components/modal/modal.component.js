@@ -30,7 +30,14 @@ export default class Modal extends React.Component {
         <div className={'modal__wrapper' + ((this.props.modal.type) ? ' on' : '')}>
           <div className="modal__bg"></div>
           <div className="modal">
-            <span className="pane__header">{this.props.modal.props.title} <span onClick={() => this.props.dispatch(ModalActions.closeModal())} className="pane__button pane__button--close ion ion-close-round"></span></span>
+            <span className="pane__header">
+              <span className="pane__header-text">
+                {this.props.modal.props.title}
+              </span>
+              <span className="pane__buttons">
+                <span onClick={() => this.props.dispatch(ModalActions.closeModal())} className="pane__button pane__button--close ion ion-close-round"></span>
+              </span>
+            </span>
             {(Modal) ? <Modal
                           {...this.props.modal.props}
                           filtered={this.props.modal.filtered}
