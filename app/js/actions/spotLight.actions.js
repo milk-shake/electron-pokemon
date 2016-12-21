@@ -16,68 +16,7 @@ export function addToSpotlight(pokemon) {
     });
 
     if(!exists.length) {
-      TrainerPokemon.where('id', '=', pokemon.id)
-      .with('trainerPokemonMoves', (tpMove) => {
-        tpMove.with('moves', (move) => {
-          move.with('names', (name) => {
-            name.andWhere('local_language_id', '=', trainer.language_id);
-          })
-          .with('types', (type) => {
-            type.with('names', (name) => {
-              name.andWhere('local_language_id', '=', trainer.language_id);
-            });
-          });
-        });
-      })
-      .with('species', (species) => {
-        species.with('types', (speciesType) => {
-          speciesType.with('types', (type) => {
-            type.with('names', (name) => {
-                name.andWhere('local_language_id', '=', trainer.language_id);
-            });
-          });
-        });
-        species.with('names', (names) => {
-          names.andWhere('local_language_id', "=", trainer.language_id);
-        });
-      })
-      .with('natures', (nature) => {
-        nature.with('names', (name) => {
-          name.andWhere('local_language_id', '=', trainer.language_id);
-        });
-      })
-      .with('characteristics', (char) => {
-        char.with('text', (text) => {
-          let langId = 9;
-          //characteristic text is only 9 and 5 (french and english)
-          switch(trainer.local_language_id) {
-            case 5: {
-              langId = 5;
-              break;
-            }
-            default: {
-              langId = 9;
-            }
-          }
-          text.andWhere('local_language_id', '=', langId);
-        })
-      })
-      .with('abilities', (ability) => {
-        ability.with('flavors', (flavor) => {
-          flavor.andWhere('language_id', '=', trainer.language_id);
-        })
-        .with('names', (name) => {
-          name.andWhere('local_language_id', '=', trainer.language_id);
-        })
-        .with('prose', (prose) => {
-          prose.andWhere('local_language_id', '=', trainer.language_id);
-        });
-      })
-      .asAttributes()
-      .get()
-      .then((results) => {
-        dispatch({type: "POKEMONSPOTLIGHT_ADDED", payload: results[0]});
-      });
+      dispatch({type: "POKEMONSPOTLIGHT_ADDED", payload: pokemon});
     }
   }
 }

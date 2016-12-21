@@ -1,9 +1,9 @@
-export default function PartyPokemonReducer(state = {
+export default function TrainerPokemonReducer(state = {
   pokemon: []
 }, action)
 {
   switch(action.type) {
-    case "PARTYPOKEMON_FULFILLED": {
+    case "TRAINERPOKEMON_FULFILLED": {
       return Object.assign({}, state, {pokemon: action.payload});
       break;
     }

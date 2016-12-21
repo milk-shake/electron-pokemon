@@ -258,7 +258,7 @@ export default class Model {
     let instance = new this();
     instance.query.buildWhere('id', '=', null, id);
     instance.initialWhere = true;
-    
+
     return instance;
   }
 
@@ -332,6 +332,22 @@ export default class Model {
 
   getAttributesAsJson() {
     return JSON.stringify(this.attributes);
+  }
+
+  flatten() {
+    let ret = {};
+    for(var att in this.attributes) {
+      if(this.attributes[att] instanceof Array) {
+        ret[att] = [];
+        this.attributes[att].forEach(function(sub) {
+             ret[att].push(sub.flatten());
+        });
+      }
+      else {
+        ret[att] = this.attributes[att];
+      }
+    }
+    return ret;
   }
 
   addRelationshipQuery(model = null, column = null, predicate = null, value = null, callback = null, asAttributes = false) {

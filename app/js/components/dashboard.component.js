@@ -2,7 +2,6 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import { connect } from "react-redux";
 
-import * as PartyPokemonActions from "../actions/partyPokemon.actions";
 import * as BoxPokemonActions from "../actions/boxPokemon.actions";
 import * as spotLightActions from "../actions/spotLight.actions";
 import * as dayCarePokemonActions from "../actions/dayCarePokemon.actions";
@@ -10,6 +9,7 @@ import * as natureActions from "../actions/nature.actions";
 import * as PokemonAbilityActions from "../actions/pokemonAbility.actions";
 import * as CharacteristicActions from "../actions/characteristic.actions";
 import * as ModalActions from "../actions/modal.actions";
+import * as TrainerPokemonActions from "../actions/trainerPokemon.actions";
 
 import Trainer from "./dashboard/trainer.subcomponent";
 import PartyPokemon from "./dashboard/party-pokemon.subcomponent";
@@ -21,13 +21,13 @@ import WorkBenchPokemon from "./dashboard/work-bench-pokemon.subcomponent";
 
 @connect((store) => {
   return {
-    partyPokemon: store.PartyPokemonReducer.pokemon,
     boxPokemon: store.BoxPokemonReducer,
     pokemonSpotlight: store.SpotLightReducer.pokemon,
     dayCarePokemon: store.DayCarePokemonReducer.pokemon,
     natures: store.NatureReducer.natures,
     abilities: store.AbilityReducer,
-    characteristics: store.CharacteristicReducer.characteristics
+    characteristics: store.CharacteristicReducer.characteristics,
+    trainerPokemon: store.TrainerPokemonReducer.pokemon
   }
 })
 export default class Dashboard extends React.Component {
@@ -68,13 +68,23 @@ export default class Dashboard extends React.Component {
   }
 
   componentDidMount() {
-    this.props.dispatch(PartyPokemonActions.getPartyPokemon());
-    this.props.dispatch(BoxPokemonActions.getBoxPokemonForBoxId(1));
-    this.props.dispatch(dayCarePokemonActions.getDayCarePokemon());
+    // this.props.dispatch(BoxPokemonActions.getBoxPokemonForBoxId(1));
+    // this.props.dispatch(dayCarePokemonActions.getDayCarePokemon());
+    this.props.dispatch(TrainerPokemonActions.getAll());
   }
 
   minimize(name) {
     ReactDOM.findDOMNode(this.refs[name]).classList.toggle('minimized');
+  }
+
+  getPartyPokemon() {
+    if(this.props.trainerPokemon.length) {
+      return this.props.trainerPokemon.map((pokemon) => {
+        if(pokemon.attributes.box_id == 18) {
+          return pokemon;
+        }
+      });
+    }
   }
 
   render() {
@@ -85,7 +95,7 @@ export default class Dashboard extends React.Component {
       <div className="dashboard__widgets">
         <div ref="left-bar" className="dashboard__left-bar">
           <PartyPokemon
-            pokemon={this.props.partyPokemon}
+            pokemon={this.getPartyPokemon()}
             handleAddToSpotLight={this.handleAddToSpotLight.bind(this)}
             minimize={this.minimize.bind(this)}
           />

@@ -17,10 +17,11 @@ export default class PokemonSpotlight extends React.Component {
         <div className="pokemon-spotLight__list">
           {
             this.props.pokemon.map(function(pokemon) {
+              let props = pokemon.flatten();
               return (
                 <Item
-                  key={pokemon.id}
-                  pokemon={pokemon}
+                  key={props.id}
+                  pokemon={props}
                   handleRemoveFromSpotLight={this.props.handleRemoveFromSpotLight}
                   showModal={this.props.showModal}
                   getAllNatures={this.props.getAllNatures}
@@ -34,7 +35,6 @@ export default class PokemonSpotlight extends React.Component {
                   updateNickname={this.props.updateNickname}
                 />
               )
-
             }, this)
           }
         </div>
