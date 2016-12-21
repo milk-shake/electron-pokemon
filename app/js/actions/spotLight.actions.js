@@ -96,6 +96,7 @@ export function updatePokemonTrait(name, pokemon, trait) {
       }
     }
 
+    console.log(pokemon);
     let updateObj = {};
     updateObj[modelColumnName] = trait.id;
     TrainerPokemon.update(pokemon.id, updateObj);

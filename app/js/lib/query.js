@@ -4,8 +4,8 @@ export default class Query {
   constructor() {
 
     let _wheres = [];
-    let _limitValue = null;
-    let _offsetValue = null;
+    let _limit = null;
+    let _offset = null;
 
     Object.defineProperty(this, 'wheres', {
       enumerable: true,
@@ -14,23 +14,23 @@ export default class Query {
       }
     });
 
-    Object.defineProperty(this, 'limitValue', {
+    Object.defineProperty(this, 'limit', {
       enumerable: false,
       get() {
-        return _limitValue;
+        return _limit;
       },
       set(value) {
-        _limitValue = parseInt(value);
+        _limit = parseInt(value);
       }
     });
 
-    Object.defineProperty(this, 'offsetValue', {
+    Object.defineProperty(this, 'offset', {
       enumerable: false,
       get() {
-        return _offsetValue;
+        return _offset;
       },
       set(value) {
-        _offsetValue = parseInt(value);
+        _offset = parseInt(value);
       }
     });
   }
@@ -66,6 +66,10 @@ export default class Query {
     }
 
     currentWheres.push(whereClause);
+  }
+
+  static allowablePredicates() {
+    return ['=', '!=', '>', '<', 'like'];
   }
 
   static buildWhere(table, clause, index = 0, binds = null) {
@@ -131,6 +135,17 @@ export default class Query {
     }
 
     return query.slice(0, -1);
+  }
+
+  create(options = {
+    database: null,
+    table: null,
+    values: null
+  }) {
+    return new Promise(function(resolve, reject) {
+      //stub
+      resolve();
+    });
   }
 
   update(options = {

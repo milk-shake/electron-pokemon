@@ -1,5 +1,7 @@
 import Query from "./query";
-//TODO all the buildwhere and shit should be on query
+//TODO update child attributes
+//TODO update as transaction
+//TODO hydratenewinstance should be static
 export default class Model {
   constructor(options = {
     fillable: [],
@@ -21,14 +23,23 @@ export default class Model {
     let _attributes = {};
     let _database = null;
     let _query = new Query();
+    let _relationshipQueries = [];
 
     let _jsonOnly = false;
     let _attributesOnly = false;
+    let _initialWhere = false;
 
     Object.defineProperty(this, 'database', {
       enumerable: true,
       get() {
         return _database;
+      }
+    });
+
+    Object.defineProperty(this, 'relationshipQueries', {
+      enumerable: true,
+      get() {
+        return _relationshipQueries;
       }
     });
 
@@ -103,21 +114,37 @@ export default class Model {
       }
     });
 
+    Object.defineProperty(this, 'initialWhere', {
+      enumerable: true,
+      get() {
+        return _initialWhere;
+      },
+      set(value) {
+        _initialWhere = !!value;
+      }
+    });
+
     _database = options.database;
     _hidden = options.hidden;
 
-    _columns = this.query.getColumnNames(this.database, this.table);
+    _columns = this.query.getColumnNames(options.database, this.table);
     if(!_columns.length) { _columns = "*"};
   }
 
-  limit(value) {
-    this.query.limitValue = value;
+  limit(value = null) {
+    if(!value) { throw new Error('Model.limit: value not defined')}
+    if(typeof value !== 'number') { throw new Error('Model.limit: value is not a number')}
+
+    this.query.limit = value;
 
     return this;
   }
 
   offset(value) {
-    this.query.offsetValue = value;
+    if(!value) { throw new Error('Model.offset: value not defined')}
+    if(typeof value !== 'number') { throw new Error('Model.offset: value is not a number')}
+
+    this.query.offset = value;
 
     return this;
   }
@@ -200,12 +227,14 @@ export default class Model {
 
   static where(column = null, predicate = null, value = undefined) {
     if(!column) { throw new Error('Model.where: column not defined')}
+    if(typeof column !== 'string') { throw new Error('Model.where: column is not string')}
     if(!predicate) { throw new Error('Model.where: predicate not defined')}
     if(value === undefined) { throw new Error('Model.where: value not defined')}
 
 
     let instance = new this();
     instance.query.buildWhere(column, predicate, null, value);
+    instance.initialWhere = true;
 
     return instance;
 
@@ -223,87 +252,104 @@ export default class Model {
   }
 
   static find(id = null) {
-    if(!id) { throw new Error('Model.find: no id defined', this.name)};
+    if(!id) { throw new Error('Model.find: no id defined')};
+    if(typeof id !== 'number') { throw new Error('Model.find: id is not a number')}
     let instance = new this();
     instance.query.buildWhere('id', '=', null, id);
-
     return instance;
   }
 
   static getColumns() {
-      return Query.rawSync(`SELECT * FROM ${this.prototype.table} LIMIT 1`)[0].columns;
+    return Query.rawSync(`SELECT * FROM ${this.prototype.table} LIMIT 1`)[0].columns;
   }
 
-  static update(id, values) {
+  save() {
     var self = this;
     return new Promise(function(resolve, reject) {
-      //get a model from the database, update it's values and save it.
-      self.find(1).get()
-      .then(function(instance) {
-        if(instance.length) {
-          instance = instance[0];
-          instance.query.buildWhere('id', '=', null, instance.attributes.id);
 
-          for(var val in values) {
-            instance.addAttribute(val, values[val])
-          }
+      //if it has an id we're doing an update
+      if(self.attributes.id) {
+        self.query.buildWhere('id', '=', null, self.attributes.id);
+        self.query.update({
+          database: self.database,
+          table: self.table,
+          values: self.attributes
+        });
+        resolve();
+      }
+      //else we're creating a new one
+      else {
+        self.query.create({
+          database: self.database,
+          table: self.table,
+          values: self.attributes
+        });
+        resolve();
+      }
 
-          instance.query.update({
-            database: instance.database,
-            table: instance.table,
-            wheres: instance.wheres,
-            values: instance.attributes
-          });
-        }
-      });
     });
   }
 
+  updateAttribute(name = null, value = undefined) {
+    let o = {};
+    o[name] = value;
+    this.hydrate(o);
+
+    return this;
+  }
+
+  hydrate(values) {
+    for(var att in values) {
+      let name = att.split(".")[1] || att;
+      if(this.columns.indexOf(name) > -1) {
+        this.attributes[name] = values[att];
+      }
+    }
+
+    return this;
+  }
 
   //EXECUTION
-  buildJson(result) {
-    return JSON.stringify(result);
-  }
+  hydrateNewInstance(result = {}) {
+    let instance = new this.constructor();
 
-  buildAttributes(result) {
-    return result;
-  }
-
-  buildInstance(model, result) {
-    let instance = new model();
     for(var att in result) {
-      let name = att.split(".")[1];
+      let name = att.split(".")[1] || att;
       if(instance.columns.indexOf(name) > -1) {
-        instance.addAttribute(name, result[att]);
+        instance.updateAttribute(name, result[att]);
       }
     }
 
     return instance;
   }
 
-  buildResult(model = null, result = null) {
-
-    let build = null;
-    build = this.buildInstance(model, result);
-    return build;
+  getAttributes() {
+    return this.attributes;
   }
 
-  transformInstance(context, instance) {
-    let attributes = instance;
+  getAttributesAsJson() {
+    return JSON.stringify(this.attributes);
+  }
 
-    if(context.jsonOnly) {
-      attributes = JSON.stringify(instance.attributes);
+  addRelationshipQuery(model = null, column = null, predicate = null, value = null, callback = null, asAttributes = false) {
+    let currentRelationships = this.relationshipQueries;
+    let query = model.where(column, predicate, value);
+
+    if(callback) {
+      callback(query);
     }
 
-    if(context.attributesOnly) {
-      attributes = instance.attributes;
+    if(asAttributes) {
+      query.asAttributes();
     }
 
-    return attributes;
+    currentRelationships.push(query.get());
+
   }
 
   get() {
     var self = this;
+    if(!this.initialWhere) { throw new Error('Model.get: no where clause')}
     return new Promise(function(resolve, reject) {
 
       self.query.select({
@@ -311,44 +357,27 @@ export default class Model {
         table: self.table,
         columns: self.columns,
         hidden: self.hidden,
-        limit: self.limitValue,
-        offset: self.offsetValue
       }).then(function(results) {
-
         let instances = [];
         let promises = [];
         let promiseTypes = [];
 
         results.forEach(function(result) {
-            let build = self.buildResult(self.constructor, result);
+            let build = self.hydrateNewInstance(result);
 
             if(self.withs.length) {
               self.withs.forEach(function(wit) {
-                if(typeof self[wit.name] == 'function') {
-                  let hasModel = self[wit.name]();
-
-                  let query = hasModel.model.where(hasModel.onColumn, "=", result[`${self.table}.${hasModel.rootColumn}`]);
-
-                  if(wit.callback) {
-                    wit.callback(query);
-                  }
-
-                  if(self.jsonOnly || self.attributesOnly) {
-                    query.asAttributes();
-                  }
-
-                  promiseTypes.push(query.table);
-                  promises.push(query.get());
-
-                }
-
+                let hasModel = self[wit.name]();
+                let asAttributes = self.jsonOnly || self.attributesOnly;
+                self.addRelationshipQuery(hasModel.model, hasModel.onColumn, '=', result[`${self.table}.${hasModel.rootColumn}`], wit.callback, asAttributes);
+                promiseTypes.push(hasModel.model.prototype.table)
               });
             }
 
             instances.push(build);
         });
 
-        Promise.all(promises).then(function(foreignResults) {
+        Promise.all(self.relationshipQueries).then(function(foreignResults) {
             //we only need to act if there are actual results
             if(foreignResults.length) {
               let instanceOffset = 0;
@@ -373,24 +402,21 @@ export default class Model {
               }
             }
 
-             instances = instances.map(function(instance) {
-               return self.transformInstance(self, instance);
-             });
+            instances = instances.map(function(instance) {
+              if(self.attributesOnly) {
+                return instance.getAttributes();
+              }
+              if(self.jsonOnly) {
+                return instance.getAttributesAsJson();
+              }
+              else {
+                return instance;
+              }
+            });
 
-             resolve(instances);
+           resolve(instances);
         });
-
       });
     });
-  }
-
-  save() {
-    //stubbed - save a model instance
-  }
-
-  addAttribute(name = null, value = null) {
-    this.attributes[name] = value;
-
-    return this;
   }
 }
