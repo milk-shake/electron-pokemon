@@ -1,0 +1,37 @@
+.button {
+  padding: 5px;
+  color: white;
+  font-size: 1em;
+  font-family: 'light';
+  border: none;
+  border-radius: 5px;
+  width: 100px;
+  cursor: pointer;
+
+  * {
+    cursor: pointer;
+  }
+
+  span {
+    cursor: pointer;
+    &:before {
+      cursor: pointer;
+    }
+  }
+
+  &--positive {
+    background: lightgreen;
+
+    &:hover {
+      background: darken(lightgreen, 5%);
+    }
+  }
+
+  &__text {
+
+  }
+
+  &__icon {
+    font-size: 1.3em;
+  }
+}

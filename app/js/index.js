@@ -35,8 +35,8 @@ import Move from "./components/move.component";
 // runSeeders();
 
 
-//TODO start using componentDidUpdate for stuff.
-//TODO 0. fix the modal list showing abilities for the latest pokemon for every pokemon 1: any subcomponent that accesses a nested value should have that value as a prop instead, 2: finish model relationships, 3: carry on with creating pokemon edit functionality (i.e. moves) 
+//TODO return full instances in actions, pass asAttributes to templates.
+//TODO 0. fix the modal list showing abilities for the latest pokemon for every pokemon 1: any subcomponent that accesses a nested value should have that value as a prop instead, 2: finish model relationships, 3: carry on with creating pokemon edit functionality (i.e. moves)
 const history = syncHistoryWithStore(hashHistory, store)
 
 

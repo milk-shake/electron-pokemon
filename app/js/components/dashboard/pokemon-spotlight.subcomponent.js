@@ -31,6 +31,7 @@ export default class PokemonSpotlight extends React.Component {
                   characteristics={this.props.characteristics}
                   updateTrait={this.props.updateTrait}
                   minimize={this.props.minimize}
+                  updateNickname={this.props.updateNickname}
                 />
               )
 

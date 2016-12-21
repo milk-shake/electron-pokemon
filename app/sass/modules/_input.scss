@@ -1,6 +1,6 @@
 .input--search {
   outline: none;
-  padding: 10px 50px 10px 60px;
+  padding: 10px 50px 10px 45px;
   width: 100%;
   font-size: 0.8em;
   font-family: 'light-italic';
@@ -21,11 +21,44 @@
 
   &__icon {
     position: absolute;
-    font-size: 1.2em;
-    top: 29px;
+    font-size: 1em;
+    top: 30px;
     left: 34px;
     color: #ccc;
-    border-right: 1px solid $ui-grey;
-    padding-right: 15px;
+    border-right: 1px solid #eee;
+    padding-right: 7px;
+    display: block;
+  }
+}
+
+.input--text {
+  outline: none;
+  padding: 10px 50px 10px 45px;
+  width: 100%;
+  font-size: 0.8em;
+  font-family: 'light-italic';
+  border: 1px solid $ui-grey;
+
+  &:focus {
+      background: $ui-white;
+  }
+
+  &__label {
+    width: 100%;
+    display: block;
+    text-align: center;
+    padding: 20px;
+    position: relative;
+  }
+
+  &__icon {
+    position: absolute;
+    font-size: 1em;
+    top: 30px;
+    left: 34px;
+    color: #ccc;
+    border-right: 1px solid #eee;
+    padding-right: 7px;
+    display: block;
   }
 }

@@ -26,7 +26,7 @@ import WorkBenchPokemon from "./dashboard/work-bench-pokemon.subcomponent";
     pokemonSpotlight: store.SpotLightReducer.pokemon,
     dayCarePokemon: store.DayCarePokemonReducer.pokemon,
     natures: store.NatureReducer.natures,
-    abilities: store.AbilityReducer.abilities,
+    abilities: store.AbilityReducer,
     characteristics: store.CharacteristicReducer.characteristics
   }
 })
@@ -57,6 +57,10 @@ export default class Dashboard extends React.Component {
 
   updatePokemonTrait(name, pokemon, trait) {
     this.props.dispatch(spotLightActions.updatePokemonTrait(name, pokemon, trait));
+  }
+
+  updatePokemonNickname(pokemon, name) {
+    this.props.dispatch(spotLightActions.updatePokemonNickname(pokemon, name));
   }
 
   showModal(options) {
@@ -103,6 +107,7 @@ export default class Dashboard extends React.Component {
             updateTrait={this.updatePokemonTrait.bind(this)}
             showModal={this.showModal.bind(this)}
             minimize={this.minimize.bind(this)}
+            updateNickname={this.updatePokemonNickname.bind(this)}
           />
         </div>
         <div className="dashboard__right-bar">

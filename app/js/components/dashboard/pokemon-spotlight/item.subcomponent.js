@@ -33,7 +33,7 @@ export default class Item extends React.Component {
     }
     switch(o.type) {
       case "ABILITIES": {
-        options.props.results = this.props.abilities.map(function(ability) {
+        options.props.results = this.props.abilities[this.props.pokemon.species_id].map(function(ability) {
           let o = {
             filterOn: ability.abilities[0].ability_names[0].name,
             object: ability
@@ -41,7 +41,7 @@ export default class Item extends React.Component {
           return o;
         });
         options.props.onResultsClick = function(ability) {
-          this.props.updateTrait('abilities', this.props.pokemon, ability.abilities[0]);
+          this.props.updateTrait('abilities', this.props.pokemon, ability[0].abilities[0]);
         }.bind(this);
         break;
       }
@@ -54,7 +54,7 @@ export default class Item extends React.Component {
           return o;
         });
         options.props.onResultsClick = function(nature) {
-          this.props.updateTrait('natures', this.props.pokemon, nature);
+          this.props.updateTrait('natures', this.props.pokemon, nature[0]);
         }.bind(this);
         break;
       }
@@ -67,8 +67,21 @@ export default class Item extends React.Component {
           return o;
         });
         options.props.onResultsClick = function(characteristic) {
-          this.props.updateTrait('characteristics', this.props.pokemon, characteristic);
+          this.props.updateTrait('characteristics', this.props.pokemon, characteristic[0]);
         }.bind(this);
+        break;
+      }
+      case "NICKNAME": {
+        options = {
+          type: "INPUT",
+          props: {
+            title: o.title,
+            placeholder: `Enter a new nick name`,
+            onDone: function(inputVal) {
+              this.props.updateNickname(this.props.pokemon, inputVal);
+            }.bind(this)
+          }
+        }
         break;
       }
     }
@@ -81,7 +94,6 @@ export default class Item extends React.Component {
     e.target.classList.toggle('ion-chevron-left');
     e.target.classList.toggle('ion-chevron-right');
     e.target.parentNode.parentNode.parentNode.classList.toggle('minimized');
-    // this.props.minimize(name);
   }
 
   render() {
@@ -89,6 +101,7 @@ export default class Item extends React.Component {
         <div className="pokemon-spotlight__list-item">
           <span className="pane__header">
             <span className="pane__header-text">{this.props.pokemon.nick_name}</span>
+            <span className="ion ion-edit" onClick={() => this.onEditClick({type: "NICKNAME", title: "Change nickname"})}></span>
             <span className="pane__buttons">
               <span className="pane__button pane__button--minimize ion ion-chevron-left" onClick={(e) => this.toggleMinimized(e, 'spotlight')}></span>
               <span onClick={() => this.props.handleRemoveFromSpotLight(this.props.pokemon)} className="pane__button pane__button--close ion ion-close-round"></span>

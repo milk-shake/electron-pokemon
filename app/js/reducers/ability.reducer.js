@@ -1,11 +1,12 @@
 export default function AbilityReducer(state = {
-  abilities: null,
-  filtered: null
+  
 }, action)
 {
   switch(action.type) {
     case "POKEMONABILITIES_FULFILLED": {
-      return Object.assign({}, state, {abilities: action.payload});
+      let o = {};
+      o[action.payload.pokemon_id] = action.payload.results;
+      return Object.assign({}, state, o);
       break;
     }
     case "POKEMONABILITIES_FILTER": {

@@ -247,6 +247,7 @@ export default class Model {
 
     let instance = new this();
     instance.query.buildWhereBetween(column, start, end, null);
+    instance.initialWhere = true;
 
     return instance;
   }
@@ -256,6 +257,8 @@ export default class Model {
     if(typeof id !== 'number') { throw new Error('Model.find: id is not a number')}
     let instance = new this();
     instance.query.buildWhere('id', '=', null, id);
+    instance.initialWhere = true;
+    
     return instance;
   }
 

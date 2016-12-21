@@ -5,9 +5,11 @@ import { connect } from 'react-redux';
 import * as ModalActions from "../../actions/modal.actions";
 
 import FilterModal from "./filter-modal.subcomponent";
+import InputModal from "./input-modal.subcomponent";
 
 let modals = {
-  "FILTER": FilterModal
+  "FILTER": FilterModal,
+  "INPUT": InputModal
 }
 @connect((store) => {
   return {
@@ -21,6 +23,20 @@ export default class Modal extends React.Component {
 
   onFilterInput(val) {
     this.props.dispatch(ModalActions.onFilterInput(val));
+  }
+
+  onResultsClick() {
+    if(typeof this.props.modal.props.onResultsClick == 'function') {
+      this.props.modal.props.onResultsClick(arguments);
+    }
+    this.props.dispatch(ModalActions.closeModal());
+  }
+
+  onDone() {
+    if(typeof this.props.modal.props.onDone == 'function') {
+      this.props.modal.props.onDone(arguments);
+    }
+    this.props.dispatch(ModalActions.closeModal());
   }
 
   render() {
@@ -40,8 +56,10 @@ export default class Modal extends React.Component {
             </span>
             {(Modal) ? <Modal
                           {...this.props.modal.props}
+                          onResultsClick={this.onResultsClick.bind(this)}
                           filtered={this.props.modal.filtered}
                           onFilterInput={this.onFilterInput.bind(this)}
+                          onDone={this.onDone.bind(this)}
                         /> : null
           }
           </div>
